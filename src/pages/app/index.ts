@@ -10,11 +10,15 @@ export const enum PageIDs {
 
 class App {
   private static container: HTMLElement = document.body;
+  private static defaultPageID = 'current-page'
   private initialPage: ProductPage;
   private header: Header;
 
   static rendeNewPage(idPage: string) {
-    App.container.innerHTML = '';
+    const currentPAgeHTML = document.querySelector(`#${App.defaultPageID}`);
+    if (currentPAgeHTML) {
+      currentPAgeHTML.remove()
+    }
     let page: Page | null = null;
 
 
@@ -26,6 +30,7 @@ class App {
 
     if (page) {
       const pageHTML = page.render();
+      pageHTML.id = App.defaultPageID
       App.container.append(pageHTML)
     }
   }
@@ -43,8 +48,8 @@ class App {
   }
 
   run() {
-    // App.rendeNewPage('product-page');
-    App.container.append(this.header.render())
+    App.container.appendChild(this.header.render())
+    App.rendeNewPage('product-page');
     this.enableRoutPage();
   }
 }

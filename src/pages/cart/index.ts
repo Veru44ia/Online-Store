@@ -11,7 +11,7 @@ class Cart extends Page {
 
   render() {
     const title = this.createHeaderTitle(Cart.TextObject.MainTitle);
-    this.container.append(title);
+    this.container.appendChild(title);
     return this.container;
   }
 

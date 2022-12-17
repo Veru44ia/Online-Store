@@ -8,6 +8,11 @@
   box-sizing: border-box;
 }
 
+a {
+  color: var(--BLACK);
+  text-decoration: none;
+}
+
 html {
   scroll-behavior: smooth;
 }

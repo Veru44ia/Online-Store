@@ -4,11 +4,10 @@ import { PageIDs } from '../../../pages/app';
 const Buttons = [
   {
     id: PageIDs.ProductPage,
-    text: 'ProductPage',
+
   },
   {
     id: PageIDs.Cart,
-    text: 'Cart',
   },
 ];
 
@@ -21,7 +20,9 @@ class Header extends Component {
     this.container.insertAdjacentHTML('afterbegin', `
     <div class="header-wrapper">
     <div class="header-container__logo">
+      <a href="#${Buttons[0].id}">
       <h1>MAGAZIN</h1>
+      </a>
     </div>
     <div class="header-container__cart-total">
       <p class="p-bold">Cart total:</p>
@@ -31,12 +32,12 @@ class Header extends Component {
       <div class="header-container__search">
         <input class="header-container__search-input input">
         <button class="header-container__search-btn btn">
-          <img src="./assets/icons/search.svg" alt="search" width="15.12px" height="15.88px">
+          <img src="assets/search.svg" alt="search" width="15.12px" height="15.88px" />
         </button>
       </div>
       <div class="header-container__cart">
-        <a href="#">
-          <img src="./assets/icons/shopping-bags 1.svg" width="32px" height="32px">
+        <a href="#${Buttons[1].id}">
+          <img src="assets/shopping-bags.svg" alt="cart" width="32px" height="32px" />
         </a>
       </div>
     </div>
