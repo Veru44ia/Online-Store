@@ -1,4 +1,8 @@
+@import url("../src/assets/fonts&color.css");
+@import url("../src/core/components/header/header.css");
+
 * {
+  border: 0;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -8,7 +12,14 @@ html {
   scroll-behavior: smooth;
 }
 
-body {
-  background-color: #eaeaea;
-  color: #191919;
+.body-container {
+  padding-top: 56px;
+  margin: 0 auto;
+  width: 1444px;
+  color: var(--BLACK);
+  background-color: var(--BASIC);
+
+  display: flex;
+  flex-direction: column;
+  gap: 88px;
 }
