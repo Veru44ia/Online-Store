@@ -21,7 +21,7 @@ class Header extends Component {
     <div class="header-wrapper">
     <div class="header-container__logo">
       <a href="#${Buttons[0].id}">
-      <h1>MAGAZIN</h1>
+      <h1>SHOP ONLINE</h1>
       </a>
     </div>
     <div class="header-container__cart-total">

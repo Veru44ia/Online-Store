@@ -2,7 +2,6 @@ import Page from '../../core/templates/page';
 import ProductPage from '../product';
 import Cart from '../cart';
 import Header from '../../core/components/header';
-
 export const enum PageIDs {
   ProductPage = 'product-page',
   Cart = 'cart-page',
@@ -14,7 +13,7 @@ class App {
   private initialPage: ProductPage;
   private header: Header;
 
-  static rendeNewPage(idPage: string) {
+  static renderNewPage(idPage: string) {
     const currentPAgeHTML = document.querySelector(`#${App.defaultPageID}`);
     if (currentPAgeHTML) {
       currentPAgeHTML.remove()
@@ -29,19 +28,18 @@ class App {
     }
 
     if (page) {
-      const pageHTML = page.render();
+      const pageHTML = page.render()
       pageHTML.id = App.defaultPageID
       App.container.append(pageHTML)
     }
   }
-
   private enableRoutPage() {
     window.addEventListener('hashchange', () => {
       const hash = window.location.hash.slice(1);
-      App.rendeNewPage(hash);
+
+      App.renderNewPage(hash);
     })
   }
-
   constructor() {
     this.initialPage = new ProductPage('product-page')
     this.header = new Header('header', 'header-container')
@@ -49,10 +47,10 @@ class App {
 
   run() {
     App.container.appendChild(this.header.render())
-    App.rendeNewPage('product-page');
+
+    App.renderNewPage('product-page');
+
     this.enableRoutPage();
   }
 }
-
-
 export default App;
