@@ -5,8 +5,8 @@ class Cart extends Page {
     MainTitle: 'Cart Page'
   };
 
-  constructor(id: string) {
-    super(id);
+  constructor() {
+    super();
   }
 
   render() {

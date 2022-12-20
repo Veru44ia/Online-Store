@@ -1,12 +1,14 @@
 import Page from '../../core/templates/page';
+import { PageIDs } from '../../core/templates/page';
 
 class ProductPage extends Page {
   static TextObject = {
     MainTitle: 'ProductPage',
   };
 
-  constructor(id: string) {
-    super(id);
+  constructor() {
+    super();
+    this.container.id = PageIDs.ProductPage
   }
 
   render() {

@@ -3,18 +3,15 @@ import ProductPage from '../product';
 import Cart from '../cart';
 import Header from '../../core/components/header';
 
-export const enum PageIDs {
-  ProductPage = 'product-page',
-  Cart = 'cart-page',
-}
+import { PageIDs } from '../../core/templates/page';
+import { HeaderProperties } from '../../core/templates/components';
 
 class App {
   private static container: HTMLElement = document.body;
-  private static defaultPageID = 'current-page'
-  private initialPage: ProductPage;
+  private static defaultPageID = 'current-page';
   private header: Header;
 
-  static renderNewPage(idPage: string) {
+  static renderNewPage(idPage: PageIDs | string) {
     const currentPAgeHTML = document.querySelector(`#${App.defaultPageID}`);
     if (currentPAgeHTML) {
       currentPAgeHTML.remove()
@@ -22,10 +19,10 @@ class App {
     let page: Page | null = null;
 
     if (idPage === PageIDs.ProductPage) {
-      page = new ProductPage(idPage);
+      page = new ProductPage();
       this.createDefaultPage(page)
     } else if (idPage === PageIDs.Cart) {
-      page = new Cart(idPage);
+      page = new Cart();
       this.createDefaultPage(page)
     }
   }
@@ -44,13 +41,12 @@ class App {
   }
 
   constructor() {
-    this.initialPage = new ProductPage('product-page')
-    this.header = new Header('header', 'header-container')
+    this.header = new Header(HeaderProperties.tagName, HeaderProperties.className)
   }
 
   run() {
     App.container.appendChild(this.header.render())
-    App.renderNewPage('product-page');
+    App.renderNewPage(PageIDs.ProductPage);
     this.enableRoutPage();
   }
 }

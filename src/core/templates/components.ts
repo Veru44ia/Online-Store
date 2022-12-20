@@ -1,3 +1,9 @@
+export const enum HeaderProperties {
+  tagName = 'header',
+  className = 'header-container',
+}
+
+
 abstract class Component {
   protected container: HTMLElement;
   protected position: InsertPosition;
