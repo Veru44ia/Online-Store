@@ -14,7 +14,7 @@ class App {
   private initialPage: ProductPage;
   private header: Header;
 
-  static rendeNewPage(idPage: string) {
+  static renderNewPage(idPage: string) {
     const currentPAgeHTML = document.querySelector(`#${App.defaultPageID}`);
     if (currentPAgeHTML) {
       currentPAgeHTML.remove()
@@ -23,14 +23,14 @@ class App {
 
     if (idPage === PageIDs.ProductPage) {
       page = new ProductPage(idPage);
-      this.createPageFrame(page)
+      this.createDefaultPage(page)
     } else if (idPage === PageIDs.Cart) {
       page = new Cart(idPage);
-      this.createPageFrame(page)
+      this.createDefaultPage(page)
     }
   }
 
-  private static createPageFrame(page: Page) {
+  private static createDefaultPage(page: Page) {
     const pageHTML = page.render();
     pageHTML.id = App.defaultPageID
     App.container.append(pageHTML)
@@ -39,7 +39,7 @@ class App {
   private enableRoutPage() {
     window.addEventListener('hashchange', () => {
       const hash = window.location.hash.slice(1);
-      App.rendeNewPage(hash);
+      App.renderNewPage(hash);
     })
   }
 
@@ -50,7 +50,7 @@ class App {
 
   run() {
     App.container.appendChild(this.header.render())
-    App.rendeNewPage('product-page');
+    App.renderNewPage('product-page');
     this.enableRoutPage();
   }
 }
