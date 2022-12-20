@@ -1,0 +1,47 @@
+@import url('../../../assets/fonts&color.css');
+
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-container__cart-total {
+  display: flex;
+  gap: 4px;
+}
+
+.header-container__search_cart {
+  display: flex;
+  gap: 60px;
+}
+
+.header-container__search {
+  display: flex;
+}
+
+.input {
+  border: 1px solid var(--BLACK);
+  background-color: transparent;
+}
+
+.header-container__search-input {
+  box-sizing: border-box;
+  width: 178px;
+  height: 32px;
+}
+
+.header-container__search-btn {
+  width: 54px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  background-color: var(--BLACK);
+}
+
+.header-container__search-btn:hover {
+  opacity: 0.8;
+}
