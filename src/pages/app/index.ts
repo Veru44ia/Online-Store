@@ -21,18 +21,19 @@ class App {
     }
     let page: Page | null = null;
 
-
     if (idPage === PageIDs.ProductPage) {
       page = new ProductPage(idPage);
+      this.createPageFrame(page)
     } else if (idPage === PageIDs.Cart) {
       page = new Cart(idPage);
+      this.createPageFrame(page)
     }
+  }
 
-    if (page) {
-      const pageHTML = page.render();
-      pageHTML.id = App.defaultPageID
-      App.container.append(pageHTML)
-    }
+  private static createPageFrame(page: Page) {
+    const pageHTML = page.render();
+    pageHTML.id = App.defaultPageID
+    App.container.append(pageHTML)
   }
 
   private enableRoutPage() {
