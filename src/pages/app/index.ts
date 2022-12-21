@@ -11,6 +11,10 @@ class App {
   private static defaultPageID = "current-page";
   private header: Header;
 
+  static setToLocalStorage() {
+    localStorage.setItem("hash--page", window.location.hash);
+  }
+
   static renderNewPage(idPage: PageIDs | string) {
     const currentPAgeHTML = document.querySelector(`#${App.defaultPageID}`);
     if (currentPAgeHTML) {
@@ -37,6 +41,7 @@ class App {
     window.addEventListener("hashchange", () => {
       const hash = window.location.hash.slice(1);
       App.renderNewPage(hash);
+      App.setToLocalStorage();
     });
   }
 
@@ -46,7 +51,11 @@ class App {
 
   run() {
     App.container.appendChild(this.header.render());
-    App.renderNewPage(PageIDs.ProductPage);
+    if (localStorage.getItem("hash--page") === "#cart-page" && window.location.hash) {
+      App.renderNewPage(PageIDs.CartPage);
+    } else {
+      App.renderNewPage(PageIDs.ProductPage);
+    }
     this.enableRoutPage();
   }
 }
