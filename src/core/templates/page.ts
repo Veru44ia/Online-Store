@@ -1,6 +1,6 @@
 export const enum PageIDs {
-  ProductPage = 'product-page',
-  Cart = 'cart-page',
+  ProductPage = "product-page",
+  CartPage = "cart-page",
 }
 
 abstract class Page {
@@ -8,11 +8,11 @@ abstract class Page {
   static TextObject = {};
 
   constructor() {
-    this.container = document.createElement('main');
+    this.container = document.createElement("main");
   }
 
   protected createHeaderTitle(text: string) {
-    const headerTitle = document.createElement('h1');
+    const headerTitle = document.createElement("h1");
     headerTitle.innerText = text;
     return headerTitle;
   }

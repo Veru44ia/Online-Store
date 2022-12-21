@@ -1,6 +1,6 @@
 h1,
 h3 {
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   line-height: 140%;
   letter-spacing: 0.02em;
 }
@@ -13,7 +13,7 @@ p,
 .p-bold,
 .btn-font,
 .card-btn {
-  font-family: 'Noto Sans', sans-serif;
+  font-family: "Noto Sans", sans-serif;
   line-height: 140%;
   letter-spacing: 0.02em;
 }
@@ -82,7 +82,8 @@ p {
 
 :root {
   --BLACK: #191919;
-  --WHITE: #F4F4F4;
-  --BASIC: #EAEAEA;
-  --ORANGE: #FF6E40;
+  --WHITE: #f4f4f4;
+  --BASIC: #eaeaea;
+  --ORANGE: #ff6e40;
+  --GRAY: #f2f2f2;
 }
