@@ -36,8 +36,17 @@
             </div>
           </div>
           <div class="main-container__slider-block slider-block">
-            <div class="slider-block__item">
-              <div class="slider-block__field">
+            <div id="price-slider" class="slider-block__item">
+              <h4 class="slider-block__title">Price</h4>
+              <div class="slider-block__numerical-difference">
+                <p id="price-min">1 USD</p>
+                <p id="price-max">6000 USD</p>
+              </div>
+              <div class="slider-block__slider">
+                <div class="slider-block__range-input">
+                  <input type="range" class="slider-block__range-min" min="0" max="10000" value="2500" step="100">
+                  <input type="range" class="slider-block__range-max" min="0" max="10000" value="7500" step="100">
+                </div>
               </div>
             </div>
           </div>

@@ -2,11 +2,11 @@ import Page from '../../core/templates/page';
 
 class Cart extends Page {
   static TextObject = {
-    MainTitle: 'CartPage'
+    MainTitle: 'Cart Page'
   };
 
-  constructor(id: string) {
-    super(id);
+  constructor() {
+    super();
   }
 
   render() {

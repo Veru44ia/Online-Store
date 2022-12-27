@@ -1,10 +1,14 @@
+export const enum PageIDs {
+  ProductPage = 'product-page',
+  Cart = 'cart-page',
+}
+
 abstract class Page {
   protected container: HTMLElement;
   static TextObject = {};
 
-  constructor(id: string) {
+  constructor() {
     this.container = document.createElement('main');
-    this.container.id = id;
   }
 
   protected createHeaderTitle(text: string) {

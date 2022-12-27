@@ -1,5 +1,5 @@
 import Component from "../../templates/components";
-import { PageIDs } from '../../../pages/app';
+import { PageIDs } from "../../templates/page";
 
 const Buttons = [
   {
@@ -12,16 +12,16 @@ const Buttons = [
 ];
 
 class Header extends Component {
+  content: string;
+  position: InsertPosition;
+
   constructor(tagName: string, className: string) {
     super(tagName, className)
-  }
-
-  renderHeaderContainer() {
-    this.container.insertAdjacentHTML('afterbegin', `
+    this.content = `
     <div class="header-wrapper">
     <div class="header-container__logo">
       <a href="#${Buttons[0].id}">
-      <h1>SHOP ONLINE</h1>
+      <h1>ONLINE SHOP</h1>
       </a>
     </div>
     <div class="header-container__cart-total">
@@ -42,12 +42,12 @@ class Header extends Component {
       </div>
     </div>
   </div>
-    `)
+    `
+    this.position = 'afterbegin'
   }
 
   render() {
-    this.renderHeaderContainer();
-    return this.container
+    return super.render()
   }
 }
 

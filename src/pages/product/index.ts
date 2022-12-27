@@ -1,13 +1,14 @@
 import Page from '../../core/templates/page';
 import products from '../../core/data';
 import { IProduct } from '../../core/data';
+import { isConstructorDeclaration } from 'typescript';
 
 class ProductPage extends Page {
   categoryCheckedArr: string[]
   brandCheckedArr: string[]
 
-  constructor(id: string, categoryCheckedArr: string[] = [], brandCheckedArr: string[] = []) {
-    super(id);
+  constructor(categoryCheckedArr: string[] = [], brandCheckedArr: string[] = []) {
+    super();
     this.categoryCheckedArr = categoryCheckedArr;
     this.brandCheckedArr = brandCheckedArr;
   }
@@ -39,9 +40,9 @@ class ProductPage extends Page {
             </div>
           </div>
           <div class="main-container__slider-block slider-block">
-            <div class="slider-block__item">
-              <div class="slider-block__field">
-              </div>
+            <div id="price-slider" class="slider-block__item">
+            </div>
+            <div id="stock-slider" class="slider-block__item">
             </div>
           </div>
           <div class="main-container__btn-block">
@@ -79,7 +80,6 @@ class ProductPage extends Page {
   </div>
 
     `)
-    document.addEventListener("DOMContentLoaded", this.renderCards)
     return this.container
   }
 
@@ -88,7 +88,6 @@ class ProductPage extends Page {
     let checkedCategory: IProduct[] = [];
 
     products.map(item => {
-
       if (this.categoryCheckedArr.length > 0 && this.brandCheckedArr.length > 0) {
         if (this.categoryCheckedArr.includes(item.category) && this.brandCheckedArr.includes(item.brand)) checkedCategory.push(item)
       }
@@ -101,6 +100,17 @@ class ProductPage extends Page {
       else {
         checkedCategory = products;
       }
+    })
+
+    let priceMin = (document.querySelector('.slider-block__price-range-min') as HTMLInputElement).value;
+    let priceMax = (document.querySelector('.slider-block__price-range-max') as HTMLInputElement).value;
+
+    let stockMin = (document.querySelector('.slider-block__stock-range-min') as HTMLInputElement).value;
+    let stockMax = (document.querySelector('.slider-block__stock-range-max') as HTMLInputElement).value;
+
+    checkedCategory = checkedCategory.filter(item => {
+      return ((item.price <= Number(priceMax) && item.price >= Number(priceMin))
+        && (item.stock <= Number(stockMax) && item.stock >= Number(stockMin)));
     })
 
     if (cardsContainer) {
@@ -144,7 +154,7 @@ class ProductPage extends Page {
         FilterContainer.insertAdjacentHTML('afterbegin', `
 
       <div class="checked-block__checkbox">
-        <input id="checkbox-${key}-${i}" type="checkbox" value="${categoryArr[i]}">
+      <input id="checkbox-${key}-${i}" type="checkbox" value="${categoryArr[i]}">
         <label class="checkbox-label" for="checkbox-${key}-${i}">
           <h6>${categoryArr[i]}</h6>
         </label>
@@ -157,7 +167,62 @@ class ProductPage extends Page {
     return FilterContainer
   }
 
-  sortingCards(id: string) {
+  renderSlider(index: number) {
+
+    let min, max;
+    switch (index) {
+      case 0:
+        min = '10';
+        max = '1749'
+        break;
+      case 1:
+        min = '1';
+        max = '150'
+        break;
+    }
+
+    let rangeContainer = document.getElementById(rangeContent[index].id) as HTMLElement;
+    if (rangeContainer) {
+      rangeContainer.innerHTML = `
+
+      <h4 class="slider-block__title">${rangeContent[index].title}</h4>
+      <div class="slider-block__numerical-difference">
+        <p id="${rangeContent[index].type}-min">${min} ${rangeContent[index].symbol}</p>
+        <p id="${rangeContent[index].type}-max">${max} ${rangeContent[index].symbol}</p>
+      </div>
+      <div class="slider-block__slider">
+        <div class="slider-block__range-input">
+          <input type="range" class="slider-block__${rangeContent[index].type}-range-min" min="${rangeContent[index].min}" max="${rangeContent[index].max}" value="${min}" step="1">
+          <input type="range" class="slider-block__${rangeContent[index].type}-range-max" min="${rangeContent[index].min}" max="${rangeContent[index].max}" value="${max}" step="1">
+        </div>
+      </div>
+
+      `
+    }
+
+    this.updateSlider(index)
+  }
+
+  updateSlider(index: number) {
+    let minInput = document.querySelector(`.slider-block__${rangeContent[index].type}-range-min`) as HTMLInputElement;
+    let minField = document.getElementById(`${rangeContent[index].type}-min`) as HTMLElement;
+
+    let maxInput = document.querySelector(`.slider-block__${rangeContent[index].type}-range-max`) as HTMLInputElement;
+    let maxField = document.getElementById(`${rangeContent[index].type}-max`) as HTMLElement;
+
+    minInput.addEventListener('input', () => {
+      minField.innerHTML = `${minInput.value}${rangeContent[index].symbol}`;
+      this.renderCards()
+    });
+
+    maxInput.addEventListener('input', () => {
+      maxField.innerHTML = `${maxInput.value}${rangeContent[index].symbol}`;
+      this.renderCards()
+    });
+
+  }
+
+  sortCards(id: string) {
     let checkedArr: string[] = [];
     let FilterContainer: HTMLElement | null = document.getElementById(id);
 
@@ -189,15 +254,56 @@ class ProductPage extends Page {
     this.renderPage()
 
     setTimeout(() => {
+      this.renderSlider(0)
+      this.renderSlider(1)
+
       this.renderCards()
+
       this.renderFilter('category-filter', 'category')
       this.renderFilter('brand-filter', 'brand')
-      this.sortingCards('category-filter')
-      this.sortingCards('brand-filter')
+
+
+      this.sortCards('category-filter')
+      this.sortCards('brand-filter')
+
     }, 10)
 
     return this.container;
   }
 }
+
+
+export interface IRangeComponents {
+
+  [key: string]: string | number;
+  type: string;
+  id: string;
+  title: string
+  min: number;
+  max: number;
+  symbol: string;
+
+}
+
+export const rangeContent: IRangeComponents[] = [
+
+  {
+    type: 'price',
+    id: 'price-slider',
+    title: 'Price',
+    min: 10.00,
+    max: 1749.00,
+    symbol: ' USD',
+  },
+  {
+    type: 'stock',
+    id: 'stock-slider',
+    title: 'Stock',
+    min: 1,
+    max: 150,
+    symbol: '',
+  }
+
+]
 
 export default ProductPage;
