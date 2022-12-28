@@ -1,5 +1,6 @@
 import Page from '../../core/templates/page';
 import ProductPage from '../product';
+import { Filter } from '../product';
 import Cart from '../cart';
 import Header from '../../core/components/header';
 
@@ -21,6 +22,8 @@ class App {
     if (idPage === PageIDs.ProductPage) {
       page = new ProductPage();
       this.createDefaultPage(page)
+      let filter = new Filter()
+      filter.render()
     } else if (idPage === PageIDs.Cart) {
       page = new Cart();
       this.createDefaultPage(page)

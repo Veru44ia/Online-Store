@@ -2,7 +2,8 @@
 
 .main-wrapper {
   display: flex;
-  gap: 48px;
+  justify-content: space-between;
+  // gap: 48px;
 }
 
 .main-container__filter {
@@ -133,22 +134,49 @@ input[type=checkbox]:checked+label::before {
   gap: 26px;
 }
 
+.products-grid__item {
+  cursor: pointer;
+
+  p {
+    scale: 1.5;
+  }
+}
+
 
 
 .products-cards__cards-wrapper {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 98px 58.5px;
+  justify-items: end;
+  gap: 90px 0px;
+  width: 1029px;
 }
 
-.products-cards__card {
+.cards-wrapper__two-elem {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cards-wrapper__three-elem {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.product-card__card {
   display: inline-flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.card__img {
+.product-card__two-elem {
+  width: 450px;
+}
+
+.product-card__three-elem {
   width: 304px;
+}
+
+
+
+.card__img {
+  width: 100%;
   height: 327px;
   object-fit: cover;
 }
