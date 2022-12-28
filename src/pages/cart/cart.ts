@@ -2,13 +2,17 @@ import Page from "../../core/templates/page";
 import "./cart.css";
 import products from "../../data/products";
 import { IProduct } from "../../types/types";
+import Modal from "../../core/components/modal/modal";
 
 // mock data (delete later)
 localStorage.setItem("cart--products", JSON.stringify(products.slice(0, 6)));
 
 class CartPage extends Page {
+  private modal: Modal;
+
   constructor() {
     super();
+    this.modal = new Modal("modal-container");
   }
 
   getFromLocalStorage() {
@@ -109,6 +113,7 @@ class CartPage extends Page {
 
   render() {
     this.getFromLocalStorage();
+    this.modal.openModal();
     return this.container;
   }
 }
