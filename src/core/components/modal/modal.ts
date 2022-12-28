@@ -10,6 +10,26 @@ class Modal {
     this.imgSrc = "./assets/credit_card_icon.svg";
   }
 
+  openModal() {
+    document.addEventListener("click", (event: MouseEvent) => {
+      if ((event.target as HTMLElement).closest(".buy-btn")) {
+        document.body.prepend(this.render());
+      }
+    });
+  }
+
+  closeModal() {
+    const closeIcon = this.container.querySelector(".close-modal");
+    this.container.addEventListener("click", (event: MouseEvent) => {
+      if (
+        (event.target as HTMLElement) === this.container ||
+        (event.target as HTMLElement) === closeIcon
+      ) {
+        this.container.remove();
+      }
+    });
+  }
+
   render() {
     this.container.innerHTML = `
       <div class="modal-wrapper">
