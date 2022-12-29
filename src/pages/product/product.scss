@@ -19,7 +19,7 @@
   padding: 32px 48px 38px;
   display: inline-flex;
   flex-direction: column;
-  gap: 68px;
+  gap: 88px;
 }
 
 .checked-block__scope {
@@ -52,10 +52,13 @@
 
 .checked-block__scope::-webkit-scrollbar {
   background-color: transparent;
+  border-left: 1px solid var(--BLACK);
+  width: 15px;
 }
 
 .checked-block__scope::-webkit-scrollbar-thumb {
   background-color: var(--BLACK);
+  border: 1px solid var(--BLACK);
   height: 50%;
 }
 
@@ -118,7 +121,7 @@ input[type=checkbox]:checked+label::before {
   display: flex;
   flex-direction: row-reverse;
   justify-content: flex-start;
-  gap: 56px;
+  gap: 90px;
 }
 
 
@@ -146,6 +149,7 @@ input[type=checkbox]:checked+label::before {
 
 .products-cards__cards-wrapper {
   display: grid;
+  grid-template-columns: repeat(3, 1fr);
   justify-items: end;
   gap: 90px 0px;
   width: 1029px;
@@ -155,22 +159,16 @@ input[type=checkbox]:checked+label::before {
   grid-template-columns: repeat(2, 1fr);
 }
 
-.cards-wrapper__three-elem {
-  grid-template-columns: repeat(3, 1fr);
-}
 
 .product-card__card {
   display: inline-flex;
   flex-direction: column;
   gap: 6px;
+  width: 304px;
 }
 
 .product-card__two-elem {
   width: 450px;
-}
-
-.product-card__three-elem {
-  width: 304px;
 }
 
 
@@ -196,7 +194,7 @@ input[type=checkbox]:checked+label::before {
   .card__price_btn {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
   }
 
 }
@@ -251,6 +249,13 @@ input[type=checkbox]:checked+label::before {
     border: 2px solid var(--BLACK);
     pointer-events: auto;
     appearance: none;
+    transition: 0.3s;
+
+    &:hover {
+      background-color: var(--ORANGE);
+      border: 2px solid var(--ORANGE);
+      scale: 1.2;
+    }
   }
 
 }

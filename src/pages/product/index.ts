@@ -13,8 +13,8 @@ class ProductPage extends Page {
     <div class="main-container">
     <div class="main-wrapper">
       <div class="main-container__filter">
-        <div class="additional-filter__item-count">
-          <p>Found <strong>300</strong> item</p>
+        <div class="main-container__products-count">
+          <p id="products-count">Found <strong>300</strong> items</p>
         </div>
         <div class="main-container__filter_wrapper">
           <div class="main-container__checked-block checked-block">
@@ -48,20 +48,13 @@ class ProductPage extends Page {
       <div class="main-container__products">
         <div class="main-container__additional-filter additional-filter">
           <div class="additional-filter__select-filter select-filter">
-            <p>Сортировать по:</p>
-            <select class="select-filte__select p-bold">
-              <option>Популятности</option>
-              <option>Рейтингу</option>
-              <option>Цене max</option>
-              <option>Цене min</option>
-            </select>
           </div>
           <div class="additional-filter__products-grid products-grid">
 
           </div>
         </div>
         <div class="main-container__products-cards products-cards">
-          <div id="cards-container" class="products-cards__cards-wrapper cards-wrapper__three-elem">
+          <div id="cards-container" class="products-cards__cards-wrapper">
           </div>
         </div>
       </div>
@@ -70,44 +63,6 @@ class ProductPage extends Page {
     `)
     return this.container
   }
-
-
-  // changeTypeOfCards() {
-  //   let cardsContainer: HTMLElement | null = document.getElementById('cards-container');
-
-  //   let twoElemBTN = document.getElementById('product-grid__2x2') as HTMLElement;
-  //   let threeElemBTN = document.getElementById('product-grid__3x3') as HTMLElement;
-
-  //   twoElemBTN?.addEventListener('click', () => {
-  //     let cardsCollection = document.querySelectorAll('.product-card__card');
-  //     cardsContainer?.classList.add('cards-wrapper__two-elem');
-  //     cardsContainer?.classList.remove('cards-wrapper__three-elem');
-  //     cardsCollection?.forEach(item => {
-  //       item.classList.add('product-card__two-elem')
-  //       item.classList.remove('product-card__three-elem')
-  //     })
-  //     twoElemBTN.style.opacity = '1';
-  //     threeElemBTN.style.opacity = '0.5';
-
-  //     localStorage.setItem('typeOfCards', 'two')
-  //     this.updateURL('big', 'true')
-  //   })
-
-  //   threeElemBTN?.addEventListener('click', () => {
-  //     let cardsCollection = document.querySelectorAll('.product-card__card');
-  //     cardsContainer?.classList.add('cards-wrapper__three-elem');
-  //     cardsContainer?.classList.remove('cards-wrapper__two-elem');
-  //     cardsCollection?.forEach(item => {
-  //       item.classList.add('product-card__three-elem')
-  //       item.classList.remove('product-card__two-elem')
-  //     })
-  //     twoElemBTN.style.opacity = '0.5';
-  //     threeElemBTN.style.opacity = '1';
-
-  //     localStorage.setItem('typeOfCards', 'three')
-  //     this.updateURL('big', 'false')
-  //   })
-  // }
 
   render() {
     this.renderPage()
@@ -118,10 +73,12 @@ class ProductPage extends Page {
 export class Filter {
   categoryCheckedArr: string[]
   brandCheckedArr: string[]
+  pageCardsArr: IProduct[]
 
-  constructor(categoryCheckedArr: string[] = [], brandCheckedArr: string[] = []) {
+  constructor(categoryCheckedArr: string[] = [], brandCheckedArr: string[] = [], pageCardsArr: IProduct[] = products.slice()) {
     this.categoryCheckedArr = categoryCheckedArr;
     this.brandCheckedArr = brandCheckedArr;
+    this.pageCardsArr = pageCardsArr;
   }
 
   updateURL(key: string, value: string, rangeValue?: string) {
@@ -177,13 +134,19 @@ export class Filter {
       } else {
         this.brandCheckedArr = [];
       }
-    } else {
+    } else if (filter === 'Price' || filter === 'Stock') {
       if (string && sliderIndex != undefined) {
         let arr = string.split('⟷')
-        console.log(arr)
         rangeContent[sliderIndex].minValue = Number(arr[0])
         rangeContent[sliderIndex].maxValue = Number(arr[1])
       }
+    } else if (filter === 'big' || filter === 'sort') {
+      if (params.has(filter)) {
+        return params.get(filter)
+      } else {
+        return null
+      }
+
     }
   }
 
@@ -220,13 +183,13 @@ export class Filter {
 
     minInput.addEventListener('input', () => {
       minField.innerHTML = `${minInput.value}${rangeContent[index].symbol}`;
-      this.renderCards()
+      this.sortCards()
       this.updateURL(rangeContent[index].title, minInput.value, maxInput.value)
     });
 
     maxInput.addEventListener('input', () => {
       maxField.innerHTML = `${maxInput.value}${rangeContent[index].symbol}`;
-      this.renderCards()
+      this.sortCards()
       this.updateURL(rangeContent[index].title, minInput.value, maxInput.value)
     });
   }
@@ -273,7 +236,7 @@ export class Filter {
     return FilterContainer
   }
 
-  updateCards(id: string) {
+  updateCheckbox(id: string) {
     let FilterContainer: HTMLElement | null = document.getElementById(id);
 
     if (FilterContainer) {
@@ -286,12 +249,14 @@ export class Filter {
           if (targetElem.value) this.updateURL('brand', targetElem.value)
         }
 
-        this.renderCards()
+        this.sortCards()
       })
     }
   }
 
-  renderTypesOfCards() {
+
+
+  renderCardsSwitch() {
     let typesWrapper: HTMLElement | null = document.querySelector('.products-grid');
     typesWrapper?.insertAdjacentHTML('afterbegin', `
     <div id="product-grid__2x2" class="products-grid__item">
@@ -303,13 +268,102 @@ export class Filter {
     `)
   }
 
+  sortBySwitch() {
+    let cardsType = this.queryFilterData('big')
+
+    let cardsContainer: HTMLElement | null = document.getElementById('cards-container');
+    let twoElemBTN = document.getElementById('product-grid__2x2') as HTMLElement;
+    let threeElemBTN = document.getElementById('product-grid__3x3') as HTMLElement;
+
+    const TwoElemSwitch = () => {
+      cardsContainer?.classList.add('cards-wrapper__two-elem');
+      let cardsCollection = document.querySelectorAll('.product-card__card');
+      cardsCollection?.forEach(item => {
+        item.classList.add('product-card__two-elem')
+      })
+      twoElemBTN.style.opacity = '1';
+      threeElemBTN.style.opacity = '0.5';
+    }
+
+    const ThreeElemSwitch = () => {
+      cardsContainer?.classList.remove('cards-wrapper__two-elem');
+      let cardsCollection = document.querySelectorAll('.product-card__card');
+      cardsCollection?.forEach(item => {
+        item.classList.remove('product-card__two-elem')
+      })
+      twoElemBTN.style.opacity = '0.5';
+      threeElemBTN.style.opacity = '1';
+    }
+
+    if (cardsType === 'true') TwoElemSwitch()
+    else ThreeElemSwitch()
+
+    twoElemBTN?.addEventListener('click', () => {
+      TwoElemSwitch()
+      this.updateURL('big', 'true')
+    })
+
+    threeElemBTN?.addEventListener('click', () => {
+      ThreeElemSwitch()
+      this.updateURL('big', 'false')
+    })
+  }
 
 
-  renderCards() {
+
+  renderSelector() {
+    let selectWrapper: HTMLDivElement | null = document.querySelector('.select-filter');
+    selectWrapper?.insertAdjacentHTML('afterbegin', `
+      <p>Сортировать по:</p>
+      <select class="select-filte__select p-bold">
+        <option value="rating">Рейтингу</option>
+        <option value="price">Цене</option>
+      </select>
+    `)
+  }
+
+  sortBySelector() {
+    let select: HTMLSelectElement | null = document.querySelector('.select-filte__select');
+    let selectValue: string | null | undefined = this.queryFilterData('sort');
+    if (select && selectValue) select.value = selectValue;
+
+    const pageCardsArr = this.pageCardsArr.slice()
+
+    const sortByPrice = () => {
+      pageCardsArr.sort((a, b) => a.price < b.price ? 1 : -1);
+      this.renderCards(pageCardsArr)
+      this.updateURL('sort', 'price')
+    }
+
+    const sortByRating = () => {
+      pageCardsArr.sort((a, b) => a.rating < b.rating ? 1 : -1);
+      this.renderCards(pageCardsArr)
+      this.updateURL('sort', 'rating')
+    }
+
+    const sortByOptions = () => {
+      if (select?.value === 'price') {
+        sortByPrice()
+      } else if (select?.value === 'rating') {
+        sortByRating()
+      }
+    }
+
+    sortByOptions()
+
+    let getValue: string;
+    select?.addEventListener('change', function () {
+      getValue = this.value;
+      sortByOptions()
+    });
+  }
+
+
+
+  sortCards() {
     this.queryFilterData('category')
     this.queryFilterData('brand')
 
-    let cardsContainer: HTMLElement | null = document.getElementById('cards-container');
     let checkedCategory: IProduct[] = [];
 
     products.map(item => {
@@ -338,19 +392,29 @@ export class Filter {
         && (item.stock <= Number(stockMax) && item.stock >= Number(stockMin)));
     })
 
+    this.pageCardsArr = checkedCategory.slice()
+
+    this.renderCards(checkedCategory)
+    this.sortBySelector()
+    this.sortBySwitch()
+  }
+
+  renderCards(arr: IProduct[]) {
+    let cardsContainer: HTMLElement | null = document.getElementById('cards-container');
+
     if (cardsContainer) {
       cardsContainer.innerHTML = "";
-      for (let i = 0; i < checkedCategory.length; i++) {
+      for (let i = 0; i < arr.length; i++) {
         cardsContainer.insertAdjacentHTML('afterbegin', `
-          <div class="product-card__card product-card__three-elem">
-            <img class="card__img" src="${checkedCategory[i].thumbnail}">
+          <div class="product-card__card">
+            <img class="card__img" src="${arr[i].thumbnail}">
             <div class="card__info">
               <div class="card__name_brand">
-                <p>${checkedCategory[i].title}</p>
-                <p style="opacity: 0.5;">${checkedCategory[i].brand}</p>
+                <p>${arr[i].title}</p>
+                <p style="opacity: 0.5;">${arr[i].brand}</p>
               </div>
               <div class="card__price_btn">
-                <h5>${checkedCategory[i].price} USD</h5>
+                <h5>${arr[i].price} USD</h5>
                 <button class="btn-font card-btn">Add to cart</button>
               </div>
             </div>
@@ -358,24 +422,33 @@ export class Filter {
         `)
       }
     }
+
+    const ProductCount = (el: HTMLElement | null) => {
+      let countText: HTMLElement | null = document.getElementById('products-count');
+      let productsCount = el?.childNodes.length;
+      if (countText) countText.innerHTML = `Found <strong>${productsCount}</strong> items`
+    }
+
+    ProductCount(cardsContainer)
+
     return cardsContainer;
   }
 
   render() {
     this.renderCheckbox('category-filter', 'category')
     this.renderCheckbox('brand-filter', 'brand')
-    this.renderTypesOfCards()
+    this.renderCardsSwitch()
+    this.renderSelector()
 
     this.renderSlider(0)
     this.renderSlider(1)
 
-    this.updateCards('category-filter')
-    this.updateCards('brand-filter')
+    this.updateCheckbox('category-filter')
+    this.updateCheckbox('brand-filter')
 
-    this.renderCards()
+    this.sortCards()
   }
 }
-
 
 export interface IRangeComponents {
   [key: string]: string | number;

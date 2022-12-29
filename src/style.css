@@ -62,10 +62,13 @@ button {
 .basic-btn {
   background-color: var(--BLACK);
   color: var(--WHITE);
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
 }
 
 .basic-btn:hover {
-  opacity: 0.8;
+  background-color: var(--ORANGE);
+  color: var(--BLACK);
 }
 
 .second-btn,
@@ -73,18 +76,19 @@ button {
   background-color: transparent;
   color: var(--BLACK);
   border: 1px solid var(--BLACK);
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
 }
 
 .second-btn:hover,
 .card-btn:hover {
   color: var(--WHITE);
   background-color: var(--BLACK);
-  opacity: 0.8;
 }
 
 .card-btn {
-  width: 138px;
-  height: 36px;
+  width: 142px;
+  height: 42px;
   border-radius: 50px;
 }
 /*# sourceMappingURL=style.css.map */

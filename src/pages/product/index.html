@@ -15,8 +15,8 @@
   <div class="main-container">
     <div class="main-wrapper">
       <div class="main-container__filter">
-        <div class="additional-filter__item-count">
-          <p>Found <strong>300</strong> item</p>
+        <div class="main-container__products-count">
+          <p id="products-count">Found <strong>300</strong> item</p>
         </div>
         <div class="main-container__filter_wrapper">
           <div class="main-container__checked-block checked-block">
@@ -37,17 +37,8 @@
           </div>
           <div class="main-container__slider-block slider-block">
             <div id="price-slider" class="slider-block__item">
-              <h4 class="slider-block__title">Price</h4>
-              <div class="slider-block__numerical-difference">
-                <p id="price-min">1 USD</p>
-                <p id="price-max">6000 USD</p>
-              </div>
-              <div class="slider-block__slider">
-                <div class="slider-block__range-input">
-                  <input type="range" class="slider-block__range-min" min="0" max="10000" value="2500" step="100">
-                  <input type="range" class="slider-block__range-max" min="0" max="10000" value="7500" step="100">
-                </div>
-              </div>
+            </div>
+            <div id="stock-slider" class="slider-block__item">
             </div>
           </div>
           <div class="main-container__btn-block">
@@ -61,19 +52,12 @@
           <div class="additional-filter__select-filter select-filter">
             <p>Сортировать по:</p>
             <select class="select-filte__select p-bold">
-              <option>Популятности</option>
-              <option>Рейтингу</option>
-              <option>Цене max</option>
-              <option>Цене min</option>
+              <option value="rating">Рейтингу</option>
+              <option value="price">Цене</option>
             </select>
           </div>
           <div class="additional-filter__products-grid products-grid">
-            <div id="product-grid__2x2" class="products-grid__item">
-              <p>2 X 2</p>
-            </div>
-            <div id="product-grid__3x3" class="products-grid__item">
-              <p style="font-weight: 700;">3 X 3</p>
-            </div>
+
           </div>
         </div>
         <div class="main-container__products-cards products-cards">
