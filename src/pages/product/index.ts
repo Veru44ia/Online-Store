@@ -86,33 +86,35 @@ export class Filter {
     let params = new URLSearchParams(urlParams.search)
     if (key === 'category' || key === 'brand') {
       if (params.has(key)) {
-        if (params.get(key) === value) {
-          params.delete(key)
-        }
+        if (params.get(key) === value) params.delete(key)
         let valuesArr: string[] | undefined = params.get(key)?.split('↕')
         let firstLength = valuesArr?.length;
         valuesArr = valuesArr?.filter(item => item != value)
+
         if (firstLength === valuesArr?.length) valuesArr?.push(value)
         let result: string | undefined = valuesArr?.join('↕');
-        if (result) {
-          params.set(key, result)
-        }
+
+        if (result) params.set(key, result)
+      } else {
+        params.append(key, value)
+      }
+    } else if (key === 'search') {
+      if (params.has(key)) {
+        value === ''
+          ? params.delete(key)
+          : params.set(key, value)
       } else {
         params.append(key, value)
       }
     } else if (key === 'Price' || key === 'Stock') {
       let result = value + "⟷" + rangeValue;
-      if (params.has(key)) {
-        params.set(key, result)
-      } else {
-        params.append(key, result)
-      }
+      params.has(key)
+        ? params.set(key, result)
+        : params.append(key, result)
     } else {
-      if (params.has(key)) {
-        params.set(key, value)
-      } else {
-        params.append(key, value)
-      }
+      params.has(key)
+        ? params.set(key, value)
+        : params.append(key, value)
     }
     let path = window.location.pathname + '?' + params.toString();
     history.pushState(null, '', path);
@@ -140,59 +142,17 @@ export class Filter {
         rangeContent[sliderIndex].minValue = Number(arr[0])
         rangeContent[sliderIndex].maxValue = Number(arr[1])
       }
-    } else if (filter === 'big' || filter === 'sort') {
+    } else if (filter === 'big' || filter === 'sort' || filter === 'search') {
       if (params.has(filter)) {
         return params.get(filter)
       } else {
         return null
       }
-
     }
   }
 
 
 
-  renderSlider(index: number) {
-    this.queryFilterData(rangeContent[index].title, index)
-
-    let rangeContainer = document.getElementById(rangeContent[index].id) as HTMLElement;
-    if (rangeContainer) {
-      rangeContainer.innerHTML = `
-      <h4 class="slider-block__title">${rangeContent[index].title}</h4>
-      <div class="slider-block__numerical-difference">
-        <p id="${rangeContent[index].type}-min">${rangeContent[index].minValue} ${rangeContent[index].symbol}</p>
-        <p id="${rangeContent[index].type}-max">${rangeContent[index].maxValue} ${rangeContent[index].symbol}</p>
-      </div>
-      <div class="slider-block__slider">
-        <div class="slider-block__range-input">
-          <input type="range" class="slider-block__${rangeContent[index].type}-range-min" min="${rangeContent[index].min}" max="${rangeContent[index].max}" value="${rangeContent[index].minValue}" step="1">
-          <input type="range" class="slider-block__${rangeContent[index].type}-range-max" min="${rangeContent[index].min}" max="${rangeContent[index].max}" value="${rangeContent[index].maxValue}" step="1">
-        </div>
-      </div>
-      `
-    }
-    this.updateSlider(index)
-  }
-
-  updateSlider(index: number) {
-    let minInput = document.querySelector(`.slider-block__${rangeContent[index].type}-range-min`) as HTMLInputElement;
-    let minField = document.getElementById(`${rangeContent[index].type}-min`) as HTMLElement;
-
-    let maxInput = document.querySelector(`.slider-block__${rangeContent[index].type}-range-max`) as HTMLInputElement;
-    let maxField = document.getElementById(`${rangeContent[index].type}-max`) as HTMLElement;
-
-    minInput.addEventListener('input', () => {
-      minField.innerHTML = `${minInput.value}${rangeContent[index].symbol}`;
-      this.sortCards()
-      this.updateURL(rangeContent[index].title, minInput.value, maxInput.value)
-    });
-
-    maxInput.addEventListener('input', () => {
-      maxField.innerHTML = `${maxInput.value}${rangeContent[index].symbol}`;
-      this.sortCards()
-      this.updateURL(rangeContent[index].title, minInput.value, maxInput.value)
-    });
-  }
 
   renderCheckbox(id: string, key: string) {
     let FilterContainer: HTMLElement | null = document.getElementById(id);
@@ -236,7 +196,7 @@ export class Filter {
     return FilterContainer
   }
 
-  updateCheckbox(id: string) {
+  checkboxEvent(id: string) {
     let FilterContainer: HTMLElement | null = document.getElementById(id);
 
     if (FilterContainer) {
@@ -253,6 +213,133 @@ export class Filter {
       })
     }
   }
+
+  sortByCheckbox(): IProduct[] {
+    this.queryFilterData('category')
+    this.queryFilterData('brand')
+
+    let resultCardsArr: IProduct[] = []
+
+    products.map(item => {
+      if (this.categoryCheckedArr.length > 0 && this.brandCheckedArr.length > 0) {
+        if (this.categoryCheckedArr.includes(item.category) && this.brandCheckedArr.includes(item.brand)) resultCardsArr.push(item)
+      }
+      else if (this.categoryCheckedArr.length > 0) {
+        if (this.categoryCheckedArr.includes(item.category)) resultCardsArr.push(item)
+      }
+      else if (this.brandCheckedArr.length > 0) {
+        if (this.brandCheckedArr.includes(item.brand)) resultCardsArr.push(item)
+      }
+      else {
+        resultCardsArr = products;
+      }
+    })
+
+    return resultCardsArr
+  }
+
+
+  renderSlider(index: number) {
+    this.queryFilterData(rangeContent[index].title, index)
+
+    let rangeContainer = document.getElementById(rangeContent[index].id) as HTMLElement;
+    if (rangeContainer) {
+      rangeContainer.innerHTML = `
+      <h4 class="slider-block__title">${rangeContent[index].title}</h4>
+      <div class="slider-block__numerical-difference">
+        <p id="${rangeContent[index].type}-min">${rangeContent[index].minValue} ${rangeContent[index].symbol}</p>
+        <p id="${rangeContent[index].type}-max">${rangeContent[index].maxValue} ${rangeContent[index].symbol}</p>
+      </div>
+      <div class="slider-block__slider">
+        <div class="slider-block__range-input">
+          <input type="range" class="slider-block__${rangeContent[index].type}-range-min" min="${rangeContent[index].min}" max="${rangeContent[index].max}" value="${rangeContent[index].minValue}" step="1">
+          <input type="range" class="slider-block__${rangeContent[index].type}-range-max" min="${rangeContent[index].min}" max="${rangeContent[index].max}" value="${rangeContent[index].maxValue}" step="1">
+        </div>
+      </div>
+      `
+    }
+    this.sliderEvent(index)
+  }
+
+  sliderEvent(index: number) {
+    let minInput = document.querySelector(`.slider-block__${rangeContent[index].type}-range-min`) as HTMLInputElement;
+    let minField = document.getElementById(`${rangeContent[index].type}-min`) as HTMLElement;
+
+    let maxInput = document.querySelector(`.slider-block__${rangeContent[index].type}-range-max`) as HTMLInputElement;
+    let maxField = document.getElementById(`${rangeContent[index].type}-max`) as HTMLElement;
+
+    minInput.addEventListener('input', () => {
+      minField.innerHTML = `${minInput.value}${rangeContent[index].symbol}`;
+      this.sortCards()
+      this.updateURL(rangeContent[index].title, minInput.value, maxInput.value)
+    });
+
+    maxInput.addEventListener('input', () => {
+      maxField.innerHTML = `${maxInput.value}${rangeContent[index].symbol}`;
+      this.sortCards()
+      this.updateURL(rangeContent[index].title, minInput.value, maxInput.value)
+    });
+  }
+
+  sortBySlider(arr: IProduct[] = this.pageCardsArr): IProduct[] {
+    let priceMin = (document.querySelector('.slider-block__price-range-min') as HTMLInputElement).value;
+    let priceMax = (document.querySelector('.slider-block__price-range-max') as HTMLInputElement).value;
+
+    let stockMin = (document.querySelector('.slider-block__stock-range-min') as HTMLInputElement).value;
+    let stockMax = (document.querySelector('.slider-block__stock-range-max') as HTMLInputElement).value;
+
+    let resultCardsArr = arr.filter(item => {
+      return ((item.price <= Number(priceMax) && item.price >= Number(priceMin))
+        && (item.stock <= Number(stockMax) && item.stock >= Number(stockMin)));
+    })
+
+    return resultCardsArr
+  }
+
+
+  renderSearchValue() {
+    let searchInput: HTMLInputElement | null = document.querySelector('.header-container__search-input')
+    let searchValue: string | null | undefined = this.queryFilterData('search')
+    if (searchInput && searchValue) searchInput.value = searchValue
+  }
+
+  searchEvent() {
+    let searchInput: HTMLInputElement | null = document.querySelector('.header-container__search-input');
+
+    const search = () => {
+      let searchValue: string | undefined = searchInput?.value.toLowerCase();
+      if (searchValue != undefined) this.updateURL('search', searchValue)
+      this.sortCards()
+    }
+
+    if (searchInput) searchInput.oninput = () => search()
+
+  }
+
+  sortBySearch(arr: IProduct[] = this.pageCardsArr): IProduct[] {
+    let searchValue = this.queryFilterData('search')
+
+    const sort = (text: string | undefined) => {
+      let resultCardsArr: IProduct[] | null = []
+      arr.forEach(item => {
+        let arrValues = Object.values(item).slice(1, 2)
+        for (let i = 0; i < arrValues.length; i++) {
+          if (text) {
+            if (arrValues[i].toString().toLowerCase().includes(text)) {
+              resultCardsArr?.push(item)
+              break
+            }
+          }
+        }
+      })
+      return resultCardsArr
+    }
+
+    if (searchValue) return sort(searchValue)
+
+    return arr;
+  }
+
 
 
 
@@ -310,7 +397,6 @@ export class Filter {
   }
 
 
-
   renderSelector() {
     let selectWrapper: HTMLDivElement | null = document.querySelector('.select-filter');
     selectWrapper?.insertAdjacentHTML('afterbegin', `
@@ -347,6 +433,7 @@ export class Filter {
       } else if (select?.value === 'rating') {
         sortByRating()
       }
+      this.sortBySwitch()
     }
 
     sortByOptions()
@@ -360,40 +447,17 @@ export class Filter {
 
 
 
-  sortCards() {
-    this.queryFilterData('category')
-    this.queryFilterData('brand')
 
+  sortCards() {
     let checkedCategory: IProduct[] = [];
 
-    products.map(item => {
-      if (this.categoryCheckedArr.length > 0 && this.brandCheckedArr.length > 0) {
-        if (this.categoryCheckedArr.includes(item.category) && this.brandCheckedArr.includes(item.brand)) checkedCategory.push(item)
-      }
-      else if (this.categoryCheckedArr.length > 0) {
-        if (this.categoryCheckedArr.includes(item.category)) checkedCategory.push(item)
-      }
-      else if (this.brandCheckedArr.length > 0) {
-        if (this.brandCheckedArr.includes(item.brand)) checkedCategory.push(item)
-      }
-      else {
-        checkedCategory = products;
-      }
-    })
+    checkedCategory = this.sortByCheckbox().slice()
 
-    let priceMin = (document.querySelector('.slider-block__price-range-min') as HTMLInputElement).value;
-    let priceMax = (document.querySelector('.slider-block__price-range-max') as HTMLInputElement).value;
+    checkedCategory = this.sortBySlider(checkedCategory).slice()
 
-    let stockMin = (document.querySelector('.slider-block__stock-range-min') as HTMLInputElement).value;
-    let stockMax = (document.querySelector('.slider-block__stock-range-max') as HTMLInputElement).value;
-
-    checkedCategory = checkedCategory.filter(item => {
-      return ((item.price <= Number(priceMax) && item.price >= Number(priceMin))
-        && (item.stock <= Number(stockMax) && item.stock >= Number(stockMin)));
-    })
+    checkedCategory = this.sortBySearch(checkedCategory).slice()
 
     this.pageCardsArr = checkedCategory.slice()
-
     this.renderCards(checkedCategory)
     this.sortBySelector()
     this.sortBySwitch()
@@ -437,14 +501,16 @@ export class Filter {
   render() {
     this.renderCheckbox('category-filter', 'category')
     this.renderCheckbox('brand-filter', 'brand')
+    this.renderSlider(0)
+    this.renderSlider(1)
+    this.renderSearchValue()
+
     this.renderCardsSwitch()
     this.renderSelector()
 
-    this.renderSlider(0)
-    this.renderSlider(1)
-
-    this.updateCheckbox('category-filter')
-    this.updateCheckbox('brand-filter')
+    this.checkboxEvent('category-filter')
+    this.checkboxEvent('brand-filter')
+    this.searchEvent()
 
     this.sortCards()
   }

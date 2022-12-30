@@ -46,6 +46,7 @@ input[type="checkbox"] {
 
 select {
   background-color: transparent;
+  width: 150px;
 }
 
 button {

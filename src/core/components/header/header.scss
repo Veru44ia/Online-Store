@@ -20,10 +20,19 @@
   display: flex;
 }
 
-.input {
+.header-container__search-input {
   border: 1px solid var(--BLACK);
   background-color: transparent;
+  padding-left: 10px;
 }
+
+.header-container__search-input:focus {
+  color: var(--BLACK);
+  outline: 0;
+  box-shadow: none;
+}
+
+
 
 .header-container__search-input {
   box-sizing: border-box;
@@ -32,16 +41,11 @@
 }
 
 .header-container__search-btn {
+  cursor: default;
   width: 54px;
   height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  cursor: pointer;
   background-color: var(--BLACK);
-}
-
-.header-container__search-btn:hover {
-  opacity: 0.8;
 }

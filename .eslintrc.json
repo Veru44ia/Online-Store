@@ -1,20 +1,15 @@
 {
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["import", "@typescript-eslint"],
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
-  "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module"
-  },
-  "env": {
-    "es6": true,
-    "browser": true,
-    "node": true
-  },
-  "rules": {
-    "no-debugger": "off",
-    "no-console": 0,
-    "class-methods-use-this": "off",
-    "@typescript-eslint/no-explicit-any": 2
-  }
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true
+    },
+    "extends": "standard-with-typescript",
+    "overrides": [
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "rules": {
+    }
 }
