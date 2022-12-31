@@ -1,5 +1,17 @@
 @import url("../../assets/fonts&color.css");
 
+// body::-webkit-scrollbar {
+//   background-color: transparent;
+//   border-left: 1px solid var(--BLACK);
+//   width: 20px;
+// }
+
+// body::-webkit-scrollbar-thumb {
+//   background-color: var(--BLACK);
+//   border: 1px solid var(--BLACK);
+//   height: 10%;
+// }
+
 .main-wrapper {
   display: flex;
   justify-content: space-between;
@@ -120,7 +132,7 @@ input[type=checkbox]:checked+label::before {
   display: flex;
   flex-direction: row-reverse;
   justify-content: flex-start;
-  gap: 46px;
+  gap: 66px;
 }
 
 
@@ -148,6 +160,7 @@ input[type=checkbox]:checked+label::before {
 
 .products-cards__cards-wrapper {
   display: grid;
+  position: relative;
   grid-template-columns: repeat(3, 1fr);
   justify-items: end;
   gap: 90px 0px;
@@ -168,6 +181,16 @@ input[type=checkbox]:checked+label::before {
 
 .product-card__two-elem {
   width: 450px;
+}
+
+.product-card__no-products {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+  white-space: nowrap;
+  opacity: 0.2;
 }
 
 

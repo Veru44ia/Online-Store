@@ -1,6 +1,7 @@
 export const enum PageIDs {
-  ProductPage = 'product-page',
+  MainPage = 'main-page',
   Cart = 'cart-page',
+  Product = 'product-page'
 }
 
 abstract class Page {

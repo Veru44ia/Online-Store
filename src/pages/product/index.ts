@@ -2,7 +2,7 @@ import Page from '../../core/templates/page';
 import products from '../../core/data';
 import { IProduct } from '../../core/data';
 
-class ProductPage extends Page {
+class MainPage extends Page {
 
   constructor() {
     super();
@@ -40,8 +40,8 @@ class ProductPage extends Page {
             </div>
           </div>
           <div class="main-container__btn-block">
-            <button class="basic-btn btn-font">Reset filters</button>
-            <button class="second-btn btn-font">Copy link</button>
+            <button id="reset-BTN"class="basic-btn btn-font">Reset filters</button>
+            <button id="copy-BTN" class="second-btn btn-font">Copy link</button>
           </div>
         </div>
       </div>
@@ -81,74 +81,18 @@ export class Filter {
     this.pageCardsArr = pageCardsArr;
   }
 
-  updateURL(key: string, value: string, rangeValue?: string) {
-    let urlParams = new URL(window.location.href)
-    let params = new URLSearchParams(urlParams.search)
-    if (key === 'category' || key === 'brand') {
-      if (params.has(key)) {
-        if (params.get(key) === value) params.delete(key)
-        let valuesArr: string[] | undefined = params.get(key)?.split('↕')
-        let firstLength = valuesArr?.length;
-        valuesArr = valuesArr?.filter(item => item != value)
+  sortCards() {
+    let checkedCategory: IProduct[] = [];
 
-        if (firstLength === valuesArr?.length) valuesArr?.push(value)
-        let result: string | undefined = valuesArr?.join('↕');
+    checkedCategory = this.sortByCheckbox().slice()
+    checkedCategory = this.sortBySlider(checkedCategory).slice()
+    checkedCategory = this.sortBySearch(checkedCategory).slice()
 
-        if (result) params.set(key, result)
-      } else {
-        params.append(key, value)
-      }
-    } else if (key === 'search') {
-      if (params.has(key)) {
-        value === ''
-          ? params.delete(key)
-          : params.set(key, value)
-      } else {
-        params.append(key, value)
-      }
-    } else if (key === 'Price' || key === 'Stock') {
-      let result = value + "⟷" + rangeValue;
-      params.has(key)
-        ? params.set(key, result)
-        : params.append(key, result)
-    } else {
-      params.has(key)
-        ? params.set(key, value)
-        : params.append(key, value)
-    }
-    let path = window.location.pathname + '?' + params.toString();
-    history.pushState(null, '', path);
-  }
-
-  queryFilterData(filter: string, sliderIndex?: number) {
-    let urlParams = new URL(window.location.href)
-    let params = new URLSearchParams(urlParams.search)
-    let string = params.get(filter);
-    if (filter === 'category') {
-      if (string) {
-        this.categoryCheckedArr = string.split('↕')
-      } else {
-        this.categoryCheckedArr = [];
-      }
-    } else if (filter === 'brand') {
-      if (string) {
-        this.brandCheckedArr = string.split('↕')
-      } else {
-        this.brandCheckedArr = [];
-      }
-    } else if (filter === 'Price' || filter === 'Stock') {
-      if (string && sliderIndex != undefined) {
-        let arr = string.split('⟷')
-        rangeContent[sliderIndex].minValue = Number(arr[0])
-        rangeContent[sliderIndex].maxValue = Number(arr[1])
-      }
-    } else if (filter === 'big' || filter === 'sort' || filter === 'search') {
-      if (params.has(filter)) {
-        return params.get(filter)
-      } else {
-        return null
-      }
-    }
+    this.pageCardsArr = checkedCategory.slice()
+    this.renderCards(checkedCategory)
+    this.sortBySelector()
+    this.sortBySwitch()
+    CardHandler.renderProducts__Cart()
   }
 
 
@@ -165,6 +109,7 @@ export class Filter {
       categoryArr.push(products[i][key].toString())
     }
     if (FilterContainer) {
+      FilterContainer.innerHTML = ''
       for (let i = 0; i < categoryArr.length; i++) {
         FilterContainer.insertAdjacentHTML('afterbegin', `
       <div class="checked-block__checkbox">
@@ -181,6 +126,7 @@ export class Filter {
     this.queryFilterData('brand')
 
     let collection: NodeListOf<HTMLInputElement> | undefined = FilterContainer?.querySelectorAll('.checkbox');
+
     collection?.forEach(item => {
       if (id === 'category-filter') {
         for (let i = 0; i < this.categoryCheckedArr.length; i++) {
@@ -239,11 +185,13 @@ export class Filter {
   }
 
 
+
   renderSlider(index: number) {
     this.queryFilterData(rangeContent[index].title, index)
 
     let rangeContainer = document.getElementById(rangeContent[index].id) as HTMLElement;
     if (rangeContainer) {
+      rangeContainer.innerHTML = ''
       rangeContainer.innerHTML = `
       <h4 class="slider-block__title">${rangeContent[index].title}</h4>
       <div class="slider-block__numerical-difference">
@@ -297,9 +245,11 @@ export class Filter {
   }
 
 
+
   renderSearchValue() {
     let searchInput: HTMLInputElement | null = document.querySelector('.header-container__search-input')
     let searchValue: string | null | undefined = this.queryFilterData('search')
+    if (searchInput) searchInput.value = ''
     if (searchInput && searchValue) searchInput.value = searchValue
   }
 
@@ -322,7 +272,7 @@ export class Filter {
     const sort = (text: string | undefined) => {
       let resultCardsArr: IProduct[] | null = []
       arr.forEach(item => {
-        let arrValues = Object.values(item).slice(1, 2)
+        let arrValues = Object.values(item).slice(1, Object.values(item).length - 2)
         for (let i = 0; i < arrValues.length; i++) {
           if (text) {
             if (arrValues[i].toString().toLowerCase().includes(text)) {
@@ -342,11 +292,58 @@ export class Filter {
 
 
 
+  renderCards(arr: IProduct[]) {
+    let cardsContainer: HTMLElement | null = document.getElementById('cards-container');
+    if (cardsContainer) {
+      cardsContainer.innerHTML = "";
+
+      if (arr.length === 0) cardsContainer.insertAdjacentHTML('afterbegin', `
+      <div class="product-card__no-products">        
+        <h1>No products found</h1>
+      </div>
+      `)
+
+      for (let i = 0; i < arr.length; i++) {
+        cardsContainer.insertAdjacentHTML('afterbegin', `
+          <div class="product-card__card">
+            <img class="card__img" src="${arr[i].thumbnail}">
+            <div class="card__info">
+              <div class="card__name_brand">
+                <p>${arr[i].title} </p>
+                    <p style="opacity: 0.5;"> ${arr[i].brand} </p>
+              </div>
+              <div class="card__price_btn">
+                <h5>${arr[i].price} USD </h5>
+                    <button number="${arr[i].id}" class="btn-font card-btn"> Add to cart </button>
+              </div>
+            </div>
+          </div>
+          `)
+      }
+    }
+
+    const ProductCount = (el: HTMLElement | null) => {
+      let countText: HTMLElement | null = document.getElementById('products-count');
+      let productsCount = el?.childElementCount;
+      if (countText) {
+        arr.length === 0
+          ? countText.innerHTML = `Found <strong> 0 </strong> items`
+          : countText.innerHTML = `Found <strong> ${productsCount} </strong> items`
+      }
+    }
+
+    ProductCount(cardsContainer)
+
+    return cardsContainer;
+  }
+
+
 
   renderCardsSwitch() {
     let typesWrapper: HTMLElement | null = document.querySelector('.products-grid');
+    if (typesWrapper) typesWrapper.innerHTML = ''
     typesWrapper?.insertAdjacentHTML('afterbegin', `
-    <div id="product-grid__2x2" class="products-grid__item">
+    <div style="opacity: 0.5" id="product-grid__2x2" class="products-grid__item">
       <p>▪▪</p>
     </div>
     <div id="product-grid__3x3" class="products-grid__item">
@@ -362,9 +359,10 @@ export class Filter {
     let twoElemBTN = document.getElementById('product-grid__2x2') as HTMLElement;
     let threeElemBTN = document.getElementById('product-grid__3x3') as HTMLElement;
 
+    let cardsCollection = document.querySelectorAll('.product-card__card');
+
     const TwoElemSwitch = () => {
       cardsContainer?.classList.add('cards-wrapper__two-elem');
-      let cardsCollection = document.querySelectorAll('.product-card__card');
       cardsCollection?.forEach(item => {
         item.classList.add('product-card__two-elem')
       })
@@ -374,7 +372,6 @@ export class Filter {
 
     const ThreeElemSwitch = () => {
       cardsContainer?.classList.remove('cards-wrapper__two-elem');
-      let cardsCollection = document.querySelectorAll('.product-card__card');
       cardsCollection?.forEach(item => {
         item.classList.remove('product-card__two-elem')
       })
@@ -397,8 +394,10 @@ export class Filter {
   }
 
 
+
   renderSelector() {
     let selectWrapper: HTMLDivElement | null = document.querySelector('.select-filter');
+    if (selectWrapper) selectWrapper.innerHTML = ''
     selectWrapper?.insertAdjacentHTML('afterbegin', `
       <p>Сортировать по:</p>
       <select class="select-filte__select p-bold">
@@ -418,16 +417,26 @@ export class Filter {
     const sortByPrice = () => {
       pageCardsArr.sort((a, b) => a.price < b.price ? 1 : -1);
       this.renderCards(pageCardsArr)
-      this.updateURL('sort', 'price')
     }
 
     const sortByRating = () => {
       pageCardsArr.sort((a, b) => a.rating < b.rating ? 1 : -1);
       this.renderCards(pageCardsArr)
-      this.updateURL('sort', 'rating')
     }
 
     const sortByOptions = () => {
+      if (select?.value === 'price') {
+        sortByPrice()
+        this.updateURL('sort', 'price')
+      } else if (select?.value === 'rating') {
+        sortByRating()
+        this.updateURL('sort', 'rating')
+      }
+      this.sortBySwitch()
+      CardHandler.renderProducts__Cart()
+    }
+
+    const sortByOptions_RenderPage = () => {
       if (select?.value === 'price') {
         sortByPrice()
       } else if (select?.value === 'rating') {
@@ -436,7 +445,7 @@ export class Filter {
       this.sortBySwitch()
     }
 
-    sortByOptions()
+    sortByOptions_RenderPage()
 
     let getValue: string;
     select?.addEventListener('change', function () {
@@ -448,55 +457,131 @@ export class Filter {
 
 
 
-  sortCards() {
-    let checkedCategory: IProduct[] = [];
+  updateURL(key: string, value: string, rangeValue?: string) {
+    let urlParams = new URL(window.location.href)
+    let params = new URLSearchParams(urlParams.search)
+    if (key === 'category' || key === 'brand') {
+      if (params.has(key)) {
+        if (params.get(key) === value) params.delete(key)
+        let valuesArr: string[] | undefined = params.get(key)?.split('↕')
+        let firstLength = valuesArr?.length;
+        valuesArr = valuesArr?.filter(item => item != value)
 
-    checkedCategory = this.sortByCheckbox().slice()
+        if (firstLength === valuesArr?.length) valuesArr?.push(value)
+        let result: string | undefined = valuesArr?.join('↕');
 
-    checkedCategory = this.sortBySlider(checkedCategory).slice()
+        if (result) params.set(key, result)
+      } else {
+        params.append(key, value)
+      }
+    } else if (key === 'search') {
+      if (params.has(key)) {
+        value === ''
+          ? params.delete(key)
+          : params.set(key, value)
+      } else {
+        params.append(key, value)
+      }
+    } else if (key === 'Price' || key === 'Stock') {
+      let result = value + "⟷" + rangeValue;
+      params.has(key)
+        ? params.set(key, result)
+        : params.append(key, result)
+    } else if (key === 'remove') {
+      let arr: string[] = []
+      for (const key of params.keys()) {
+        if (arr) arr.push(key)
+      }
+      arr.forEach(item => {
+        params.delete(item)
+      })
 
-    checkedCategory = this.sortBySearch(checkedCategory).slice()
-
-    this.pageCardsArr = checkedCategory.slice()
-    this.renderCards(checkedCategory)
-    this.sortBySelector()
-    this.sortBySwitch()
+    } else {
+      params.has(key)
+        ? params.set(key, value)
+        : params.append(key, value)
+    }
+    let path = window.location.pathname + '?' + params.toString();
+    history.pushState(null, '', path);
   }
 
-  renderCards(arr: IProduct[]) {
-    let cardsContainer: HTMLElement | null = document.getElementById('cards-container');
-
-    if (cardsContainer) {
-      cardsContainer.innerHTML = "";
-      for (let i = 0; i < arr.length; i++) {
-        cardsContainer.insertAdjacentHTML('afterbegin', `
-          <div class="product-card__card">
-            <img class="card__img" src="${arr[i].thumbnail}">
-            <div class="card__info">
-              <div class="card__name_brand">
-                <p>${arr[i].title}</p>
-                <p style="opacity: 0.5;">${arr[i].brand}</p>
-              </div>
-              <div class="card__price_btn">
-                <h5>${arr[i].price} USD</h5>
-                <button class="btn-font card-btn">Add to cart</button>
-              </div>
-            </div>
-          </div> 
-        `)
+  queryFilterData(filter: string, sliderIndex?: number) {
+    let urlParams = new URL(window.location.href)
+    let params = new URLSearchParams(urlParams.search)
+    let string = params.get(filter);
+    if (filter === 'category') {
+      if (string) {
+        this.categoryCheckedArr = string.split('↕')
+      } else {
+        this.categoryCheckedArr = [];
+      }
+    } else if (filter === 'brand') {
+      if (string) {
+        this.brandCheckedArr = string.split('↕')
+      } else {
+        this.brandCheckedArr = [];
+      }
+    } else if (filter === 'Price' || filter === 'Stock') {
+      if (string && sliderIndex != undefined) {
+        let arr = string.split('⟷')
+        rangeContent[sliderIndex].minValue = Number(arr[0])
+        rangeContent[sliderIndex].maxValue = Number(arr[1])
+      } else if (!string && sliderIndex != undefined) {
+        rangeContent[sliderIndex].minValue = rangeContent[sliderIndex].min
+        rangeContent[sliderIndex].maxValue = rangeContent[sliderIndex].max
+      }
+    } else if (filter === 'big' || filter === 'sort' || filter === 'search') {
+      if (params.has(filter)) {
+        return params.get(filter)
+      } else {
+        return null
       }
     }
-
-    const ProductCount = (el: HTMLElement | null) => {
-      let countText: HTMLElement | null = document.getElementById('products-count');
-      let productsCount = el?.childNodes.length;
-      if (countText) countText.innerHTML = `Found <strong>${productsCount}</strong> items`
-    }
-
-    ProductCount(cardsContainer)
-
-    return cardsContainer;
   }
+
+
+
+  resetFiltersBTN() {
+    let BTN = document.getElementById('reset-BTN');
+    const removeParams = () => {
+      this.updateURL('remove', '')
+
+      this.renderCheckbox('category-filter', 'category')
+      this.renderCheckbox('brand-filter', 'brand')
+      this.renderSlider(0)
+      this.renderSlider(1)
+      this.renderSearchValue()
+      this.renderCardsSwitch()
+      this.renderSelector()
+
+      this.sortCards()
+    }
+    BTN?.addEventListener('click', removeParams)
+  }
+
+  copyFiltersBTN() {
+    let BTN = document.getElementById('copy-BTN');
+
+    BTN?.addEventListener('click', function (event) {
+      let copyText: string = window.location.href;
+      navigator.clipboard.writeText(copyText)
+
+      if (BTN) {
+        BTN.innerText = 'Copied!'
+        BTN.style.backgroundColor = '#191919'
+        BTN.style.color = '#F4F4F4'
+      }
+      setTimeout(function () {
+        if (BTN) {
+          BTN.innerText = 'Copy Link'
+          BTN.removeAttribute("style")
+        }
+      }, 600);
+    })
+  }
+
+
+
 
   render() {
     this.renderCheckbox('category-filter', 'category')
@@ -504,7 +589,6 @@ export class Filter {
     this.renderSlider(0)
     this.renderSlider(1)
     this.renderSearchValue()
-
     this.renderCardsSwitch()
     this.renderSelector()
 
@@ -513,6 +597,105 @@ export class Filter {
     this.searchEvent()
 
     this.sortCards()
+
+    this.resetFiltersBTN()
+    this.copyFiltersBTN()
+  }
+
+}
+
+export class CardHandler {
+
+  constructor() { }
+
+
+  static renderProducts__Cart() {
+    let productCards = document.querySelectorAll('.product-card__card');
+    let storageProducts__String: string | null = localStorage.getItem('productInCart')
+    let storageProducts: IProduct[] = []
+    if (storageProducts__String) storageProducts = JSON.parse(storageProducts__String);
+    if (storageProducts.length > 0) {
+      productCards.forEach(item => {
+        let BTN: HTMLElement | null = item.querySelector('.card-btn');
+        let ID = Number(BTN?.getAttribute('number'));
+        for (let i = 0; i < storageProducts.length; i++) {
+          if (storageProducts[i].id === ID) {
+            if (BTN) {
+              BTN.innerText = 'Drop from cart'
+              BTN.style.backgroundColor = '#FF6E40'
+              BTN.style.color = '#191919'
+              BTN.style.border = 'none'
+            }
+            break
+          }
+        }
+      })
+    }
+  }
+
+  toggleProducts__Cart() {
+    let cardsContainer: HTMLElement | null = document.getElementById('cards-container')
+
+    const addProduct = (id: number, btn: HTMLButtonElement) => {
+      btn.innerText = 'Drop from cart'
+      btn.style.backgroundColor = '#FF6E40'
+      btn.style.color = '#191919'
+      btn.style.border = 'none'
+      for (let i = 0; i < products.length; i++) {
+        if (products[i].id === id) {
+          this.toggleProducts__localStorage(products[i])
+          break
+        }
+      }
+    }
+
+    const removeProduct = (id: number, btn: HTMLButtonElement) => {
+      btn.innerText = 'Add to cart'
+      btn.removeAttribute("style")
+      for (let i = 0; i < products.length; i++) {
+        if (products[i].id === id) {
+          this.toggleProducts__localStorage(products[i])
+          break
+        }
+      }
+    }
+
+    if (cardsContainer) {
+      cardsContainer.addEventListener('click', (e: Event) => {
+        let targetElem = e.target as HTMLButtonElement;
+        if (targetElem.tagName === "BUTTON") {
+          let cardID: number = Number(targetElem.getAttribute('number'));
+          targetElem.innerText === 'Add to cart'
+            ? addProduct(cardID, targetElem)
+            : removeProduct(cardID, targetElem)
+        }
+      })
+    }
+  }
+
+  toggleProducts__localStorage(obj: IProduct) {
+    if (localStorage.getItem('productInCart') === null) {
+      let arr: IProduct[] = [];
+      arr.push(obj)
+      localStorage.setItem('productInCart', JSON.stringify(arr));
+    } else {
+      let savedArr__String: string | null = localStorage.getItem('productInCart')
+      if (savedArr__String) {
+        let savedArr: IProduct[] = JSON.parse(savedArr__String);
+        let firstLength = savedArr.length;
+        let resultArr = savedArr.filter(item => item.id !== obj.id)
+        if (firstLength === resultArr.length) resultArr.push(obj)
+        localStorage.setItem('productInCart', JSON.stringify(resultArr));
+      }
+    }
+  }
+
+
+
+
+  render() {
+    CardHandler.renderProducts__Cart()
+    this.toggleProducts__Cart()
   }
 }
 
@@ -551,4 +734,4 @@ export const rangeContent: IRangeComponents[] = [
   }
 ]
 
-export default ProductPage;
+export default MainPage;

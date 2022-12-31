@@ -27,12 +27,12 @@ html {
 
   display: flex;
   flex-direction: column;
-  gap: 88px;
+  gap: 98px;
 }
 
 
 
-.input {
+input[type="checkbox"] {
   border: 1px solid var(--BLACK);
   background-color: transparent;
 }
@@ -45,8 +45,10 @@ input[type="checkbox"] {
 
 
 select {
+  cursor: pointer;
   background-color: transparent;
-  width: 150px;
+  outline: none;
+  width: 130px;
 }
 
 

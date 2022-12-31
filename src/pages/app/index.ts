@@ -1,6 +1,6 @@
 import Page from '../../core/templates/page';
-import ProductPage from '../product';
-import { Filter } from '../product';
+import MainPage from '../product';
+import { Filter, CardHandler } from '../product';
 import Cart from '../cart';
 import Header from '../../core/components/header';
 
@@ -19,11 +19,13 @@ class App {
     }
     let page: Page | null = null;
 
-    if (idPage === PageIDs.ProductPage) {
-      page = new ProductPage();
+    if (idPage === PageIDs.MainPage) {
+      page = new MainPage();
       this.createDefaultPage(page)
       let filter = new Filter()
       filter.render()
+      let cardHandler = new CardHandler()
+      cardHandler.render()
     } else if (idPage === PageIDs.Cart) {
       page = new Cart();
       this.createDefaultPage(page)
@@ -49,7 +51,7 @@ class App {
 
   run() {
     App.container.appendChild(this.header.render())
-    App.renderNewPage(PageIDs.ProductPage);
+    App.renderNewPage(PageIDs.MainPage);
     this.enableRoutPage();
   }
 }

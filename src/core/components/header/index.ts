@@ -3,7 +3,7 @@ import { PageIDs } from "../../templates/page";
 
 const Buttons = [
   {
-    id: PageIDs.ProductPage,
+    id: PageIDs.MainPage,
 
   },
   {

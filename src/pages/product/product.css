@@ -188,7 +188,7 @@ input[type=checkbox]:checked + label::before {
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
-  gap: 46px;
+  gap: 66px;
 }
 
 .additional-filter__select-filter {
@@ -219,6 +219,7 @@ input[type=checkbox]:checked + label::before {
 .products-cards__cards-wrapper {
   display: -ms-grid;
   display: grid;
+  position: relative;
   -ms-grid-columns: (1fr)[3];
       grid-template-columns: repeat(3, 1fr);
   justify-items: end;
@@ -245,6 +246,20 @@ input[type=checkbox]:checked + label::before {
 
 .product-card__two-elem {
   width: 450px;
+}
+
+.product-card__no-products {
+  position: absolute;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 60px;
+  white-space: nowrap;
+  opacity: 0.2;
 }
 
 .card__img {
