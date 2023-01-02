@@ -6,19 +6,17 @@ export const enum PageIDs {
 
 abstract class Page {
   protected container: HTMLElement;
-  static TextObject = {};
+  protected position: InsertPosition;
+  protected content: string;
 
   constructor() {
     this.container = document.createElement('main');
-  }
-
-  protected createHeaderTitle(text: string) {
-    const headerTitle = document.createElement('h1');
-    headerTitle.innerText = text;
-    return headerTitle;
+    this.position = 'afterbegin'
+    this.content = ``
   }
 
   render() {
+    this.container.insertAdjacentHTML(this.position, this.content)
     return this.container;
   }
 }

@@ -3,13 +3,11 @@ import products from '../../core/data';
 import { IProduct } from '../../core/data';
 
 class MainPage extends Page {
+  content: string;
 
   constructor() {
     super();
-  }
-
-  renderPage() {
-    this.container.insertAdjacentHTML('afterbegin', `
+    this.content = `
     <div class="main-container">
     <div class="main-wrapper">
       <div class="main-container__filter">
@@ -60,13 +58,11 @@ class MainPage extends Page {
       </div>
     </div>
   </div>
-    `)
-    return this.container
+    `
   }
 
   render() {
-    this.renderPage()
-    return this.container;
+    return super.render()
   }
 }
 
