@@ -1,12 +1,13 @@
 @import url("../src/assets/fonts&color.css");
 @import url("../src/core/components/header/header.css");
 @import url("../src/pages/product/product.css");
+
 * {
   border: 0;
   margin: 0;
   padding: 0;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 a {
@@ -29,69 +30,9 @@ html {
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   gap: 98px;
 }
 
-input[type="checkbox"] {
-  border: 1px solid var(--BLACK);
-  background-color: transparent;
-}
-
-input[type="checkbox"] {
-  width: 22px;
-  height: 22px;
-}
-
-select {
-  cursor: pointer;
-  background-color: transparent;
-  outline: none;
-  width: 130px;
-}
-
-button {
-  cursor: pointer;
-}
-
-.basic-btn,
-.second-btn {
-  width: 277px;
-  height: 58px;
-  border-radius: 50px;
-}
-
-.basic-btn {
-  background-color: var(--BLACK);
-  color: var(--WHITE);
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
-}
-
-.basic-btn:hover {
-  background-color: var(--ORANGE);
-  color: var(--BLACK);
-}
-
-.second-btn,
-.card-btn {
-  background-color: transparent;
-  color: var(--BLACK);
-  border: 1px solid var(--BLACK);
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
-}
-
-.second-btn:hover,
-.card-btn:hover {
-  color: var(--WHITE);
-  background-color: var(--BLACK);
-}
-
-.card-btn {
-  width: 142px;
-  height: 42px;
-  border-radius: 50px;
-}
 /*# sourceMappingURL=style.css.map */

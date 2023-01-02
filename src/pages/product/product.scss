@@ -1,16 +1,66 @@
 @import url("../../assets/fonts&color.css");
 
-// body::-webkit-scrollbar {
-//   background-color: transparent;
-//   border-left: 1px solid var(--BLACK);
-//   width: 20px;
-// }
+input[type="checkbox"] {
+  border: 1px solid var(--BLACK);
+  background-color: transparent;
+}
 
-// body::-webkit-scrollbar-thumb {
-//   background-color: var(--BLACK);
-//   border: 1px solid var(--BLACK);
-//   height: 10%;
-// }
+input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+}
+
+
+
+select {
+  cursor: pointer;
+  background-color: transparent;
+  outline: none;
+  width: 130px;
+}
+
+
+
+button {
+  cursor: pointer;
+}
+
+.basic-btn,
+.second-btn {
+  width: 277px;
+  height: 58px;
+  border-radius: 50px;
+}
+
+.basic-btn {
+  background-color: var(--BLACK);
+  color: var(--WHITE);
+  transition: 0.3s;
+
+  &:hover {
+    background-color: var(--ORANGE);
+    color: var(--BLACK);
+  }
+}
+
+.second-btn,
+.card-btn {
+  background-color: transparent;
+  color: var(--BLACK);
+  border: 1px solid var(--BLACK);
+  transition: 0.3s;
+
+  &:hover {
+    color: var(--WHITE);
+    background-color: var(--BLACK);
+  }
+}
+
+.card-btn {
+  width: 142px;
+  height: 42px;
+  border-radius: 50px;
+}
 
 .main-wrapper {
   display: flex;
