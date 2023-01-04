@@ -576,6 +576,21 @@ export class Filter {
     })
   }
 
+  onpopstateEvent() {
+    window.onpopstate = (event) => {
+      console.log('hi')
+      this.renderCheckbox('category-filter', 'category')
+      this.renderCheckbox('brand-filter', 'brand')
+      this.renderSlider(0)
+      this.renderSlider(1)
+      this.renderSearchValue()
+      this.renderCardsSwitch()
+      this.renderSelector()
+
+      this.sortCards()
+    }
+  }
+
 
 
 
@@ -596,6 +611,7 @@ export class Filter {
 
     this.resetFiltersBTN()
     this.copyFiltersBTN()
+    this.onpopstateEvent()
   }
 
 }
