@@ -13,7 +13,6 @@ class Cart extends Page {
   render() {
     return super.render()
   }
-
 }
 
 export default Cart
