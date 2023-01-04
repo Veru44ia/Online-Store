@@ -10,4 +10,5 @@ export interface IProduct {
   category: string;
   thumbnail: string;
   images: string[];
+  orderNumber?: number;
 }

@@ -1,7 +1,6 @@
 @import "../../assets/fonts&color.css";
 
 body {
-  counter-reset: listing;
   font-size: 16px;
 }
 
@@ -12,8 +11,10 @@ body {
   padding-left: 30px;
 }
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
+.cart-container input[type="number"]::-webkit-outer-spin-button,
+.cart-container input[type="number"]::-webkit-inner-spin-button,
+.form input[type="number"]::-webkit-outer-spin-button,
+.form input[type="number"]::-webkit-inner-spin-button {
   display: none;
 }
 
@@ -44,6 +45,7 @@ input[type="number"]::-webkit-inner-spin-button {
   background-color: var(--BASIC);
   font-size: 20px;
   vertical-align: middle;
+  cursor: pointer;
 }
 
 .pagination-prev {
@@ -66,9 +68,7 @@ input[type="number"]::-webkit-inner-spin-button {
   margin-top: 25px;
 }
 
-.cart-product-item::before {
-  counter-increment: listing;
-  content: counter(listing);
+.order-number {
   margin-right: 20px;
   font-size: 18px;
 }
