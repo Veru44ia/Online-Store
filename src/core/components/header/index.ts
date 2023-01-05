@@ -1,13 +1,16 @@
 import Component from "../../templates/components";
 import { PageIDs } from "../../templates/page";
 
-const Buttons = [
+export const Buttons = [
   {
     id: PageIDs.MainPage,
 
   },
   {
     id: PageIDs.Cart,
+  },
+  {
+    id: PageIDs.Product,
   },
 ];
 

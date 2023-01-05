@@ -1,3 +1,5 @@
+import { PageIDs } from "../templates/page";
+
 export interface IProduct {
   [key: string]: string | number | string[]
   id: number;
@@ -1919,3 +1921,38 @@ const products: IProduct[] = [
 ];
 
 export default products;
+
+export interface IRangeComponents {
+  [key: string]: string | number;
+  type: string;
+  id: string;
+  title: string
+  min: number;
+  max: number;
+  minValue: number;
+  maxValue: number;
+  symbol: string;
+}
+
+export const rangeContent: IRangeComponents[] = [
+  {
+    type: 'price',
+    id: 'price-slider',
+    title: 'Price',
+    min: 10.00,
+    max: 1749.00,
+    minValue: 10.00,
+    maxValue: 1749.00,
+    symbol: ' USD',
+  },
+  {
+    type: 'stock',
+    id: 'stock-slider',
+    title: 'Stock',
+    min: 1,
+    max: 150,
+    minValue: 1,
+    maxValue: 150,
+    symbol: '',
+  }
+]

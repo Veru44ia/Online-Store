@@ -1,7 +1,8 @@
 import Page from '../../core/templates/page';
-import MainPage from '../product';
-import { Filter, CardHandler } from '../product';
+import { CardHandler } from '../product/card-handler';
+import { RenderCards } from '../product/render-cards';
 import Cart from '../cart';
+import MainPage from '../product';
 import Header from '../../core/components/header';
 
 import { PageIDs } from '../../core/templates/page';
@@ -22,8 +23,8 @@ class App {
     if (idPage === PageIDs.MainPage) {
       page = new MainPage();
       this.createDefaultPage(page)
-      let filter = new Filter()
-      filter.render()
+      let cards = new RenderCards()
+      cards.render()
       let cardHandler = new CardHandler()
       cardHandler.render()
     } else if (idPage === PageIDs.Cart) {

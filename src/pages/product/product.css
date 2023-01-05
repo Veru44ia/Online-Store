@@ -282,7 +282,7 @@ input[type=checkbox]:checked+label::before {
   display: -ms-grid;
   display: grid;
   position: relative;
-  -ms-grid-columns: (1fr) 3;
+  -ms-grid-columns: (1fr)3;
   grid-template-columns: repeat(3, 1fr);
   justify-items: end;
   gap: 90px 0px;
@@ -290,7 +290,7 @@ input[type=checkbox]:checked+label::before {
 }
 
 .cards-wrapper__two-elem {
-  -ms-grid-columns: (1fr) 2;
+  -ms-grid-columns: (1fr)2;
   grid-template-columns: repeat(2, 1fr);
 }
 
