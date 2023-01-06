@@ -8,20 +8,30 @@ export class SliderFilter {
 
   static renderSlider(index: number) {
     QueryParamsHandler.queryFilterData(rangeContent[index].title, index)
-
     let rangeContainer = document.getElementById(rangeContent[index].id) as HTMLElement;
+
+    const {
+      title,
+      type,
+      symbol,
+      min,
+      max,
+      minValue,
+      maxValue,
+    } = rangeContent[index];
+
     if (rangeContainer) {
       rangeContainer.innerHTML = ''
       rangeContainer.innerHTML = `
-      <h4 class="slider-block__title">${rangeContent[index].title}</h4>
+      <h4 class="slider-block__title">${title}</h4>
       <div class="slider-block__numerical-difference">
-        <p id="${rangeContent[index].type}-min">${rangeContent[index].minValue} ${rangeContent[index].symbol}</p>
-        <p id="${rangeContent[index].type}-max">${rangeContent[index].maxValue} ${rangeContent[index].symbol}</p>
+        <p id="${type}-min">${minValue} ${symbol}</p>
+        <p id="${type}-max">${maxValue} ${symbol}</p>
       </div>
       <div class="slider-block__slider">
         <div class="slider-block__range-input">
-          <input type="range" class="slider-block__${rangeContent[index].type}-range-min" min="${rangeContent[index].min}" max="${rangeContent[index].max}" value="${rangeContent[index].minValue}" step="1">
-          <input type="range" class="slider-block__${rangeContent[index].type}-range-max" min="${rangeContent[index].min}" max="${rangeContent[index].max}" value="${rangeContent[index].maxValue}" step="1">
+          <input type="range" class="slider-block__${type}-range-min" min="${min}" max="${max}" value="${minValue}" step="1">
+          <input type="range" class="slider-block__${type}-range-max" min="${min}" max="${max}" value="${maxValue}" step="1">
         </div>
       </div>
       `
