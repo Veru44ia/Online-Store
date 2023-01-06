@@ -46,7 +46,6 @@ class MainPage extends Page {
           <div class="additional-filter__select-filter select-filter">
           </div>
           <div class="additional-filter__products-grid products-grid">
-
           </div>
         </div>
         <div class="main-container__products-cards products-cards">

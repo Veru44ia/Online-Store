@@ -1,4 +1,4 @@
-export const enum PageIDs {
+export enum PageIDs {
   MainPage = 'main-page',
   Cart = 'cart-page',
   Product = 'product-page'

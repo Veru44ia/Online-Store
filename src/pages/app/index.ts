@@ -13,21 +13,21 @@ class App {
   private static defaultPageID = 'current-page';
   private header: Header;
 
-  static renderNewPage(idPage: PageIDs | string) {
+  static renderNewPage(value: PageIDs) {
     const currentPAgeHTML = document.querySelector(`#${App.defaultPageID}`);
     if (currentPAgeHTML) {
       currentPAgeHTML.remove()
     }
     let page: Page | null = null;
 
-    if (idPage === PageIDs.MainPage) {
+    if (value === PageIDs.MainPage) {
       page = new MainPage();
       this.createDefaultPage(page)
       let cards = new RenderCards()
       cards.render()
       let cardHandler = new CardHandler()
       cardHandler.render()
-    } else if (idPage === PageIDs.Cart) {
+    } else if (value === PageIDs.Cart) {
       page = new Cart();
       this.createDefaultPage(page)
     }
@@ -42,7 +42,12 @@ class App {
   private enableRoutPage() {
     window.addEventListener('hashchange', () => {
       const hash = window.location.hash.slice(1);
-      App.renderNewPage(hash);
+      for (let item in PageIDs) {
+        let key = item as keyof typeof PageIDs;
+        if (PageIDs[key] === hash) {
+          App.renderNewPage(PageIDs[key]);
+        }
+      }
     })
   }
 
