@@ -1,12 +1,12 @@
-import { RenderCards } from './render-cards';
-import { QueryParams } from './query-params';
+import { RenderCards } from './RenderCards';
+import { QueryParamsHandler } from './QueryParamsHandler';
 
-export class MainPage__Buttons {
+export class MainPageButtons {
 
   static resetFiltersBTN() {
     let BTN = document.getElementById('reset-BTN');
     const removeParams = () => {
-      QueryParams.updateURL('remove', '');
+      QueryParamsHandler.updateURL('remove', '');
       RenderCards.renderPageElements()
     }
     BTN?.addEventListener('click', removeParams)

@@ -1,5 +1,5 @@
-import { IProduct } from '../../core/data';
-import products from '../../core/data';
+import { IProduct } from '../../../core/data';
+import products from '../../../core/data';
 
 export class CardHandler {
 

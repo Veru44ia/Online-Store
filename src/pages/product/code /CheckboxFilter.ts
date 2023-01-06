@@ -1,7 +1,7 @@
-import products from '../../core/data';
-import { IProduct } from '../../core/data';
-import { RenderCards } from './render-cards';
-import { QueryParams } from './query-params';
+import products from '../../../core/data';
+import { IProduct } from '../../../core/data';
+import { RenderCards } from './RenderCards';
+import { QueryParamsHandler } from './QueryParamsHandler';
 
 export class CheckboxFilter {
 
@@ -37,8 +37,8 @@ export class CheckboxFilter {
       }
     }
 
-    QueryParams.queryFilterData('category')
-    QueryParams.queryFilterData('brand')
+    QueryParamsHandler.queryFilterData('category')
+    QueryParamsHandler.queryFilterData('brand')
 
     let collection: NodeListOf<HTMLInputElement> | undefined = FilterContainer?.querySelectorAll('.checkbox');
 
@@ -65,9 +65,9 @@ export class CheckboxFilter {
         let targetElem = e.target as HTMLInputElement;
 
         if (id === "category-filter") {
-          if (targetElem.value) QueryParams.updateURL('category', targetElem.value)
+          if (targetElem.value) QueryParamsHandler.updateURL('category', targetElem.value)
         } else if (id === "brand-filter") {
-          if (targetElem.value) QueryParams.updateURL('brand', targetElem.value)
+          if (targetElem.value) QueryParamsHandler.updateURL('brand', targetElem.value)
         }
 
         RenderCards.sortCards()
@@ -76,8 +76,8 @@ export class CheckboxFilter {
   }
 
   static sortByCheckbox(): IProduct[] {
-    QueryParams.queryFilterData('category')
-    QueryParams.queryFilterData('brand')
+    QueryParamsHandler.queryFilterData('category')
+    QueryParamsHandler.queryFilterData('brand')
 
     let resultCardsArr: IProduct[] = []
 

@@ -1,8 +1,7 @@
-import { rangeContent } from '../../core/data';
-import { CheckboxFilter } from './checkbox';
-import { RenderCards } from './render-cards';
+import { rangeContent } from '../../../core/data';
+import { CheckboxFilter } from './CheckboxFilter';
 
-export class QueryParams {
+export class QueryParamsHandler {
 
   static updateURL(key: string, value: string, rangeValue?: string) {
     let urlParams = new URL(window.location.href)
@@ -77,7 +76,7 @@ export class QueryParams {
         rangeContent[sliderIndex].minValue = rangeContent[sliderIndex].min
         rangeContent[sliderIndex].maxValue = rangeContent[sliderIndex].max
       }
-    } else if (filter === 'big' || filter === 'sort' || filter === 'search') {
+    } else {
       if (params.has(filter)) {
         return params.get(filter)
       } else {

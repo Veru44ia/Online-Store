@@ -1,12 +1,12 @@
-import { CheckboxFilter } from './checkbox';
-import { SliderFilter } from './slider';
-import { SearchFilter } from './search';
-import { Sort } from './sort';
-import { CardHandler } from './card-handler';
-import { IProduct } from '../../core/data';
-import { Buttons } from '../../core/components/header';
-import products from '../../core/data';
-import { MainPage__Buttons } from './buttons';
+import { CheckboxFilter } from './CheckboxFilter';
+import { SliderFilter } from './SliderFilter';
+import { SearchFilter } from './SearchFilter';
+import { Sort } from './Sort';
+import { CardHandler } from './CardHandler';
+import { MainPageButtons } from './MainPageButtons';
+import { IProduct } from '../../../core/data';
+import { Buttons } from '../../../core/components/header';
+import products from '../../../core/data';
 
 export class RenderCards {
   static pageCardsArr: IProduct[]
@@ -22,10 +22,10 @@ export class RenderCards {
     checkedCategory = SliderFilter.sortBySlider(checkedCategory).slice()
     checkedCategory = SearchFilter.sortBySearch(checkedCategory).slice()
 
-    this.pageCardsArr = checkedCategory.slice()
+    RenderCards.pageCardsArr = checkedCategory.slice()
 
-    this.renderCards(checkedCategory)
-    Sort.sortBySelector(this.pageCardsArr)
+    RenderCards.renderCards(checkedCategory)
+    Sort.sortBySelector()
     Sort.sortBySwitch()
     CardHandler.renderProducts__Cart()
   }
@@ -73,7 +73,6 @@ export class RenderCards {
     }
 
     ProductCount(cardsContainer)
-
     return cardsContainer;
   }
 
@@ -83,6 +82,7 @@ export class RenderCards {
     SliderFilter.renderSlider(0)
     SliderFilter.renderSlider(1)
     SearchFilter.renderSearchValue()
+    Sort.renderSelector()
     RenderCards.sortCards()
   }
 
@@ -97,7 +97,7 @@ export class RenderCards {
     SliderFilter.render()
     SearchFilter.render()
     Sort.render()
-    MainPage__Buttons.render()
+    MainPageButtons.render()
     RenderCards.sortCards()
 
     this.onpopstateEvent()

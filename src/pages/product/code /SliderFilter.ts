@@ -1,12 +1,12 @@
-import products from '../../core/data';
-import { RenderCards } from './render-cards';
-import { IProduct, rangeContent } from '../../core/data';
-import { QueryParams } from './query-params';
+import products from '../../../core/data';
+import { RenderCards } from './RenderCards';
+import { IProduct, rangeContent } from '../../../core/data';
+import { QueryParamsHandler } from './QueryParamsHandler';
 
 export class SliderFilter {
 
   static renderSlider(index: number) {
-    QueryParams.queryFilterData(rangeContent[index].title, index)
+    QueryParamsHandler.queryFilterData(rangeContent[index].title, index)
 
     let rangeContainer = document.getElementById(rangeContent[index].id) as HTMLElement;
     if (rangeContainer) {
@@ -39,13 +39,13 @@ export class SliderFilter {
     minInput.addEventListener('input', () => {
       minField.innerHTML = `${minInput.value}${rangeContent[index].symbol}`;
       RenderCards.sortCards()
-      QueryParams.updateURL(rangeContent[index].title, minInput.value, maxInput.value)
+      QueryParamsHandler.updateURL(rangeContent[index].title, minInput.value, maxInput.value)
     });
 
     maxInput.addEventListener('input', () => {
       maxField.innerHTML = `${maxInput.value}${rangeContent[index].symbol}`;
       RenderCards.sortCards()
-      QueryParams.updateURL(rangeContent[index].title, minInput.value, maxInput.value)
+      QueryParamsHandler.updateURL(rangeContent[index].title, minInput.value, maxInput.value)
     });
   }
 
