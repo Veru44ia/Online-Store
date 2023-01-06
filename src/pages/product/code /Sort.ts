@@ -1,5 +1,8 @@
 import { RenderCards } from './RenderCards';
 import { QueryParamsHandler } from './QueryParamsHandler';
+import { ElementsId } from '../../../core/data';
+import { URLSearchKeys } from '../../../core/data';
+import { SelectorParams } from '../../../core/data';
 
 export class Sort {
   static isSwitchEventListenerAdded: boolean = false;
@@ -18,33 +21,43 @@ export class Sort {
     `)
   }
 
-  static sortBySwitch() {
-    let cardsType = QueryParamsHandler.queryFilterData('big')
-    let twoElemBTN = document.getElementById('product-grid__2x2') as HTMLElement;
-    let threeElemBTN = document.getElementById('product-grid__3x3') as HTMLElement;
+  static sortBySwitch(id?: ElementsId) {
+    let cardsType = QueryParamsHandler.queryFilterData(URLSearchKeys.switch)
+    let ElemBTN: HTMLElement | null = null;
+    if (id) ElemBTN = document.getElementById(id);
 
     if (cardsType === 'true') Sort.switchCardSize(true)
     else Sort.switchCardSize(false)
 
+    if (ElemBTN) {
+      if (ElementsId.switchTwoElemBTN === id) {
+        ElemBTN.addEventListener('click', () => {
+          Sort.switchCardSize(true)
+          QueryParamsHandler.updateURL(URLSearchKeys.switch, 'true')
+        })
+      } else if (ElementsId.switchThreeElemBTN === id) {
+        ElemBTN.addEventListener('click', () => {
+          Sort.switchCardSize(false)
+          QueryParamsHandler.updateURL(URLSearchKeys.switch, 'false')
+        })
+      }
+    }
+  }
+
+  static addEventListenerToSwitch() {
     if (!Sort.isSwitchEventListenerAdded) {
       Sort.isSwitchEventListenerAdded = true;
 
-      twoElemBTN?.addEventListener('click', () => {
-        Sort.switchCardSize(true)
-        QueryParamsHandler.updateURL('big', 'true')
-      })
-      threeElemBTN?.addEventListener('click', () => {
-        Sort.switchCardSize(false)
-        QueryParamsHandler.updateURL('big', 'false')
-      })
+      Sort.sortBySwitch(ElementsId.switchTwoElemBTN);
+      Sort.sortBySwitch(ElementsId.switchThreeElemBTN);
     }
   }
 
   static switchCardSize(isSmall: boolean) {
     let cardsCollection = document.querySelectorAll('.product-card__card');
-    let twoElemBTN = document.getElementById('product-grid__2x2') as HTMLElement;
-    let threeElemBTN = document.getElementById('product-grid__3x3') as HTMLElement;
-    let cardsContainer: HTMLElement | null = document.getElementById('cards-container');
+    let twoElemBTN = document.getElementById(ElementsId.switchTwoElemBTN) as HTMLElement;
+    let threeElemBTN = document.getElementById(ElementsId.switchThreeElemBTN) as HTMLElement;
+    let cardsContainer: HTMLElement | null = document.getElementById(ElementsId.cardsContainer);
 
     if (isSmall) cardsContainer?.classList.add('cards-wrapper__two-elem')
     else cardsContainer?.classList.remove('cards-wrapper__two-elem');
@@ -63,23 +76,23 @@ export class Sort {
         selectWrapper.innerHTML = ''
         selectWrapper?.insertAdjacentHTML('afterbegin', `
           <p>Sort by:</p>
-          <select class="select-filte__select p-bold">
-            <option value="alphabetA">Alphabet (A-Z)</option>
-            <option value="alphabetZ">Alphabet (Z-A)</option>
-            <option value="price-min">Price (min)</option>
-            <option value="price-max">Price (max)</option>
+          <select id="select" class="select-filter__select p-bold">
+            <option value="${SelectorParams.alphabetAZ}">Alphabet (A-Z)</option>
+            <option value="${SelectorParams.alphabetZA}">Alphabet (Z-A)</option>
+            <option value="${SelectorParams.priceMin}">Price (min)</option>
+            <option value="${SelectorParams.priceMax}">Price (max)</option>
           </select>
         `)
       } else {
-        let select: HTMLSelectElement | null = document.querySelector('.select-filte__select');
-        if (select) select.value = 'alphabetA'
+        let select: HTMLSelectElement | null = document.getElementById(ElementsId.selectotElem) as HTMLSelectElement;
+        if (select) select.value = SelectorParams.alphabetAZ
       }
     }
   }
 
   static sortBySelector() {
-    let select: HTMLSelectElement | null = document.querySelector('.select-filte__select');
-    let selectValue: string | null | undefined = QueryParamsHandler.queryFilterData('sort');
+    let select: HTMLSelectElement | null = document.getElementById(ElementsId.selectotElem) as HTMLSelectElement;
+    let selectValue: string | null | undefined = QueryParamsHandler.queryFilterData(URLSearchKeys.selector);
     if (select && selectValue) select.value = selectValue;
 
     if (selectValue) Sort.sortByOptions(selectValue)
@@ -89,7 +102,7 @@ export class Sort {
       select?.addEventListener('change', function () {
         if (select) {
           Sort.sortByOptions(select.value)
-          QueryParamsHandler.updateURL('sort', select.value)
+          QueryParamsHandler.updateURL(URLSearchKeys.selector, select.value)
         }
       });
     }
@@ -98,10 +111,10 @@ export class Sort {
   static sortByOptions(param: string | null) {
     const pageCardsArr = RenderCards.pageCardsArr.slice();
     if (param === null) pageCardsArr.sort((a, b) => a.price < b.price ? 1 : -1);
-    if (param === 'price-min') pageCardsArr.sort((a, b) => a.price < b.price ? 1 : -1);
-    if (param === 'price-max') pageCardsArr.sort((a, b) => a.price > b.price ? 1 : -1);
-    if (param === 'alphabetA') pageCardsArr.sort((a, b) => a.title.toLocaleLowerCase() < b.title.toLocaleLowerCase() ? 1 : -1);
-    if (param === 'alphabetZ') pageCardsArr.sort((a, b) => a.title.toLocaleLowerCase() > b.title.toLocaleLowerCase() ? 1 : -1);
+    if (param === SelectorParams.priceMin) pageCardsArr.sort((a, b) => a.price < b.price ? 1 : -1);
+    if (param === SelectorParams.priceMax) pageCardsArr.sort((a, b) => a.price > b.price ? 1 : -1);
+    if (param === SelectorParams.alphabetAZ) pageCardsArr.sort((a, b) => a.title.toLocaleLowerCase() < b.title.toLocaleLowerCase() ? 1 : -1);
+    if (param === SelectorParams.alphabetZA) pageCardsArr.sort((a, b) => a.title.toLocaleLowerCase() > b.title.toLocaleLowerCase() ? 1 : -1);
 
     RenderCards.renderCards(pageCardsArr)
     Sort.sortBySwitch()
@@ -112,7 +125,7 @@ export class Sort {
     Sort.isSelectorEventListenerAdded = false;
 
     Sort.renderCardsSwitch()
-    Sort.sortBySwitch()
+    Sort.addEventListenerToSwitch()
     Sort.renderSelector()
     Sort.sortBySelector()
   }

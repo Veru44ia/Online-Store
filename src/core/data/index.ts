@@ -14,10 +14,7 @@ export interface IProduct {
   thumbnail: string;
   images: string[];
 }
-
-export type IProductKeys = keyof IProduct;
-
-
+// export type IProductKeys = keyof IProduct;
 
 const products: IProduct[] = [
   {
@@ -1956,3 +1953,22 @@ export const rangeContent: IRangeComponents[] = [
     symbol: '',
   }
 ]
+
+export const enum ElementsId {
+  cardsContainer = 'cards-container',
+  switchTwoElemBTN = 'product-grid__2x2',
+  switchThreeElemBTN = 'product-grid__3x3',
+  selectotElem = 'select',
+}
+
+export const enum URLSearchKeys {
+  switch = 'big',
+  selector = 'sort',
+}
+
+export const enum SelectorParams {
+  priceMin = 'price-min',
+  priceMax = 'price-max',
+  alphabetAZ = 'alphabetA',
+  alphabetZA = 'alphabetZ',
+}
