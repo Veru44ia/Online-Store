@@ -1,23 +1,22 @@
-export const enum PageIDs {
-  ProductPage = 'product-page',
+export enum PageIDs {
+  MainPage = 'main-page',
   Cart = 'cart-page',
+  Product = 'product-page'
 }
 
 abstract class Page {
   protected container: HTMLElement;
-  static TextObject = {};
+  protected position: InsertPosition;
+  protected content: string;
 
   constructor() {
     this.container = document.createElement('main');
-  }
-
-  protected createHeaderTitle(text: string) {
-    const headerTitle = document.createElement('h1');
-    headerTitle.innerText = text;
-    return headerTitle;
+    this.position = 'afterbegin'
+    this.content = ``
   }
 
   render() {
+    this.container.insertAdjacentHTML(this.position, this.content)
     return this.container;
   }
 }
