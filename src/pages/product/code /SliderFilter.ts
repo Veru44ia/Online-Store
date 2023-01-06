@@ -4,6 +4,7 @@ import { IProduct, rangeContent } from '../../../core/data';
 import { QueryParamsHandler } from './QueryParamsHandler';
 
 export class SliderFilter {
+  static areEventListenersSet: boolean = false;
 
   static renderSlider(index: number) {
     QueryParamsHandler.queryFilterData(rangeContent[index].title, index)
@@ -49,6 +50,14 @@ export class SliderFilter {
     });
   }
 
+  static addEventListenerToSliders() {
+    if (!this.areEventListenersSet) {
+      this.areEventListenersSet = true;
+      SliderFilter.sliderEvent(0)
+      SliderFilter.sliderEvent(1)
+    }
+  }
+
   static sortBySlider(arr: IProduct[] = products.slice()): IProduct[] {
     let priceMin = (document.querySelector('.slider-block__price-range-min') as HTMLInputElement).value;
     let priceMax = (document.querySelector('.slider-block__price-range-max') as HTMLInputElement).value;
@@ -65,10 +74,11 @@ export class SliderFilter {
   }
 
   static render() {
+    this.areEventListenersSet = false;
+
     SliderFilter.renderSlider(0)
     SliderFilter.renderSlider(1)
-    SliderFilter.sliderEvent(0)
-    SliderFilter.sliderEvent(1)
+    SliderFilter.addEventListenerToSliders()
     SliderFilter.sortBySlider()
   }
 

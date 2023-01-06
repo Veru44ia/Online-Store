@@ -84,8 +84,8 @@ export class Sort {
 
     if (selectValue) Sort.sortByOptions(selectValue)
 
-    if (!Sort.isSelectorEventListenerAdded) {
-      Sort.isSelectorEventListenerAdded = true;
+    if (!this.isSelectorEventListenerAdded) {
+      this.isSelectorEventListenerAdded = true;
       select?.addEventListener('change', function () {
         if (select) {
           Sort.sortByOptions(select.value)
