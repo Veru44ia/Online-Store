@@ -3,6 +3,7 @@ import { QueryParamsHandler } from './QueryParamsHandler';
 import { ElementsId } from '../../../core/data';
 import { URLSearchKeys } from '../../../core/data';
 import { SelectorParams } from '../../../core/data';
+import { CardHandler } from './CardHandler';
 
 export class Sort {
   static isSwitchEventListenerAdded: boolean = false;
@@ -95,7 +96,7 @@ export class Sort {
     let selectValue: string | null | undefined = QueryParamsHandler.queryFilterData(URLSearchKeys.selector);
     if (select && selectValue) select.value = selectValue;
 
-    if (selectValue) Sort.sortByOptions(selectValue)
+    if (selectValue === null || selectValue) Sort.sortByOptions(selectValue)
 
     if (!this.isSelectorEventListenerAdded) {
       this.isSelectorEventListenerAdded = true;
@@ -110,7 +111,8 @@ export class Sort {
 
   static sortByOptions(param: string | null) {
     const pageCardsArr = RenderCards.pageCardsArr.slice();
-    if (param === null) pageCardsArr.sort((a, b) => a.price < b.price ? 1 : -1);
+    console.log(param)
+    if (param === null) pageCardsArr.sort((a, b) => a.title.toLocaleLowerCase() < b.title.toLocaleLowerCase() ? 1 : -1);
     if (param === SelectorParams.priceMin) pageCardsArr.sort((a, b) => a.price < b.price ? 1 : -1);
     if (param === SelectorParams.priceMax) pageCardsArr.sort((a, b) => a.price > b.price ? 1 : -1);
     if (param === SelectorParams.alphabetAZ) pageCardsArr.sort((a, b) => a.title.toLocaleLowerCase() < b.title.toLocaleLowerCase() ? 1 : -1);
@@ -118,6 +120,7 @@ export class Sort {
 
     RenderCards.renderCards(pageCardsArr)
     Sort.sortBySwitch()
+    CardHandler.renderProducts__Cart()
   }
 
   static render() {

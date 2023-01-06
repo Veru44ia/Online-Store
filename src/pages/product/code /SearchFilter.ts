@@ -1,11 +1,13 @@
 import { IProduct } from '../../../core/data';
 import { RenderCards } from './RenderCards';
 import { QueryParamsHandler } from './QueryParamsHandler';
+import { URLSearchKeys } from '../../../core/data';
 
 export class SearchFilter {
+
   static renderSearchValue() {
     let searchInput: HTMLInputElement | null = document.querySelector('.header-container__search-input')
-    let searchValue: string | null | undefined = QueryParamsHandler.queryFilterData('search')
+    let searchValue: string | null | undefined = QueryParamsHandler.queryFilterData(URLSearchKeys.search)
     if (searchInput) searchInput.value = ''
     if (searchInput && searchValue) searchInput.value = searchValue
   }
@@ -15,7 +17,7 @@ export class SearchFilter {
 
     const search = () => {
       let searchValue: string | undefined = searchInput?.value.toLowerCase();
-      if (searchValue != undefined) QueryParamsHandler.updateURL('search', searchValue)
+      if (searchValue != undefined) QueryParamsHandler.updateURL(URLSearchKeys.search, searchValue)
       RenderCards.sortCards()
     }
 
@@ -24,7 +26,7 @@ export class SearchFilter {
   }
 
   static sortBySearch(arr: IProduct[] = RenderCards.pageCardsArr): IProduct[] {
-    let searchValue = QueryParamsHandler.queryFilterData('search')
+    let searchValue = QueryParamsHandler.queryFilterData(URLSearchKeys.search)
 
     const sort = (text: string | undefined) => {
       let resultCardsArr: IProduct[] | null = []

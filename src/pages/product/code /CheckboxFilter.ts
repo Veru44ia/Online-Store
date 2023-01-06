@@ -2,9 +2,11 @@ import products from '../../../core/data';
 import { IProduct } from '../../../core/data';
 import { RenderCards } from './RenderCards';
 import { QueryParamsHandler } from './QueryParamsHandler';
+import { ElementsId } from '../../../core/data';
+import { URLSearchKeys } from '../../../core/data';
 
 export class CheckboxFilter {
-
+  static areEventListenersSet: boolean = false;
   static categoryCheckedArr: string[]
   static brandCheckedArr: string[]
 
@@ -13,7 +15,7 @@ export class CheckboxFilter {
     CheckboxFilter.brandCheckedArr = brandCheckedArr;
   }
 
-  static renderCheckbox(id: string, key: string) {
+  static renderCheckbox(id: ElementsId, key: URLSearchKeys) {
     let FilterContainer: HTMLElement | null = document.getElementById(id);
     let categoryArr: string[] = [];
 
@@ -37,8 +39,7 @@ export class CheckboxFilter {
       }
     }
 
-    QueryParamsHandler.queryFilterData('category')
-    QueryParamsHandler.queryFilterData('brand')
+    QueryParamsHandler.queryFilterData(key)
 
     let collection: NodeListOf<HTMLInputElement> | undefined = FilterContainer?.querySelectorAll('.checkbox');
 
@@ -57,17 +58,17 @@ export class CheckboxFilter {
     return FilterContainer
   }
 
-  static checkboxEvent(id: string) {
+  static checkboxEvent(id: ElementsId) {
     let FilterContainer: HTMLElement | null = document.getElementById(id);
 
     if (FilterContainer) {
       FilterContainer.addEventListener('click', (e: Event) => {
         let targetElem = e.target as HTMLInputElement;
 
-        if (id === "category-filter") {
-          if (targetElem.value) QueryParamsHandler.updateURL('category', targetElem.value)
-        } else if (id === "brand-filter") {
-          if (targetElem.value) QueryParamsHandler.updateURL('brand', targetElem.value)
+        if (id === ElementsId.categoryCheckbox) {
+          if (targetElem.value) QueryParamsHandler.updateURL(URLSearchKeys.category, targetElem.value)
+        } else if (id === ElementsId.brandCheckbox) {
+          if (targetElem.value) QueryParamsHandler.updateURL(URLSearchKeys.brand, targetElem.value)
         }
 
         RenderCards.sortCards()
@@ -75,9 +76,17 @@ export class CheckboxFilter {
     }
   }
 
+  static addEventListenerToCheckbox() {
+    if (!this.areEventListenersSet) {
+      this.areEventListenersSet = true;
+      CheckboxFilter.checkboxEvent(ElementsId.categoryCheckbox)
+      CheckboxFilter.checkboxEvent(ElementsId.brandCheckbox)
+    }
+  }
+
   static sortByCheckbox(): IProduct[] {
-    QueryParamsHandler.queryFilterData('category')
-    QueryParamsHandler.queryFilterData('brand')
+    QueryParamsHandler.queryFilterData(URLSearchKeys.category)
+    QueryParamsHandler.queryFilterData(URLSearchKeys.brand)
 
     let resultCardsArr: IProduct[] = []
 
@@ -100,11 +109,10 @@ export class CheckboxFilter {
   }
 
   static render() {
-    CheckboxFilter.renderCheckbox('category-filter', 'category')
-    CheckboxFilter.renderCheckbox('brand-filter', 'brand')
-    this.checkboxEvent('category-filter')
-    this.checkboxEvent('brand-filter')
-
+    this.areEventListenersSet = false;
+    CheckboxFilter.renderCheckbox(ElementsId.categoryCheckbox, URLSearchKeys.category)
+    CheckboxFilter.renderCheckbox(ElementsId.brandCheckbox, URLSearchKeys.brand)
+    CheckboxFilter.addEventListenerToCheckbox()
     CheckboxFilter.sortByCheckbox()
   }
 }

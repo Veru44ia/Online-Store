@@ -6,7 +6,9 @@ import { CardHandler } from './CardHandler';
 import { MainPageButtons } from './MainPageButtons';
 import { IProduct } from '../../../core/data';
 import { Buttons } from '../../../core/components/header';
+import { ElementsId } from '../../../core/data';
 import products from '../../../core/data';
+import { URLSearchKeys } from '../../../core/data';
 
 export class RenderCards {
   static pageCardsArr: IProduct[]
@@ -77,8 +79,8 @@ export class RenderCards {
   }
 
   static renderPageElements() {
-    CheckboxFilter.renderCheckbox('category-filter', 'category')
-    CheckboxFilter.renderCheckbox('brand-filter', 'brand')
+    CheckboxFilter.renderCheckbox(ElementsId.categoryCheckbox, URLSearchKeys.category)
+    CheckboxFilter.renderCheckbox(ElementsId.brandCheckbox, URLSearchKeys.brand)
     SliderFilter.renderSlider(0)
     SliderFilter.renderSlider(1)
     SearchFilter.renderSearchValue()

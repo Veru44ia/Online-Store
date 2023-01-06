@@ -1,5 +1,6 @@
 import { IProduct } from '../../../core/data';
 import products from '../../../core/data';
+import { ElementsId } from '../../../core/data';
 
 export class CardHandler {
 
@@ -30,7 +31,7 @@ export class CardHandler {
   }
 
   toggleProducts__Cart() {
-    let cardsContainer: HTMLElement | null = document.getElementById('cards-container')
+    let cardsContainer: HTMLElement | null = document.getElementById(ElementsId.cardsContainer)
 
     const addProduct = (id: number, btn: HTMLButtonElement) => {
       btn.innerText = 'Drop from cart'

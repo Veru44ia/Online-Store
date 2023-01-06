@@ -14,7 +14,6 @@ export interface IProduct {
   thumbnail: string;
   images: string[];
 }
-// export type IProductKeys = keyof IProduct;
 
 const products: IProduct[] = [
   {
@@ -1959,11 +1958,19 @@ export const enum ElementsId {
   switchTwoElemBTN = 'product-grid__2x2',
   switchThreeElemBTN = 'product-grid__3x3',
   selectotElem = 'select',
+  categoryCheckbox = 'category-filter',
+  brandCheckbox = 'brand-filter',
 }
 
 export const enum URLSearchKeys {
   switch = 'big',
   selector = 'sort',
+  brand = 'brand',
+  category = 'category',
+  search = 'search',
+  price = 'Price',
+  stock = 'Stock',
+  remove = 'remove',
 }
 
 export const enum SelectorParams {
