@@ -111,7 +111,6 @@ export class Sort {
 
   static sortByOptions(param: string | null) {
     const pageCardsArr = RenderCards.pageCardsArr.slice();
-    console.log(param)
     if (param === null) pageCardsArr.sort((a, b) => a.title.toLocaleLowerCase() < b.title.toLocaleLowerCase() ? 1 : -1);
     if (param === SelectorParams.priceMin) pageCardsArr.sort((a, b) => a.price < b.price ? 1 : -1);
     if (param === SelectorParams.priceMax) pageCardsArr.sort((a, b) => a.price > b.price ? 1 : -1);

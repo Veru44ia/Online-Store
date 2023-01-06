@@ -41,22 +41,28 @@ export class SliderFilter {
   }
 
   static sliderEvent(index: number) {
-    let minInput = document.querySelector(`.slider-block__${rangeContent[index].type}-range-min`) as HTMLInputElement;
-    let minField = document.getElementById(`${rangeContent[index].type}-min`) as HTMLElement;
+    const {
+      type,
+      symbol,
+      title,
+    } = rangeContent[index];
 
-    let maxInput = document.querySelector(`.slider-block__${rangeContent[index].type}-range-max`) as HTMLInputElement;
-    let maxField = document.getElementById(`${rangeContent[index].type}-max`) as HTMLElement;
+    const minInput = document.querySelector(`.slider-block__${type}-range-min`) as HTMLInputElement;
+    const minField = document.getElementById(`${type}-min`) as HTMLElement;
+
+    const maxInput = document.querySelector(`.slider-block__${type}-range-max`) as HTMLInputElement;
+    const maxField = document.getElementById(`${type}-max`) as HTMLElement;
 
     minInput.addEventListener('input', () => {
-      minField.innerHTML = `${minInput.value}${rangeContent[index].symbol}`;
+      minField.innerHTML = `${minInput.value}${symbol}`;
       RenderCards.sortCards()
-      QueryParamsHandler.updateURL(rangeContent[index].title, minInput.value, maxInput.value)
+      QueryParamsHandler.updateURL(title, minInput.value, maxInput.value)
     });
 
     maxInput.addEventListener('input', () => {
-      maxField.innerHTML = `${maxInput.value}${rangeContent[index].symbol}`;
+      maxField.innerHTML = `${maxInput.value}${symbol}`;
       RenderCards.sortCards()
-      QueryParamsHandler.updateURL(rangeContent[index].title, minInput.value, maxInput.value)
+      QueryParamsHandler.updateURL(title, minInput.value, maxInput.value)
     });
   }
 
@@ -69,18 +75,21 @@ export class SliderFilter {
   }
 
   static sortBySlider(arr: IProduct[] = products.slice()): IProduct[] {
-    let priceMin = (document.querySelector('.slider-block__price-range-min') as HTMLInputElement).value;
-    let priceMax = (document.querySelector('.slider-block__price-range-max') as HTMLInputElement).value;
+    const getElem = (classSelector: string): string => {
+      return (document.querySelector(`.${classSelector}`) as HTMLInputElement).value;
+    }
 
-    let stockMin = (document.querySelector('.slider-block__stock-range-min') as HTMLInputElement).value;
-    let stockMax = (document.querySelector('.slider-block__stock-range-max') as HTMLInputElement).value;
+    let priceMin = getElem('slider-block__price-range-min');
+    let priceMax = getElem('slider-block__price-range-max');
+    let stockMin = getElem('slider-block__stock-range-min');
+    let stockMax = getElem('slider-block__stock-range-max');
+
     let resultCardsArr = arr.filter(item => {
       return ((item.price <= Number(priceMax) && item.price >= Number(priceMin))
         && (item.stock <= Number(stockMax) && item.stock >= Number(stockMin)));
     })
 
     return resultCardsArr
-
   }
 
   static render() {
@@ -91,5 +100,4 @@ export class SliderFilter {
     SliderFilter.addEventListenerToSliders()
     SliderFilter.sortBySlider()
   }
-
 }
