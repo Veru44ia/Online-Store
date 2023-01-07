@@ -12,7 +12,6 @@ import { URLSearchKeys } from '../../../core/data';
 import { PageIDs } from '../../../core/templates/page';
 import { calculateProductCount } from './CalculateProductCount';
 
-
 export class RenderCards {
   static pageCardsArr: IProduct[]
 
@@ -29,8 +28,7 @@ export class RenderCards {
 
     RenderCards.pageCardsArr = checkedCategory.slice()
     RenderCards.renderCards(checkedCategory)
-    calculateProductCount.setProductsCountFromPage(URLSearchKeys.category, RenderCards.pageCardsArr)
-    calculateProductCount.setProductsCountFromPage(URLSearchKeys.brand, RenderCards.pageCardsArr)
+    calculateProductCount.render()
     Sort.sortBySelector()
     Sort.sortBySwitch()
     CardHandler.renderProducts__Cart()

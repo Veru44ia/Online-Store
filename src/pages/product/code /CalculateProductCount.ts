@@ -1,6 +1,7 @@
 import products from '../../../core/data';
 import { URLSearchKeys } from '../../../core/data';
 import { IProduct } from '../../../core/data';
+import { RenderCards } from './RenderCards';
 
 export class calculateProductCount {
   static CountOfProductsOBJ: ICount = {};
@@ -42,6 +43,10 @@ export class calculateProductCount {
     })
   }
 
+  static render() {
+    calculateProductCount.setProductsCountFromPage(URLSearchKeys.category, RenderCards.pageCardsArr)
+    calculateProductCount.setProductsCountFromPage(URLSearchKeys.brand, RenderCards.pageCardsArr)
+  }
 }
 
 export interface ICount {
