@@ -2,6 +2,7 @@ import Page from "../../core/templates/page";
 import ProductPage from "../product";
 import CartPage from "../cart/cart";
 import Header from "../../core/components/header";
+import CartProductsList from "../cart/cartProductsList";
 
 import { PageIDs } from "../../core/templates/page";
 import { HeaderProperties } from "../../core/templates/components";
@@ -28,6 +29,8 @@ class App {
     } else if (idPage === PageIDs.CartPage) {
       page = new CartPage();
       this.createDefaultPage(page);
+      const cartProductsList = new CartProductsList();
+      cartProductsList.render();
     }
   }
 

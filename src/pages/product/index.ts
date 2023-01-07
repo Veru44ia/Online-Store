@@ -1,20 +1,16 @@
-import Page from '../../core/templates/page';
-import { PageIDs } from '../../core/templates/page';
+import Page from "../../core/templates/page";
 
 class ProductPage extends Page {
-  static TextObject = {
-    MainTitle: 'ProductPage',
-  };
+  content: string;
 
   constructor() {
     super();
-    this.container.id = PageIDs.ProductPage
+    this.content = `
+    `;
   }
 
   render() {
-    const title = this.createHeaderTitle(ProductPage.TextObject.MainTitle);
-    this.container.append(title);
-    return this.container;
+    return super.render();
   }
 }
 
