@@ -42,6 +42,8 @@ class Header extends Component {
         <a href="#${Buttons[1].id}">
           <img src="assets/shopping-bags.svg" alt="cart" width="32px" height="32px" />
         </a>
+        <div id="cart-count" class="header-container__cart-count">
+        </div>
       </div>
     </div>
   </div>
