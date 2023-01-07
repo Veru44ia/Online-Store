@@ -1,6 +1,7 @@
 export enum PageIDs {
-  ProductPage = "product-page",
-  CartPage = "cart-page",
+  MainPage = "main-page",
+  Cart = "cart-page",
+  Product = "product-page",
 }
 
 abstract class Page {

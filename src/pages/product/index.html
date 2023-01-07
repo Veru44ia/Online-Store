@@ -1,16 +1,22 @@
-import Page from "../../core/templates/page";
+<!DOCTYPE html>
+<html lang="en">
 
-class MainPage extends Page {
-  content: string;
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 
-  constructor() {
-    super();
-    this.content = `
-    <div class="main-container">
+  <link rel="stylesheet" href="../product/product.css">
+  <link rel="stylesheet" href="../../assets/fonts&color.css">
+</head>
+
+<body class="body-container">
+  <div class="main-container">
     <div class="main-wrapper">
       <div class="main-container__filter">
         <div class="main-container__products-count">
-          <p id="products-count">Found <strong>300</strong> items</p>
+          <p id="products-count">Found <strong>300</strong> item</p>
         </div>
         <div class="main-container__filter_wrapper">
           <div class="main-container__checked-block checked-block">
@@ -36,16 +42,22 @@ class MainPage extends Page {
             </div>
           </div>
           <div class="main-container__btn-block">
-            <button id="reset-BTN"class="basic-btn btn-font">Reset filters</button>
-            <button id="copy-BTN" class="second-btn btn-font">Copy link</button>
+            <button class="basic-btn btn-font">Reset filters</button>
+            <button class="second-btn btn-font">Copy link</button>
           </div>
         </div>
       </div>
       <div class="main-container__products">
         <div class="main-container__additional-filter additional-filter">
           <div class="additional-filter__select-filter select-filter">
+            <p>Сортировать по:</p>
+            <select class="select-filte__select p-bold">
+              <option value="rating">Рейтингу</option>
+              <option value="price">Цене</option>
+            </select>
           </div>
           <div class="additional-filter__products-grid products-grid">
+
           </div>
         </div>
         <div class="main-container__products-cards products-cards">
@@ -55,12 +67,6 @@ class MainPage extends Page {
       </div>
     </div>
   </div>
-    `;
-  }
+</body>
 
-  render() {
-    return super.render();
-  }
-}
-
-export default MainPage;
+</html>

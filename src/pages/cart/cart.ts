@@ -1,7 +1,7 @@
 import Page from "../../core/templates/page";
 import "./cart.css";
 
-class CartPage extends Page {
+class Cart extends Page {
   content: string;
 
   constructor() {
@@ -29,4 +29,4 @@ class CartPage extends Page {
   }
 }
 
-export default CartPage;
+export default Cart;
