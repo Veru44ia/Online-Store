@@ -2,6 +2,8 @@ import ProductItem from "..";
 import { HeaderHandler } from "../../../core/components/header/code/HeaderHandler";
 import products from "../../../core/data";
 import { IProduct } from "../../../core/data";
+import { PageIDs } from "../../../core/templates/page";
+import App from "../../app";
 import { CardHandler } from "../../product/code /CardHandler";
 
 export class ProductHandler {
@@ -63,7 +65,16 @@ export class ProductHandler {
     }
   }
 
+  static buyNow(obj: IProduct) {
+    const BTN: HTMLDivElement | null = document.getElementById('buy-BTN') as HTMLDivElement;
+    BTN?.addEventListener('click', () => {
+      CardHandler.toggleProducts__localStorage(obj)
+      App.renderNewPage(PageIDs.Cart)
+    })
+  }
+
   static render() {
+    ProductHandler.buyNow(ProductItem.obj)
     ProductHandler.setProductStatus(ProductItem.obj)
     ProductHandler.toggleProductsInCart(ProductItem.obj)
   }
