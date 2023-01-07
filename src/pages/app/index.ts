@@ -1,6 +1,6 @@
 import Page from '../../core/templates/page';
-import { CardHandler } from '../product/code /CardHandler';
-import { RenderCards } from '../product/code /RenderCards';
+import { CardHandler } from '../product/code/CardHandler';
+import { RenderCards } from '../product/code/RenderCards';
 import Cart from '../cart';
 import MainPage from '../product';
 import Header from '../../core/components/header';
