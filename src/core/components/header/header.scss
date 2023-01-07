@@ -16,6 +16,26 @@
   gap: 60px;
 }
 
+
+.header-container__cart {
+  position: relative;
+
+  .header-container__cart-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 18px;
+    height: 18px;
+    background-color: var(--BLACK);
+    color: var(--WHITE);
+    font-size: 600;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
 .header-container__search {
   display: flex;
 }
