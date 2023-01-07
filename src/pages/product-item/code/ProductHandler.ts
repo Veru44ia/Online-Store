@@ -1,4 +1,5 @@
 import ProductItem from "..";
+import { HeaderHandler } from "../../../core/components/header/code/HeaderHandler";
 import products from "../../../core/data";
 import { IProduct } from "../../../core/data";
 import { CardHandler } from "../../product/code /CardHandler";
@@ -55,6 +56,8 @@ export class ProductHandler {
           BTN.innerText === 'Add to cart'
             ? addProduct(obj.id, BTN)
             : removeProduct(obj.id, BTN)
+          HeaderHandler.setCount()
+          HeaderHandler.setPrice()
         }
       })
     }
