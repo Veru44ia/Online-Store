@@ -9,6 +9,9 @@ import { Buttons } from '../../../core/components/header';
 import { ElementsId } from '../../../core/data';
 import products from '../../../core/data';
 import { URLSearchKeys } from '../../../core/data';
+import { PageIDs } from '../../../core/templates/page';
+import { calculateProductCount } from './CalculateProductCount';
+
 
 export class RenderCards {
   static pageCardsArr: IProduct[]
@@ -25,8 +28,9 @@ export class RenderCards {
     checkedCategory = SearchFilter.sortBySearch(checkedCategory).slice()
 
     RenderCards.pageCardsArr = checkedCategory.slice()
-
     RenderCards.renderCards(checkedCategory)
+    calculateProductCount.setProductsCountFromPage(URLSearchKeys.category, RenderCards.pageCardsArr)
+    calculateProductCount.setProductsCountFromPage(URLSearchKeys.brand, RenderCards.pageCardsArr)
     Sort.sortBySelector()
     Sort.sortBySwitch()
     CardHandler.renderProducts__Cart()
@@ -95,6 +99,8 @@ export class RenderCards {
   }
 
   render() {
+    let hash = `#${PageIDs.MainPage}`;
+    history.pushState(null, '', hash);
     CheckboxFilter.render()
     SliderFilter.render()
     SearchFilter.render()

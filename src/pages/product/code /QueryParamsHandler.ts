@@ -2,6 +2,7 @@ import { rangeContent } from '../../../core/data';
 import { CheckboxFilter } from './CheckboxFilter';
 import { ElementsId } from '../../../core/data';
 import { URLSearchKeys } from '../../../core/data';
+import { PageIDs } from '../../../core/templates/page';
 
 export class QueryParamsHandler {
 
@@ -45,7 +46,10 @@ export class QueryParamsHandler {
         : params.append(key, value)
     }
     let path = window.location.pathname + '?' + params.toString();
-    history.pushState(null, '', path);
+    let hash = `#${PageIDs.MainPage}`;
+    let state = path + hash;
+
+    history.pushState(null, '', state);
   }
 
   static queryFilterData(filter: string, sliderIndex?: number) {
