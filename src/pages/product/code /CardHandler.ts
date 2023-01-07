@@ -40,7 +40,7 @@ export class CardHandler {
       btn.style.border = 'none'
       for (let i = 0; i < products.length; i++) {
         if (products[i].id === id) {
-          this.toggleProducts__localStorage(products[i])
+          CardHandler.toggleProducts__localStorage(products[i])
           break
         }
       }
@@ -51,7 +51,7 @@ export class CardHandler {
       btn.removeAttribute("style")
       for (let i = 0; i < products.length; i++) {
         if (products[i].id === id) {
-          this.toggleProducts__localStorage(products[i])
+          CardHandler.toggleProducts__localStorage(products[i])
           break
         }
       }
@@ -70,7 +70,7 @@ export class CardHandler {
     }
   }
 
-  toggleProducts__localStorage(obj: IProduct) {
+  static toggleProducts__localStorage(obj: IProduct) {
     if (localStorage.getItem('productInCart') === null) {
       let arr: IProduct[] = [];
       arr.push(obj)

@@ -5,6 +5,9 @@ import Cart from '../cart';
 import MainPage from '../product';
 import Header from '../../core/components/header';
 
+import ProductItem from '../product-item';
+import { ProductPageHandler } from '../product-item/code/ProductPageHandler';
+
 import { PageIDs } from '../../core/templates/page';
 import { HeaderProperties } from '../../core/templates/components';
 
@@ -30,6 +33,13 @@ class App {
     } else if (value === PageIDs.Cart) {
       page = new Cart();
       this.createDefaultPage(page)
+    } else if (value === PageIDs.Product) {
+      let start = window.location.hash.lastIndexOf('/')
+      const id = window.location.hash.slice(start + 1);
+      page = new ProductItem(id);
+      this.createDefaultPage(page);
+      let pageManagement = new ProductPageHandler();
+      pageManagement.render();
     }
   }
 
@@ -41,7 +51,7 @@ class App {
 
   private enableRoutPage() {
     window.addEventListener('hashchange', () => {
-      const hash = window.location.hash.slice(1);
+      const hash = this.getHash();
       for (let item in PageIDs) {
         let key = item as keyof typeof PageIDs;
         if (PageIDs[key] === hash) {
@@ -51,13 +61,25 @@ class App {
     })
   }
 
+  private getHash() {
+    let start = window.location.hash.indexOf('#')
+    let end = window.location.hash.indexOf('page');
+    const hash = window.location.hash.slice(start + 1, end + 4);
+    return hash;
+  }
+
   constructor() {
     this.header = new Header(HeaderProperties.tagName, HeaderProperties.className)
   }
 
   run() {
     App.container.appendChild(this.header.render())
-    App.renderNewPage(PageIDs.MainPage);
+    const hash = this.getHash();
+    if (hash === PageIDs.Product) {
+      App.renderNewPage(PageIDs.Product);
+    } else if (hash === PageIDs.Cart) {
+      App.renderNewPage(PageIDs.Cart);
+    } else App.renderNewPage(PageIDs.MainPage);
     this.enableRoutPage();
   }
 }
