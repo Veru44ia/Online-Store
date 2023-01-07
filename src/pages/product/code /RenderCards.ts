@@ -11,6 +11,7 @@ import products from '../../../core/data';
 import { URLSearchKeys } from '../../../core/data';
 import { PageIDs } from '../../../core/templates/page';
 import { calculateProductCount } from './CalculateProductCount';
+import { HeaderHandler } from '../../../core/components/header/code/HeaderHandler';
 
 export class RenderCards {
   static pageCardsArr: IProduct[]
@@ -105,6 +106,8 @@ export class RenderCards {
     Sort.render()
     MainPageButtons.render()
     RenderCards.sortCards()
+    HeaderHandler.setCount()
+    HeaderHandler.setPrice()
 
     this.onpopstateEvent()
   }
