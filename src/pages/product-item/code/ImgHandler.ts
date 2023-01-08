@@ -1,13 +1,10 @@
 import ProductItem from "..";
-
-const enum ProductElemClassTegs {
-  IMGContainer = '.product-info__items',
-}
+import { ProductElemClassTegs, ProductElemID } from "./ProductPageHandler";
 
 export class ImgHandler {
 
   static createIMGItems(classTag: ProductElemClassTegs) {
-    const IMGContainer: HTMLElement | null = document.querySelector(classTag);
+    const IMGContainer: HTMLElement | null = document.querySelector(`.${classTag}`);
     const maxAmountOfProductImages = 4;
     const firstImageIndex = ProductItem.obj.images.length - 1;
     const lastImageIndex = ProductItem.obj.images.length - maxAmountOfProductImages;
@@ -20,9 +17,9 @@ export class ImgHandler {
     }
   }
 
-  static changeImg() {
-    const IMGContainer: HTMLElement | null = document.querySelector('.product-info__items');
-    const mainIMG: HTMLElement | null = document.getElementById('main-img');
+  static changeImg(classTag: ProductElemClassTegs, id: ProductElemID) {
+    const IMGContainer: HTMLElement | null = document.querySelector(`.${classTag}`);
+    const mainIMG: HTMLElement | null = document.getElementById(id);
     IMGContainer?.addEventListener('click', (e: Event) => {
       const targetElem = e.target as HTMLImageElement;
       if (targetElem.tagName == "IMG") {
@@ -34,6 +31,6 @@ export class ImgHandler {
 
   static render() {
     ImgHandler.createIMGItems(ProductElemClassTegs.IMGContainer)
-    ImgHandler.changeImg()
+    ImgHandler.changeImg(ProductElemClassTegs.IMGContainer, ProductElemID.MainIMG)
   }
 }

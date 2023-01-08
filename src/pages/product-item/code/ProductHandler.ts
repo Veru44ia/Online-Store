@@ -3,34 +3,36 @@ import { HeaderHandler } from "../../../core/components/header/code/HeaderHandle
 import products from "../../../core/data/products";
 import { IProduct } from "../../../core/data/types";
 import { CardHandler } from "../../product/code/CardHandler";
+import { ProductElemID } from "./ProductPageHandler";
 
 export class ProductHandler {
 
-  static setProductStatus(obj: IProduct) {
-    const BTN = document.getElementById('cart-BTN');
+  private static setButtonParamsForActiveProduct(btn: HTMLElement | null) {
+    if (btn) {
+      btn.innerText = 'Drop from cart'
+      btn.style.backgroundColor = '#FF6E40'
+      btn.style.color = '#191919'
+      btn.style.border = 'none'
+    }
+  }
+
+  static setProductStatus(obj: IProduct, id: ProductElemID) {
+    const cartBTN = document.getElementById(id);
     const storageProducts: IProduct[] = JSON.parse(localStorage.getItem("productInCart") || "[]");
     if (storageProducts.length > 0) {
       storageProducts.forEach(item => {
         if (item.id === obj.id) {
-          if (BTN) {
-            BTN.innerText = 'Drop from cart'
-            BTN.style.backgroundColor = '#FF6E40'
-            BTN.style.color = '#191919'
-            BTN.style.border = 'none'
-          }
+          this.setButtonParamsForActiveProduct(cartBTN)
         }
       })
     }
   }
 
-  static toggleProductsInCart(obj: IProduct) {
-    const cartButton: HTMLElement | null = document.getElementById('cart-BTN')
+  static toggleProductsInCart(obj: IProduct, id: ProductElemID) {
+    const cartButton: HTMLElement | null = document.getElementById(id)
 
     const addProduct = (id: number, btn: HTMLElement) => {
-      btn.innerText = 'Drop from cart'
-      btn.style.backgroundColor = '#FF6E40'
-      btn.style.color = '#191919'
-      btn.style.border = 'none'
+      this.setButtonParamsForActiveProduct(btn)
       for (let i = 0; i < products.length; i++) {
         if (products[i].id === id) {
           CardHandler.toggleProducts__localStorage(products[i])
@@ -63,9 +65,9 @@ export class ProductHandler {
     }
   }
 
-  static buyNow(obj: IProduct) {
+  static buyNow(obj: IProduct, id: ProductElemID) {
     const storageProducts = HeaderHandler.getLocalStorageArr()
-    const buyButton: HTMLDivElement | null = document.getElementById('buy-BTN') as HTMLDivElement;
+    const buyButton: HTMLDivElement | null = document.getElementById(id) as HTMLDivElement;
 
     buyButton?.addEventListener('click', () => {
       if (storageProducts === null) {
@@ -88,9 +90,9 @@ export class ProductHandler {
   }
 
   static render() {
-    ProductHandler.buyNow(ProductItem.obj)
-    ProductHandler.setProductStatus(ProductItem.obj)
-    ProductHandler.toggleProductsInCart(ProductItem.obj)
+    ProductHandler.buyNow(ProductItem.obj, ProductElemID.BuyBTN)
+    ProductHandler.setProductStatus(ProductItem.obj, ProductElemID.CartBTN)
+    ProductHandler.toggleProductsInCart(ProductItem.obj, ProductElemID.CartBTN)
   }
 }
 
