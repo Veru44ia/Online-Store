@@ -1,6 +1,6 @@
 import products from '../../../core/data/products';
 import { RenderCards } from './RenderCards';
-import { IProduct, rangeContent } from '../../../core/data/types';
+import { IProduct, rangeContent, SliderClasses } from '../../../core/data/types';
 import { QueryParamsHandler } from './QueryParamsHandler';
 
 export class SliderFilter {
@@ -77,10 +77,10 @@ export class SliderFilter {
       return (document.querySelector(`.${classSelector}`) as HTMLInputElement).value;
     }
 
-    const priceMin = getElem('slider-block__price-range-min');
-    const priceMax = getElem('slider-block__price-range-max');
-    const stockMin = getElem('slider-block__stock-range-min');
-    const stockMax = getElem('slider-block__stock-range-max');
+    const priceMin = getElem(SliderClasses.priceMin);
+    const priceMax = getElem(SliderClasses.priceMax);
+    const stockMin = getElem(SliderClasses.stockMin);
+    const stockMax = getElem(SliderClasses.stockMax);
 
     const resultCardsArr = arr.filter(item => {
       return ((item.price <= Number(priceMax) && item.price >= Number(priceMin))
