@@ -1,5 +1,6 @@
 import "./cart.css";
 import { IProd } from "../../core/data/types";
+import LocalStorage from "./localStorage";
 import Modal from "../../core/components/modal/modal";
 
 class CartProductsList {
@@ -13,19 +14,9 @@ class CartProductsList {
     this.modal = new Modal("modal-container");
   }
 
-  getFromLocalStorage() {
-    const myProducts: IProd[] = JSON.parse(localStorage.getItem("productInCart") || "[]");
-    myProducts.map((item) => (item.count = 1));
-    localStorage.setItem("productInCart", JSON.stringify(myProducts));
-    if (
-      localStorage.getItem("productInCart") &&
-      JSON.parse(localStorage.getItem("productInCart") as string).length > 0
-    ) {
-      const products: IProd[] = JSON.parse(localStorage.getItem("productInCart") as string);
-      products.map((item, index) => {
-        return (item.orderNumber = index + 1);
-      });
-      this.renderProductsList(products);
+  getProductsInCart() {
+    if (LocalStorage.getFromLocalStorage()) {
+      this.renderProductsList(LocalStorage.getFromLocalStorage() as IProd[]);
     } else {
       const totalContainer = document.querySelector(".total-container") as HTMLDivElement;
       const cartContainerWrapper = document.querySelector(
@@ -108,7 +99,7 @@ class CartProductsList {
               const productInCart = JSON.parse(localStorage.getItem("productInCart") || "[]");
               productInCart.splice(index, 1);
               localStorage.setItem("productInCart", JSON.stringify(productInCart));
-              this.getFromLocalStorage();
+              this.renderProductsList(LocalStorage.getFromLocalStorage() as IProd[]);
             }
             cardPriceNum.innerHTML = (+numberValue * products[index].price).toString();
             this.calculateTotalProducts();
@@ -139,7 +130,7 @@ class CartProductsList {
   }
 
   render() {
-    this.getFromLocalStorage();
+    this.getProductsInCart();
     this.calculateTotalProducts();
     this.calculateTotalPrice();
     this.modal.openModal();
