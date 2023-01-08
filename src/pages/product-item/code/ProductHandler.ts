@@ -4,8 +4,12 @@ import products from "../../../core/data/products";
 import { IProduct } from "../../../core/data/types";
 import { CardHandler } from "../../product/code/CardHandler";
 import { ProductElemID } from "./ProductPageHandler";
+import Modal from "../../../core/components/modal/modal";
+import { PageIDs } from "../../../core/templates/page";
+import App from "../../app";
 
 export class ProductHandler {
+  static modal = new Modal("modal-container");
 
   private static setButtonParamsForActiveProduct(btn: HTMLElement | null) {
     if (btn) {
@@ -84,15 +88,19 @@ export class ProductHandler {
         }
         localStorage.setItem('productInCart', JSON.stringify(resultArr));
       }
+      App.renderNewPage(PageIDs.Cart);
+      const hash = `#${PageIDs.Cart}`;
+      history.pushState(null, '', hash);
       HeaderHandler.setCount()
       HeaderHandler.setPrice()
+      this.modal.openModal()
     })
   }
 
   static render() {
-    ProductHandler.buyNow(ProductItem.obj, ProductElemID.BuyBTN)
     ProductHandler.setProductStatus(ProductItem.obj, ProductElemID.CartBTN)
     ProductHandler.toggleProductsInCart(ProductItem.obj, ProductElemID.CartBTN)
+    ProductHandler.buyNow(ProductItem.obj, ProductElemID.BuyBTN)
   }
 }
 
