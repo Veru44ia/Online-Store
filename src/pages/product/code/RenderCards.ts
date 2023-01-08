@@ -4,11 +4,11 @@ import { SearchFilter } from './SearchFilter';
 import { Sort } from './Sort';
 import { CardHandler } from './CardHandler';
 import { MainPageButtons } from './MainPageButtons';
-import { IProduct } from '../../../core/data';
+import { IProduct } from '../../../core/data/types';
 import { Buttons } from '../../../core/components/header';
-import { ElementsId } from '../../../core/data';
-import products from '../../../core/data';
-import { URLSearchKeys } from '../../../core/data';
+import { ElementsId } from '../../../core/data/types';
+import products from '../../../core/data/products';
+import { URLSearchKeys } from '../../../core/data/types';
 
 export class RenderCards {
   static pageCardsArr: IProduct[]
@@ -33,7 +33,7 @@ export class RenderCards {
   }
 
   static renderCards(arr: IProduct[]) {
-    let cardsContainer: HTMLElement | null = document.getElementById('cards-container');
+    const cardsContainer: HTMLElement | null = document.getElementById('cards-container');
     if (cardsContainer) {
       cardsContainer.innerHTML = "";
 
@@ -65,8 +65,8 @@ export class RenderCards {
     }
 
     const ProductCount = (el: HTMLElement | null) => {
-      let countText: HTMLElement | null = document.getElementById('products-count');
-      let productsCount = el?.childElementCount;
+      const countText: HTMLElement | null = document.getElementById('products-count');
+      const productsCount = el?.childElementCount;
       if (countText) {
         arr.length === 0
           ? countText.innerHTML = `Found <strong> 0 </strong> items`
@@ -89,7 +89,7 @@ export class RenderCards {
   }
 
   onpopstateEvent() {
-    window.onpopstate = (event) => {
+    window.onpopstate = () => {
       RenderCards.renderPageElements()
     }
   }

@@ -4,7 +4,7 @@ import { QueryParamsHandler } from './QueryParamsHandler';
 export class MainPageButtons {
 
   static resetFiltersBTN() {
-    let BTN = document.getElementById('reset-BTN');
+    const BTN = document.getElementById('reset-BTN');
     const removeParams = () => {
       QueryParamsHandler.updateURL('remove', '');
       RenderCards.renderPageElements()
@@ -13,22 +13,18 @@ export class MainPageButtons {
   }
 
   static copyFiltersBTN() {
-    let BTN = document.getElementById('copy-BTN');
+    const BTN = document.getElementById('copy-BTN');
 
-    BTN?.addEventListener('click', function (event) {
-      let copyText: string = window.location.href;
+    BTN?.addEventListener('click', function () {
+      const copyText: string = window.location.href;
       navigator.clipboard.writeText(copyText)
 
-      if (BTN) {
-        BTN.innerText = 'Copied!'
-        BTN.style.backgroundColor = '#191919'
-        BTN.style.color = '#F4F4F4'
-      }
+      BTN.innerText = 'Copied!'
+      BTN.style.backgroundColor = '#191919'
+      BTN.style.color = '#F4F4F4'
       setTimeout(function () {
-        if (BTN) {
-          BTN.innerText = 'Copy Link'
-          BTN.removeAttribute("style")
-        }
+        BTN.innerText = 'Copy Link'
+        BTN.removeAttribute("style")
       }, 600);
     })
   }
