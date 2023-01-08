@@ -1,5 +1,5 @@
 export interface IProduct {
-  [key: string]: string | number | string[]
+  [key: string]: string | number | string[] | undefined
   id: number;
   title: string;
   description: string;
@@ -11,6 +11,7 @@ export interface IProduct {
   category: string;
   thumbnail: string;
   images: string[];
+  count?: number | undefined;
 }
 
 export interface IRangeComponents {

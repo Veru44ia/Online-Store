@@ -7,9 +7,7 @@ export class CardHandler {
 
   static renderProducts__Cart() {
     const productCards = document.querySelectorAll('.product-card__card');
-    const storageProducts__String: string | null = localStorage.getItem('productInCart')
-    let storageProducts: IProduct[] = []
-    if (storageProducts__String != null) storageProducts = JSON.parse(storageProducts__String);
+    const storageProducts = HeaderHandler.getLocalStorageArr()
     if (storageProducts.length > 0) {
       productCards.forEach(item => {
         const BTN: HTMLElement | null = item.querySelector('.card-btn');
@@ -72,6 +70,7 @@ export class CardHandler {
   toggleProducts__localStorage(obj: IProduct) {
     if (localStorage.getItem('productInCart') === null) {
       const arr: IProduct[] = [];
+      obj.count = 1;
       arr.push(obj)
       localStorage.setItem('productInCart', JSON.stringify(arr));
     } else {
@@ -80,7 +79,10 @@ export class CardHandler {
         const savedArr: IProduct[] = JSON.parse(savedArr__String);
         const firstLength = savedArr.length;
         const resultArr = savedArr.filter(item => item.id !== obj.id)
-        if (firstLength === resultArr.length) resultArr.push(obj)
+        if (firstLength === resultArr.length) {
+          obj.count = 1;
+          resultArr.push(obj)
+        }
         localStorage.setItem('productInCart', JSON.stringify(resultArr));
         HeaderHandler.setCount()
         HeaderHandler.setPrice()

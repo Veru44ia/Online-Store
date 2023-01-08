@@ -22,10 +22,13 @@ export class CheckboxFilter {
     const Arr: string[] = [];
 
     for (let i = 0; i < products.length; i++) {
-      if (Arr.includes(products[i][key].toString())) {
-        continue
+      const productParam = products[i][key];
+      if (productParam !== undefined) {
+        if (Arr.includes(productParam.toString())) {
+          continue
+        }
+        Arr.push(productParam.toString())
       }
-      Arr.push(products[i][key].toString())
     }
     if (FilterContainer) {
       FilterContainer.innerHTML = ''
