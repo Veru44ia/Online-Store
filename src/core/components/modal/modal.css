@@ -1,0 +1,173 @@
+.modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 15;
+  font-family: "Noto Sans", sans-serif;
+  background-color: rgba(25, 25, 25, 0.7);
+}
+
+.modal-wrapper {
+  position: relative;
+  max-width: 1000px;
+  width: 100%;
+  padding: 60px;
+  background: var(--BASIC);
+  border-radius: 5px;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  font-size: 27px;
+  border: 0;
+  border-radius: 50%;
+  background-color: var(--BLACK);
+  color: var(--WHITE);
+  cursor: pointer;
+}
+
+.form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-wrapper-left {
+  width: 40%;
+}
+
+.modal-title {
+  font-size: 32px;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+.form .input-label {
+  position: relative;
+  font-size: 22px;
+}
+
+.form input {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #000;
+  padding-bottom: 5px;
+  margin: 15px 0 30px;
+  font-size: 18px;
+  outline: none;
+}
+
+.modal-credit-card {
+  position: relative;
+  width: 444px;
+  height: 263px;
+  background: var(--BLACK);
+  border-radius: 29px;
+}
+
+.card-image {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 47px;
+}
+
+.modal-inner {
+  padding: 37px 47px 0;
+}
+
+.modal-credit-card .input-label {
+  font-size: 22px;
+  line-height: 140%;
+  letter-spacing: 0.02em;
+  color: var(--WHITE);
+}
+
+.modal-credit-card input {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border-bottom: 1px solid var(--WHITE);
+  color: var(--WHITE);
+  font-size: 18px;
+  outline: none;
+}
+
+.credit-card-wrap {
+  display: flex;
+  justify-content: space-between;
+}
+
+.credit-card-wrap .input-label {
+  width: 100px;
+}
+
+.submit-btn {
+  display: block;
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 140%;
+  letter-spacing: 0.02em;
+  width: 277px;
+  height: 58px;
+  margin: 60px auto 0;
+  color: var(--BLACK);
+  background: var(--ORANGE);
+  border: 0;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.submit-btn:hover {
+  background: var(--ORANGE-DARK);
+}
+
+.submit-btn:active {
+  background: var(--BLACK);
+  color: var(--GRAY);
+}
+
+.error {
+  position: absolute;
+  top: 70px;
+  right: 0px;
+  color: #ff0000;
+  display: none;
+}
+
+.name-error,
+.e-mail-error,
+.phone-error {
+  position: absolute;
+  top: 70px;
+  left: 295px;
+  color: #ff0000;
+  display: none;
+}
+
+.form input.border-error {
+  border-bottom: 1px solid #ff0000;
+}
+
+.form span.span-error {
+  color: #ff0000;
+}
+
+.order {
+  text-align: center;
+}
