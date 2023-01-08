@@ -73,7 +73,6 @@ export class ProductHandler {
         arr.push(obj)
         localStorage.setItem('productInCart', JSON.stringify(arr));
       } else {
-        const storageProducts = HeaderHandler.getLocalStorageArr()
         const findObj = storageProducts.find(item => item.id === obj.id)
         const resultArr = storageProducts.slice()
         if (!findObj) {
