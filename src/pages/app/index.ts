@@ -23,14 +23,13 @@ class App {
     if (value === PageIDs.MainPage) {
       page = new MainPage();
       this.createDefaultPage(page)
-      let cards = new RenderCards()
+      const cards = new RenderCards()
       cards.render()
-      let cardHandler = new CardHandler()
+      const cardHandler = new CardHandler()
       cardHandler.render()
     } else if (value === PageIDs.Cart) {
       page = new Cart();
       this.createDefaultPage(page)
-    } else if (value === PageIDs.Product) {
     }
   }
 
@@ -43,8 +42,8 @@ class App {
   private enableRoutPage() {
     window.addEventListener('hashchange', () => {
       const hash = this.getHash();
-      for (let item in PageIDs) {
-        let key = item as keyof typeof PageIDs;
+      for (const item in PageIDs) {
+        const key = item as keyof typeof PageIDs;
         if (PageIDs[key] === hash) {
           App.renderNewPage(PageIDs[key]);
         }
@@ -53,8 +52,8 @@ class App {
   }
 
   private getHash() {
-    let start = window.location.hash.indexOf('#')
-    let end = window.location.hash.indexOf('page');
+    const start = window.location.hash.indexOf('#')
+    const end = window.location.hash.indexOf('page');
     const hash = window.location.hash.slice(start + 1, end + 4);
     return hash;
   }

@@ -1,12 +1,12 @@
-import products from '../../../core/data';
-import { IProduct } from '../../../core/data';
+import products from '../../../core/data/products';
+import { IProduct } from '../../../core/data/types';
 import { RenderCards } from './RenderCards';
 import { QueryParamsHandler } from './QueryParamsHandler';
-import { ElementsId } from '../../../core/data';
-import { URLSearchKeys } from '../../../core/data';
+import { ElementsId } from '../../../core/data/types';
+import { URLSearchKeys } from '../../../core/data/types';
 
 export class CheckboxFilter {
-  static areEventListenersSet: boolean = false;
+  static areEventListenersSet = false;
   static categoryCheckedArr: string[]
   static brandCheckedArr: string[]
 
@@ -16,8 +16,8 @@ export class CheckboxFilter {
   }
 
   static renderCheckbox(id: ElementsId, key: URLSearchKeys) {
-    let FilterContainer: HTMLElement | null = document.getElementById(id);
-    let categoryArr: string[] = [];
+    const FilterContainer: HTMLElement | null = document.getElementById(id);
+    const categoryArr: string[] = [];
 
     for (let i = 0; i < products.length; i++) {
       if (categoryArr.includes(products[i][key].toString())) {
@@ -41,7 +41,7 @@ export class CheckboxFilter {
 
     QueryParamsHandler.queryFilterData(key)
 
-    let collection: NodeListOf<HTMLInputElement> | undefined = FilterContainer?.querySelectorAll('.checkbox');
+    const collection: NodeListOf<HTMLInputElement> | undefined = FilterContainer?.querySelectorAll('.checkbox');
 
     collection?.forEach(item => {
       if (id === 'category-filter') {
@@ -59,16 +59,16 @@ export class CheckboxFilter {
   }
 
   static checkboxEvent(id: ElementsId) {
-    let FilterContainer: HTMLElement | null = document.getElementById(id);
+    const FilterContainer: HTMLElement | null = document.getElementById(id);
 
     if (FilterContainer) {
       FilterContainer.addEventListener('click', (e: Event) => {
-        let targetElem = e.target as HTMLInputElement;
+        const targetElem = e.target as HTMLInputElement;
 
         if (id === ElementsId.categoryCheckbox) {
-          if (targetElem.value) QueryParamsHandler.updateURL(URLSearchKeys.category, targetElem.value)
+          if (targetElem.value.length > 0) QueryParamsHandler.updateURL(URLSearchKeys.category, targetElem.value)
         } else if (id === ElementsId.brandCheckbox) {
-          if (targetElem.value) QueryParamsHandler.updateURL(URLSearchKeys.brand, targetElem.value)
+          if (targetElem.value.length > 0) QueryParamsHandler.updateURL(URLSearchKeys.brand, targetElem.value)
         }
 
         RenderCards.sortCards()
