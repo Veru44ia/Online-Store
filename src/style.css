@@ -1,10 +1,12 @@
 @import url("../src/assets/fonts&color.css");
 @import url("../src/core/components/header/header.css");
+@import url("../src/pages/product/product.css");
 
 * {
   border: 0;
   margin: 0;
   padding: 0;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -23,8 +25,14 @@ html {
   width: 1444px;
   color: var(--BLACK);
   background-color: var(--BASIC);
-
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
-  gap: 88px;
+  gap: 98px;
 }
+
+/*# sourceMappingURL=style.css.map */

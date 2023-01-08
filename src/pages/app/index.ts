@@ -1,6 +1,8 @@
 import Page from '../../core/templates/page';
-import ProductPage from '../product';
+import { CardHandler } from '../product/code/CardHandler';
+import { RenderCards } from '../product/code/RenderCards';
 import Cart from '../cart';
+import MainPage from '../product';
 import Header from '../../core/components/header';
 
 import { PageIDs } from '../../core/templates/page';
@@ -11,17 +13,21 @@ class App {
   private static defaultPageID = 'current-page';
   private header: Header;
 
-  static renderNewPage(idPage: PageIDs | string) {
+  static renderNewPage(value: PageIDs) {
     const currentPAgeHTML = document.querySelector(`#${App.defaultPageID}`);
     if (currentPAgeHTML) {
       currentPAgeHTML.remove()
     }
     let page: Page | null = null;
 
-    if (idPage === PageIDs.ProductPage) {
-      page = new ProductPage();
+    if (value === PageIDs.MainPage) {
+      page = new MainPage();
       this.createDefaultPage(page)
-    } else if (idPage === PageIDs.Cart) {
+      const cards = new RenderCards()
+      cards.render()
+      const cardHandler = new CardHandler()
+      cardHandler.render()
+    } else if (value === PageIDs.Cart) {
       page = new Cart();
       this.createDefaultPage(page)
     }
@@ -35,9 +41,21 @@ class App {
 
   private enableRoutPage() {
     window.addEventListener('hashchange', () => {
-      const hash = window.location.hash.slice(1);
-      App.renderNewPage(hash);
+      const hash = this.getHash();
+      for (const item in PageIDs) {
+        const key = item as keyof typeof PageIDs;
+        if (PageIDs[key] === hash) {
+          App.renderNewPage(PageIDs[key]);
+        }
+      }
     })
+  }
+
+  private getHash() {
+    const start = window.location.hash.indexOf('#')
+    const end = window.location.hash.indexOf('page');
+    const hash = window.location.hash.slice(start + 1, end + 4);
+    return hash;
   }
 
   constructor() {
@@ -46,7 +64,12 @@ class App {
 
   run() {
     App.container.appendChild(this.header.render())
-    App.renderNewPage(PageIDs.ProductPage);
+    const hash = this.getHash();
+    if (hash === PageIDs.Product) {
+      App.renderNewPage(PageIDs.Product);
+    } else if (hash === PageIDs.Cart) {
+      App.renderNewPage(PageIDs.Cart);
+    } else App.renderNewPage(PageIDs.MainPage);
     this.enableRoutPage();
   }
 }
