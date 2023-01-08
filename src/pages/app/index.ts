@@ -1,6 +1,6 @@
 import Page from '../../core/templates/page';
-import { CardHandler } from '../product/code /CardHandler';
-import { RenderCards } from '../product/code /RenderCards';
+import { CardHandler } from '../product/code/CardHandler';
+import { RenderCards } from '../product/code/RenderCards';
 import Cart from '../cart';
 import MainPage from '../product';
 import Header from '../../core/components/header';
@@ -26,19 +26,19 @@ class App {
     if (value === PageIDs.MainPage) {
       page = new MainPage();
       this.createDefaultPage(page)
-      let cards = new RenderCards()
+      const cards = new RenderCards()
       cards.render()
-      let cardHandler = new CardHandler()
+      const cardHandler = new CardHandler()
       cardHandler.render()
     } else if (value === PageIDs.Cart) {
       page = new Cart();
       this.createDefaultPage(page)
     } else if (value === PageIDs.Product) {
-      let start = window.location.hash.lastIndexOf('/')
+      const start = window.location.hash.lastIndexOf('/')
       const id = window.location.hash.slice(start + 1);
       page = new ProductItem(id);
       this.createDefaultPage(page);
-      let pageManagement = new ProductPageHandler();
+      const pageManagement = new ProductPageHandler();
       pageManagement.render();
     }
   }
@@ -52,8 +52,8 @@ class App {
   private enableRoutPage() {
     window.addEventListener('hashchange', () => {
       const hash = this.getHash();
-      for (let item in PageIDs) {
-        let key = item as keyof typeof PageIDs;
+      for (const item in PageIDs) {
+        const key = item as keyof typeof PageIDs;
         if (PageIDs[key] === hash) {
           App.renderNewPage(PageIDs[key]);
         }
@@ -62,8 +62,8 @@ class App {
   }
 
   private getHash() {
-    let start = window.location.hash.indexOf('#')
-    let end = window.location.hash.indexOf('page');
+    const start = window.location.hash.indexOf('#')
+    const end = window.location.hash.indexOf('page');
     const hash = window.location.hash.slice(start + 1, end + 4);
     return hash;
   }
