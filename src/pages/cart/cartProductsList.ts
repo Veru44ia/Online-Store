@@ -1,13 +1,16 @@
 import "./cart.css";
 import { IProd } from "../../core/data/types";
+import Modal from "../../core/components/modal/modal";
 
 class CartProductsList {
+  modal: Modal;
   totalPrice: number;
   totalProducts: number;
 
   constructor() {
     this.totalPrice = 0;
     this.totalProducts = 0;
+    this.modal = new Modal("modal-container");
   }
 
   getFromLocalStorage() {
@@ -139,6 +142,7 @@ class CartProductsList {
     this.getFromLocalStorage();
     this.calculateTotalProducts();
     this.calculateTotalPrice();
+    this.modal.openModal();
   }
 }
 
