@@ -9,7 +9,7 @@ import { Buttons } from '../../../core/components/header';
 import { ElementsId } from '../../../core/data/types';
 import products from '../../../core/data/products';
 import { URLSearchKeys } from '../../../core/data/types';
-import { calculateProductCount } from './CalculateProductCount';
+import { CalculateProductCount } from './CalculateProductCount';
 import { HeaderHandler } from '../../../core/components/header/code/HeaderHandler';
 import { PageIDs } from '../../../core/templates/page';
 
@@ -28,7 +28,7 @@ export class RenderCards {
     checkedCategory = SearchFilter.sortBySearch(checkedCategory).slice()
 
     RenderCards.pageCardsArr = checkedCategory.slice()
-    calculateProductCount.calculate()
+    CalculateProductCount.calculate()
     RenderCards.renderCards(checkedCategory)
     Sort.sortBySelector()
     Sort.sortBySwitch()

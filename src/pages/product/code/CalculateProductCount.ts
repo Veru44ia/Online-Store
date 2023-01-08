@@ -3,7 +3,7 @@ import { URLSearchKeys } from '../../../core/data/types';
 import { IProduct } from '../../../core/data/types';
 import { RenderCards } from './RenderCards';
 
-export class calculateProductCount {
+export class CalculateProductCount {
   static CountOfProductsOBJ: ICount = {};
 
   static setAllProductsCount(key: URLSearchKeys) {
@@ -18,7 +18,7 @@ export class calculateProductCount {
         obj[objKey] += 1;
       }
     })
-    calculateProductCount.CountOfProductsOBJ = obj;
+    CalculateProductCount.CountOfProductsOBJ = obj;
     return obj
   }
 
@@ -44,8 +44,8 @@ export class calculateProductCount {
   }
 
   static calculate() {
-    calculateProductCount.setProductsCountFromPage(URLSearchKeys.category, RenderCards.pageCardsArr)
-    calculateProductCount.setProductsCountFromPage(URLSearchKeys.brand, RenderCards.pageCardsArr)
+    CalculateProductCount.setProductsCountFromPage(URLSearchKeys.category, RenderCards.pageCardsArr)
+    CalculateProductCount.setProductsCountFromPage(URLSearchKeys.brand, RenderCards.pageCardsArr)
   }
 }
 
