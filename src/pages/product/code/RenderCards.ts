@@ -28,7 +28,7 @@ export class RenderCards {
     checkedCategory = SearchFilter.sortBySearch(checkedCategory).slice()
 
     RenderCards.pageCardsArr = checkedCategory.slice()
-    calculateProductCount.render()
+    calculateProductCount.calculate()
     RenderCards.renderCards(checkedCategory)
     Sort.sortBySelector()
     Sort.sortBySwitch()

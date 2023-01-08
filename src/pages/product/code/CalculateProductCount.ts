@@ -43,7 +43,7 @@ export class calculateProductCount {
     })
   }
 
-  static render() {
+  static calculate() {
     calculateProductCount.setProductsCountFromPage(URLSearchKeys.category, RenderCards.pageCardsArr)
     calculateProductCount.setProductsCountFromPage(URLSearchKeys.brand, RenderCards.pageCardsArr)
   }
