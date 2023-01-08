@@ -1,6 +1,6 @@
-import products from '../../core/data';
+import products from '../../core/data/products';
 import Page from '../../core/templates/page';
-import { IProduct } from '../../core/data';
+import { IProduct } from '../../core/data/types';
 import { PageIDs } from '../../core/templates/page';
 
 export const Buttons = [
@@ -19,7 +19,7 @@ class ProductItem extends Page {
   id: string;
   static obj: IProduct;
 
-  constructor(id: string, obj?: IProduct) {
+  constructor(id: string) {
     super();
     this.id = id;
     ProductItem.obj = this.findeObject(this.id);

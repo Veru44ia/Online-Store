@@ -1,16 +1,16 @@
 import ProductItem from "..";
 import { HeaderHandler } from "../../../core/components/header/code/HeaderHandler";
-import products from "../../../core/data";
-import { IProduct } from "../../../core/data";
+import products from "../../../core/data/products";
+import { IProduct } from "../../../core/data/types";
 import { PageIDs } from "../../../core/templates/page";
 import App from "../../app";
-import { CardHandler } from "../../product/code /CardHandler";
+import { CardHandler } from "../../product/code/CardHandler";
 
 export class ProductHandler {
 
   static setProductStatus(obj: IProduct) {
-    let BTN = document.getElementById('cart-BTN');
-    let storageProducts: IProduct[] = JSON.parse(localStorage.getItem("productInCart") || "[]");
+    const BTN = document.getElementById('cart-BTN');
+    const storageProducts: IProduct[] = JSON.parse(localStorage.getItem("productInCart") || "[]");
     if (storageProducts.length > 0) {
       storageProducts.forEach(item => {
         if (item.id === obj.id) {
@@ -26,7 +26,7 @@ export class ProductHandler {
   }
 
   static toggleProductsInCart(obj: IProduct) {
-    let BTN: HTMLElement | null = document.getElementById('cart-BTN')
+    const BTN: HTMLElement | null = document.getElementById('cart-BTN')
 
     const addProduct = (id: number, btn: HTMLElement) => {
       btn.innerText = 'Drop from cart'
@@ -66,10 +66,26 @@ export class ProductHandler {
   }
 
   static buyNow(obj: IProduct) {
+    const storageProducts = HeaderHandler.getLocalStorageArr()
     const BTN: HTMLDivElement | null = document.getElementById('buy-BTN') as HTMLDivElement;
     BTN?.addEventListener('click', () => {
-      CardHandler.toggleProducts__localStorage(obj)
+      if (storageProducts === null) {
+        const arr: IProduct[] = [];
+        arr.push(obj)
+        localStorage.setItem('productInCart', JSON.stringify(arr));
+      } else {
+        const savedArr__String: string | null = localStorage.getItem('productInCart')
+        if (savedArr__String != null) {
+          const savedArr: IProduct[] = JSON.parse(savedArr__String);
+          const firstLength = savedArr.length;
+          const resultArr = savedArr.filter(item => item.id !== obj.id)
+          if (firstLength === resultArr.length) resultArr.push(obj)
+          localStorage.setItem('productInCart', JSON.stringify(resultArr));
+        }
+      }
       App.renderNewPage(PageIDs.Cart)
+      HeaderHandler.setCount()
+      HeaderHandler.setPrice()
     })
   }
 
