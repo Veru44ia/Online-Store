@@ -4,6 +4,7 @@ import { RenderCards } from './RenderCards';
 import { QueryParamsHandler } from './QueryParamsHandler';
 import { ElementsId } from '../../../core/data/types';
 import { URLSearchKeys } from '../../../core/data/types';
+import { calculateProductCount } from './CalculateProductCount';
 
 export class CheckboxFilter {
   static areEventListenersSet = false;
@@ -16,51 +17,52 @@ export class CheckboxFilter {
   }
 
   static renderCheckbox(id: ElementsId, key: URLSearchKeys) {
+    const countOfProductsOBJ = calculateProductCount.setAllProductsCount(key)
     const FilterContainer: HTMLElement | null = document.getElementById(id);
-    const categoryArr: string[] = [];
+    const Arr: string[] = [];
 
     for (let i = 0; i < products.length; i++) {
-      if (categoryArr.includes(products[i][key].toString())) {
+      if (Arr.includes(products[i][key].toString())) {
         continue
       }
-      categoryArr.push(products[i][key].toString())
+      Arr.push(products[i][key].toString())
     }
     if (FilterContainer) {
       FilterContainer.innerHTML = ''
-      for (let i = 0; i < categoryArr.length; i++) {
+      for (let i = 0; i < Arr.length; i++) {
         FilterContainer.insertAdjacentHTML('afterbegin', `
       <div class="checked-block__checkbox">
-      <input class="checkbox" id="checkbox-${key}-${i}" type="checkbox" value="${categoryArr[i]}">
-        <label class="checkbox-label" for="checkbox-${key}-${i}">
-          <h6>${categoryArr[i]}</h6>
+      <input class="checkbox" id="checkbox-${key}-${i}" type="checkbox" value="${Arr[i]}">
+        <label for="checkbox-${key}-${i}">
+        <div class="checkbox-label">
+          <h6>${Arr[i]}</h6>
+        </div>
         </label>
+        <h6 class="checkbox__product-count">(<span id="count-of-${Arr[i]}">0</span>/${countOfProductsOBJ[Arr[i]]})</h6>
       </div>
         `)
       }
+
+      QueryParamsHandler.queryFilterData(key)
+      const collection: NodeListOf<HTMLInputElement> | undefined = FilterContainer?.querySelectorAll('.checkbox');
+
+      collection?.forEach(item => {
+        if (id === 'category-filter') {
+          for (let i = 0; i < CheckboxFilter.categoryCheckedArr.length; i++) {
+            if (item.value === CheckboxFilter.categoryCheckedArr[i]) item.checked = true;
+          }
+        } else {
+          for (let i = 0; i < CheckboxFilter.brandCheckedArr.length; i++) {
+            if (item.value === CheckboxFilter.brandCheckedArr[i]) item.checked = true;
+          }
+        }
+      })
+      return FilterContainer
     }
-
-    QueryParamsHandler.queryFilterData(key)
-
-    const collection: NodeListOf<HTMLInputElement> | undefined = FilterContainer?.querySelectorAll('.checkbox');
-
-    collection?.forEach(item => {
-      if (id === 'category-filter') {
-        for (let i = 0; i < CheckboxFilter.categoryCheckedArr.length; i++) {
-          if (item.value === CheckboxFilter.categoryCheckedArr[i]) item.checked = true;
-        }
-      } else {
-        for (let i = 0; i < CheckboxFilter.brandCheckedArr.length; i++) {
-          if (item.value === CheckboxFilter.brandCheckedArr[i]) item.checked = true;
-        }
-      }
-    })
-
-    return FilterContainer
   }
 
   static checkboxEvent(id: ElementsId) {
     const FilterContainer: HTMLElement | null = document.getElementById(id);
-
     if (FilterContainer) {
       FilterContainer.addEventListener('click', (e: Event) => {
         const targetElem = e.target as HTMLInputElement;

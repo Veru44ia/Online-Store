@@ -1,7 +1,7 @@
 import { rangeContent } from '../../../core/data/types';
 import { CheckboxFilter } from './CheckboxFilter';
-import { PageIDs } from '../../../core/templates/page';
 import { URLSearchKeys } from '../../../core/data/types';
+import { PageIDs } from '../../../core/templates/page';
 
 export class QueryParamsHandler {
 

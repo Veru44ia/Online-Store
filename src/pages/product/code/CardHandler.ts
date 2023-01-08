@@ -1,6 +1,7 @@
 import { IProduct } from '../../../core/data/types';
 import products from '../../../core/data/products';
 import { ElementsId } from '../../../core/data/types';
+import { HeaderHandler } from '../../../core/components/header/code/HeaderHandler';
 
 export class CardHandler {
 
@@ -81,6 +82,8 @@ export class CardHandler {
         const resultArr = savedArr.filter(item => item.id !== obj.id)
         if (firstLength === resultArr.length) resultArr.push(obj)
         localStorage.setItem('productInCart', JSON.stringify(resultArr));
+        HeaderHandler.setCount()
+        HeaderHandler.setPrice()
       }
     }
   }
