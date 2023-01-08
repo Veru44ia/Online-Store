@@ -69,13 +69,17 @@ export class ProductHandler {
     BTN?.addEventListener('click', () => {
       if (storageProducts === null) {
         const arr: IProduct[] = [];
+        obj.count = 1;
         arr.push(obj)
         localStorage.setItem('productInCart', JSON.stringify(arr));
       } else {
         const storageProducts = HeaderHandler.getLocalStorageArr()
         const findObj = storageProducts.find(item => item.id === obj.id)
         const resultArr = storageProducts.slice()
-        if (!findObj) resultArr.push(obj)
+        if (!findObj) {
+          obj.count = 1;
+          resultArr.push(obj);
+        }
         localStorage.setItem('productInCart', JSON.stringify(resultArr));
       }
       HeaderHandler.setCount()
