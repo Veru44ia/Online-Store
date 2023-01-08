@@ -20,20 +20,22 @@ export class SliderFilter {
       maxValue,
     } = rangeContent[index];
 
-    rangeContainer.innerHTML = ''
-    rangeContainer.innerHTML = `
-      <h4 class="slider-block__title">${title}</h4>
-      <div class="slider-block__numerical-difference">
-        <p id="${type}-min">${minValue} ${symbol}</p>
-        <p id="${type}-max">${maxValue} ${symbol}</p>
-      </div>
-      <div class="slider-block__slider">
-        <div class="slider-block__range-input">
-          <input type="range" class="slider-block__${type}-range-min" min="${min}" max="${max}" value="${minValue}" step="1">
-          <input type="range" class="slider-block__${type}-range-max" min="${min}" max="${max}" value="${maxValue}" step="1">
+    if (rangeContainer) {
+      rangeContainer.innerHTML = ''
+      rangeContainer.innerHTML = `
+        <h4 class="slider-block__title">${title}</h4>
+        <div class="slider-block__numerical-difference">
+          <p id="${type}-min">${minValue} ${symbol}</p>
+          <p id="${type}-max">${maxValue} ${symbol}</p>
         </div>
-      </div>
-      `
+        <div class="slider-block__slider">
+          <div class="slider-block__range-input">
+            <input type="range" class="slider-block__${type}-range-min" min="${min}" max="${max}" value="${minValue}" step="1">
+            <input type="range" class="slider-block__${type}-range-max" min="${min}" max="${max}" value="${maxValue}" step="1">
+          </div>
+        </div>
+        `
+    }
 
     SliderFilter.sliderEvent(index)
   }
@@ -51,13 +53,14 @@ export class SliderFilter {
     const maxInput = document.querySelector(`.slider-block__${type}-range-max`) as HTMLInputElement;
     const maxField = document.getElementById(`${type}-max`) as HTMLElement;
 
-    minInput.addEventListener('input', () => {
+    if (minInput) minInput.addEventListener('input', () => {
       minField.innerHTML = `${minInput.value}${symbol}`;
       RenderCards.sortCards()
       QueryParamsHandler.updateURL(title, minInput.value, maxInput.value)
     });
 
-    maxInput.addEventListener('input', () => {
+
+    if (maxInput) maxInput.addEventListener('input', () => {
       maxField.innerHTML = `${maxInput.value}${symbol}`;
       RenderCards.sortCards()
       QueryParamsHandler.updateURL(title, minInput.value, maxInput.value)
@@ -74,7 +77,9 @@ export class SliderFilter {
 
   static sortBySlider(arr: IProduct[] = products.slice()): IProduct[] {
     const getElem = (classSelector: string): string => {
-      return (document.querySelector(`.${classSelector}`) as HTMLInputElement).value;
+      const sliderElem: HTMLInputElement | null = document.querySelector(`.${classSelector}`) as HTMLInputElement;
+      if (sliderElem) return sliderElem.value
+      return ''
     }
 
     const priceMin = getElem(SliderClasses.priceMin);

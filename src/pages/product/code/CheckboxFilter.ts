@@ -71,9 +71,9 @@ export class CheckboxFilter {
         const targetElem = e.target as HTMLInputElement;
 
         if (id === ElementsId.categoryCheckbox) {
-          if (targetElem.value.length > 0) QueryParamsHandler.updateURL(URLSearchKeys.category, targetElem.value)
+          if (targetElem.value && targetElem.value.length > 0) QueryParamsHandler.updateURL(URLSearchKeys.category, targetElem.value)
         } else if (id === ElementsId.brandCheckbox) {
-          if (targetElem.value.length > 0) QueryParamsHandler.updateURL(URLSearchKeys.brand, targetElem.value)
+          if (targetElem.value && targetElem.value.length > 0) QueryParamsHandler.updateURL(URLSearchKeys.brand, targetElem.value)
         }
 
         RenderCards.sortCards()
