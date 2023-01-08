@@ -1,14 +1,5 @@
 import "./cart.css";
-import products from "../../data/products";
-import { IProduct } from "../../types/types";
-
-// mock data (delete later)
-localStorage.setItem("productInCart", JSON.stringify(products.slice(0, 3)));
-const myProducts: IProduct[] = JSON.parse(localStorage.getItem("productInCart") || "[]");
-myProducts.map(function (item) {
-  item.count = 1;
-});
-localStorage.setItem("productInCart", JSON.stringify(myProducts));
+import { IProd } from "../../core/data/types";
 
 class CartProductsList {
   totalPrice: number;
@@ -20,23 +11,30 @@ class CartProductsList {
   }
 
   getFromLocalStorage() {
-    const storageProducts = JSON.parse(localStorage.getItem("productInCart") as string);
-    if (storageProducts.length > 0) {
-      const products: IProduct[] = JSON.parse(localStorage.getItem("productInCart") as string);
-      products.map((item, index) => (item.orderNumber = index + 1));
+    const myProducts: IProd[] = JSON.parse(localStorage.getItem("productInCart") || "[]");
+    myProducts.map((item) => (item.count = 1));
+    localStorage.setItem("productInCart", JSON.stringify(myProducts));
+    if (
+      localStorage.getItem("productInCart") &&
+      JSON.parse(localStorage.getItem("productInCart") as string).length > 0
+    ) {
+      const products: IProd[] = JSON.parse(localStorage.getItem("productInCart") as string);
+      products.map((item, index) => {
+        return (item.orderNumber = index + 1);
+      });
       this.renderProductsList(products);
-    } else if (storageProducts.length <= 0) {
+    } else {
+      const totalContainer = document.querySelector(".total-container") as HTMLDivElement;
       const cartContainerWrapper = document.querySelector(
         ".cart-container-wrapper"
       ) as HTMLDivElement;
-      const totalContainer = document.querySelector(".total-container") as HTMLDivElement;
       totalContainer.style.display = "none";
       cartContainerWrapper.textContent = "Cart is Empty!";
       cartContainerWrapper.classList.add("empty-cart");
     }
   }
 
-  renderProductsList(products: IProduct[]) {
+  renderProductsList(products: IProd[]) {
     const cartContainerWrapper = document.querySelector(
       ".cart-container-wrapper"
     ) as HTMLDivElement;
@@ -97,7 +95,7 @@ class CartProductsList {
             const number = cardsBlock.querySelector(".number") as HTMLInputElement;
             const numberValue = (cardsBlock.querySelector(".number") as HTMLInputElement).value;
             number.setAttribute("value", `${numberValue}`);
-            const products: IProduct[] = JSON.parse(localStorage.getItem("productInCart") || "[]");
+            const products: IProd[] = JSON.parse(localStorage.getItem("productInCart") || "[]");
             products.map((item, index) => {
               if (index + 1 === orderNumber) item.count = +(number.getAttribute("value") as string);
             });
