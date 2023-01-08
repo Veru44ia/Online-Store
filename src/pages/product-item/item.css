@@ -20,6 +20,7 @@ button {
   cursor: pointer;
 }
 
+a .basic-btn,
 .basic-btn,
 .second-btn {
   width: 277px;
@@ -27,6 +28,7 @@ button {
   border-radius: 50px;
 }
 
+a .basic-btn,
 .basic-btn {
   background-color: var(--BLACK);
   color: var(--WHITE);
@@ -34,6 +36,7 @@ button {
   transition: 0.3s;
 }
 
+a .basic-btn:hover,
 .basic-btn:hover {
   background-color: var(--ORANGE);
   color: var(--BLACK);

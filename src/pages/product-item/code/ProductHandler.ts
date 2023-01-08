@@ -2,8 +2,6 @@ import ProductItem from "..";
 import { HeaderHandler } from "../../../core/components/header/code/HeaderHandler";
 import products from "../../../core/data/products";
 import { IProduct } from "../../../core/data/types";
-import { PageIDs } from "../../../core/templates/page";
-import App from "../../app";
 import { CardHandler } from "../../product/code/CardHandler";
 
 export class ProductHandler {
@@ -74,16 +72,12 @@ export class ProductHandler {
         arr.push(obj)
         localStorage.setItem('productInCart', JSON.stringify(arr));
       } else {
-        const savedArr__String: string | null = localStorage.getItem('productInCart')
-        if (savedArr__String != null) {
-          const savedArr: IProduct[] = JSON.parse(savedArr__String);
-          const firstLength = savedArr.length;
-          const resultArr = savedArr.filter(item => item.id !== obj.id)
-          if (firstLength === resultArr.length) resultArr.push(obj)
-          localStorage.setItem('productInCart', JSON.stringify(resultArr));
-        }
+        const storageProducts = HeaderHandler.getLocalStorageArr()
+        const findObj = storageProducts.find(item => item.id === obj.id)
+        const resultArr = storageProducts.slice()
+        if (!findObj) resultArr.push(obj)
+        localStorage.setItem('productInCart', JSON.stringify(resultArr));
       }
-      App.renderNewPage(PageIDs.Cart)
       HeaderHandler.setCount()
       HeaderHandler.setPrice()
     })

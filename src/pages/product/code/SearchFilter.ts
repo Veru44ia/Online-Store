@@ -34,9 +34,12 @@ export class SearchFilter {
         const arrValues = Object.values(item).slice(1, Object.values(item).length - 2)
         for (let i = 0; i < arrValues.length; i++) {
           if (text != null) {
-            if (arrValues[i].toString().toLowerCase().includes(text)) {
-              resultCardsArr?.push(item)
-              break
+            const arrParam = arrValues[i];
+            if (arrParam !== undefined) {
+              if (arrParam.toString().toLowerCase().includes(text)) {
+                resultCardsArr?.push(item)
+                break
+              }
             }
           }
         }

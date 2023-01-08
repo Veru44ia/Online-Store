@@ -1,6 +1,7 @@
 import ProductItem from "..";
 
 export class ImgHandler {
+
   static createIMGItems() {
     const IMGContainer: HTMLElement | null = document.querySelector('.product-info__items');
     for (let i = ProductItem.obj.images.length - 1; i >= ProductItem.obj.images.length - 4; i--) {

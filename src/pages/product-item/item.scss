@@ -21,6 +21,7 @@ button {
   cursor: pointer;
 }
 
+a .basic-btn,
 .basic-btn,
 .second-btn {
   width: 277px;
@@ -28,6 +29,7 @@ button {
   border-radius: 50px;
 }
 
+a .basic-btn,
 .basic-btn {
   background-color: var(--BLACK);
   color: var(--WHITE);

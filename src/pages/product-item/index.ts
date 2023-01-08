@@ -62,7 +62,9 @@ class ProductItem extends Page {
               <div class="product-text-info__price">
               <h4><strong>${ProductItem.obj.price} USD</strong></h4>
               </div>
-              <button id="buy-BTN" class="basic-btn btn-font">Buy now</button>
+              <a href="#${Buttons[1].id}">
+                <button id="buy-BTN" class="basic-btn btn-font">Buy now</button>
+              </a>
               <button id="cart-BTN" class="second-btn btn-font">Add to cart</button>
             </div>
           </div>
