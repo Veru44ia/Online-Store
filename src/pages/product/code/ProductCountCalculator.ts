@@ -3,26 +3,10 @@ import { URLSearchKeys } from '../../../core/data/types';
 import { IProduct } from '../../../core/data/types';
 import { RenderCards } from './RenderCards';
 
-export class CalculateProductCount {
-  static CountOfProductsOBJ: ICount = {};
+export class ProductCountCalculator {
+  CountOfProductsOBJ: ICount = {};
 
-  static setAllProductsCount(key: URLSearchKeys): ICount {
-    const obj: ICount = {}
-
-    products.forEach((item) => {
-      const itemKey = key as keyof typeof item;
-      const objKey = item[itemKey] as string;
-      if (typeof obj[objKey] === "undefined") {
-        obj[objKey] = 1
-      } else {
-        obj[objKey] += 1;
-      }
-    })
-    CalculateProductCount.CountOfProductsOBJ = obj;
-    return obj
-  }
-
-  static setProductsCountFromPage(key: URLSearchKeys, arr: IProduct[]) {
+  createProductCountObject(arr: IProduct[], key: URLSearchKeys): ICount {
     const obj: ICount = {}
 
     arr.forEach((item) => {
@@ -35,6 +19,18 @@ export class CalculateProductCount {
       }
     })
 
+    return obj
+  }
+
+  getProductCategoryCount(key: URLSearchKeys): ICount {
+    const obj = this.createProductCountObject(products, key)
+    this.CountOfProductsOBJ = obj;
+    return obj
+  }
+
+  setProductsCountFromPage(key: URLSearchKeys, arr: IProduct[]) {
+    const obj = this.createProductCountObject(arr, key)
+
     products.forEach((item: IProduct) => {
       const itemKey = key as keyof typeof item;
       const objKey = item[itemKey] as string;
@@ -43,9 +39,9 @@ export class CalculateProductCount {
     })
   }
 
-  static calculate() {
-    CalculateProductCount.setProductsCountFromPage(URLSearchKeys.category, RenderCards.pageCardsArr)
-    CalculateProductCount.setProductsCountFromPage(URLSearchKeys.brand, RenderCards.pageCardsArr)
+  calculateProductsFromPage() {
+    this.setProductsCountFromPage(URLSearchKeys.category, RenderCards.pageCardsArr)
+    this.setProductsCountFromPage(URLSearchKeys.brand, RenderCards.pageCardsArr)
   }
 }
 

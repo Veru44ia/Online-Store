@@ -4,7 +4,7 @@ import { RenderCards } from './RenderCards';
 import { QueryParamsHandler } from './QueryParamsHandler';
 import { ElementsId } from '../../../core/data/types';
 import { URLSearchKeys } from '../../../core/data/types';
-import { CalculateProductCount } from './CalculateProductCount';
+import { ProductCountCalculator } from './ProductCountCalculator';
 
 export class CheckboxFilter {
   static areEventListenersSet = false;
@@ -17,8 +17,9 @@ export class CheckboxFilter {
   }
 
   static renderCheckbox(id: ElementsId, key: URLSearchKeys) {
-    const countOfProductsOBJ = CalculateProductCount.setAllProductsCount(key)
-    const FilterContainer: HTMLElement | null = document.getElementById(id);
+    const productCountCalculator = new ProductCountCalculator();
+    const productCategoryCount = productCountCalculator.getProductCategoryCount(key);
+    const filterContainer: HTMLElement | null = document.getElementById(id);
     const Arr: string[] = [];
 
     for (let i = 0; i < products.length; i++) {
@@ -30,10 +31,10 @@ export class CheckboxFilter {
         Arr.push(productParam.toString())
       }
     }
-    if (FilterContainer) {
-      FilterContainer.innerHTML = ''
+    if (filterContainer) {
+      filterContainer.innerHTML = ''
       for (let i = 0; i < Arr.length; i++) {
-        FilterContainer.insertAdjacentHTML('afterbegin', `
+        filterContainer.insertAdjacentHTML('afterbegin', `
       <div class="checked-block__checkbox">
       <input class="checkbox" id="checkbox-${key}-${i}" type="checkbox" value="${Arr[i]}">
         <label for="checkbox-${key}-${i}">
@@ -41,13 +42,13 @@ export class CheckboxFilter {
           <h6>${Arr[i]}</h6>
         </div>
         </label>
-        <h6 class="checkbox__product-count">(<span id="count-of-${Arr[i]}">0</span>/${countOfProductsOBJ[Arr[i]]})</h6>
+        <h6 class="checkbox__product-count">(<span id="count-of-${Arr[i]}">0</span>/${productCategoryCount[Arr[i]]})</h6>
       </div>
         `)
       }
 
       QueryParamsHandler.queryFilterData(key)
-      const collection: NodeListOf<HTMLInputElement> | undefined = FilterContainer?.querySelectorAll('.checkbox');
+      const collection: NodeListOf<HTMLInputElement> | undefined = filterContainer?.querySelectorAll('.checkbox');
 
       collection?.forEach(item => {
         if (id === 'category-filter') {
@@ -60,7 +61,7 @@ export class CheckboxFilter {
           }
         }
       })
-      return FilterContainer
+      return filterContainer
     }
   }
 
