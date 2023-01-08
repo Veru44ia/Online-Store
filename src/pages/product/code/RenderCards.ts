@@ -4,14 +4,11 @@ import { SearchFilter } from './SearchFilter';
 import { Sort } from './Sort';
 import { CardHandler } from './CardHandler';
 import { MainPageButtons } from './MainPageButtons';
-import { IProduct } from '../../../core/data';
+import { IProduct } from '../../../core/data/types';
 import { Buttons } from '../../../core/components/header';
-import { ElementsId } from '../../../core/data';
-import products from '../../../core/data';
-import { URLSearchKeys } from '../../../core/data';
-import { PageIDs } from '../../../core/templates/page';
-import { calculateProductCount } from './CalculateProductCount';
-import { HeaderHandler } from '../../../core/components/header/code/HeaderHandler';
+import { ElementsId } from '../../../core/data/types';
+import products from '../../../core/data/products';
+import { URLSearchKeys } from '../../../core/data/types';
 
 export class RenderCards {
   static pageCardsArr: IProduct[]
@@ -28,15 +25,15 @@ export class RenderCards {
     checkedCategory = SearchFilter.sortBySearch(checkedCategory).slice()
 
     RenderCards.pageCardsArr = checkedCategory.slice()
+
     RenderCards.renderCards(checkedCategory)
-    calculateProductCount.render()
     Sort.sortBySelector()
     Sort.sortBySwitch()
     CardHandler.renderProducts__Cart()
   }
 
   static renderCards(arr: IProduct[]) {
-    let cardsContainer: HTMLElement | null = document.getElementById('cards-container');
+    const cardsContainer: HTMLElement | null = document.getElementById('cards-container');
     if (cardsContainer) {
       cardsContainer.innerHTML = "";
 
@@ -68,8 +65,8 @@ export class RenderCards {
     }
 
     const ProductCount = (el: HTMLElement | null) => {
-      let countText: HTMLElement | null = document.getElementById('products-count');
-      let productsCount = el?.childElementCount;
+      const countText: HTMLElement | null = document.getElementById('products-count');
+      const productsCount = el?.childElementCount;
       if (countText) {
         arr.length === 0
           ? countText.innerHTML = `Found <strong> 0 </strong> items`
@@ -92,22 +89,18 @@ export class RenderCards {
   }
 
   onpopstateEvent() {
-    window.onpopstate = (event) => {
+    window.onpopstate = () => {
       RenderCards.renderPageElements()
     }
   }
 
   render() {
-    let hash = `#${PageIDs.MainPage}`;
-    history.pushState(null, '', hash);
     CheckboxFilter.render()
     SliderFilter.render()
     SearchFilter.render()
     Sort.render()
     MainPageButtons.render()
     RenderCards.sortCards()
-    HeaderHandler.setCount()
-    HeaderHandler.setPrice()
 
     this.onpopstateEvent()
   }

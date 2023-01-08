@@ -1,16 +1,16 @@
 import { RenderCards } from './RenderCards';
 import { QueryParamsHandler } from './QueryParamsHandler';
-import { ElementsId } from '../../../core/data';
-import { URLSearchKeys } from '../../../core/data';
-import { SelectorParams } from '../../../core/data';
+import { ElementsId } from '../../../core/data/types';
+import { URLSearchKeys } from '../../../core/data/types';
+import { SelectorParams } from '../../../core/data/types';
 import { CardHandler } from './CardHandler';
 
 export class Sort {
-  static isSwitchEventListenerAdded: boolean = false;
-  static isSelectorEventListenerAdded: boolean = false;
+  static isSwitchEventListenerAdded = false;
+  static isSelectorEventListenerAdded = false;
 
   static renderCardsSwitch() {
-    let typesWrapper: HTMLElement | null = document.querySelector('.products-grid');
+    const typesWrapper: HTMLElement | null = document.querySelector('.products-grid');
     if (typesWrapper) typesWrapper.innerHTML = ''
     typesWrapper?.insertAdjacentHTML('afterbegin', `
     <div style="opacity: 0.5" id="product-grid__2x2" class="products-grid__item">
@@ -23,9 +23,9 @@ export class Sort {
   }
 
   static sortBySwitch(id?: ElementsId) {
-    let cardsType = QueryParamsHandler.queryFilterData(URLSearchKeys.switch)
+    const cardsType = QueryParamsHandler.queryFilterData(URLSearchKeys.switch)
     let ElemBTN: HTMLElement | null = null;
-    if (id) ElemBTN = document.getElementById(id);
+    if (id !== undefined) ElemBTN = document.getElementById(id);
 
     if (cardsType === 'true') Sort.switchCardSize(true)
     else Sort.switchCardSize(false)
@@ -55,10 +55,10 @@ export class Sort {
   }
 
   static switchCardSize(isSmall: boolean) {
-    let cardsCollection = document.querySelectorAll('.product-card__card');
-    let twoElemBTN = document.getElementById(ElementsId.switchTwoElemBTN) as HTMLElement;
-    let threeElemBTN = document.getElementById(ElementsId.switchThreeElemBTN) as HTMLElement;
-    let cardsContainer: HTMLElement | null = document.getElementById(ElementsId.cardsContainer);
+    const cardsCollection = document.querySelectorAll('.product-card__card');
+    const twoElemBTN = document.getElementById(ElementsId.switchTwoElemBTN) as HTMLElement;
+    const threeElemBTN = document.getElementById(ElementsId.switchThreeElemBTN) as HTMLElement;
+    const cardsContainer: HTMLElement | null = document.getElementById(ElementsId.cardsContainer);
 
     if (isSmall) cardsContainer?.classList.add('cards-wrapper__two-elem')
     else cardsContainer?.classList.remove('cards-wrapper__two-elem');
@@ -71,7 +71,7 @@ export class Sort {
   }
 
   static renderSelector() {
-    let selectWrapper: HTMLDivElement | null = document.querySelector('.select-filter');
+    const selectWrapper: HTMLDivElement | null = document.querySelector('.select-filter');
     if (selectWrapper) {
       if (selectWrapper.childElementCount === 0) {
         selectWrapper.innerHTML = ''
@@ -85,26 +85,24 @@ export class Sort {
           </select>
         `)
       } else {
-        let select: HTMLSelectElement | null = document.getElementById(ElementsId.selectotElem) as HTMLSelectElement;
-        if (select) select.value = SelectorParams.alphabetAZ
+        const select: HTMLSelectElement | null = document.getElementById(ElementsId.selectotElem) as HTMLSelectElement;
+        select.value = SelectorParams.alphabetAZ
       }
     }
   }
 
   static sortBySelector() {
-    let select: HTMLSelectElement | null = document.getElementById(ElementsId.selectotElem) as HTMLSelectElement;
-    let selectValue: string | null | undefined = QueryParamsHandler.queryFilterData(URLSearchKeys.selector);
-    if (select && selectValue) select.value = selectValue;
+    const select: HTMLSelectElement | null = document.getElementById(ElementsId.selectotElem) as HTMLSelectElement;
+    const selectValue: string | null | undefined = QueryParamsHandler.queryFilterData(URLSearchKeys.selector);
+    if (selectValue != null) select.value = selectValue;
 
-    if (selectValue === null || selectValue) Sort.sortByOptions(selectValue)
+    if (selectValue === null || (selectValue != null)) Sort.sortByOptions(selectValue)
 
     if (!this.isSelectorEventListenerAdded) {
       this.isSelectorEventListenerAdded = true;
       select?.addEventListener('change', function () {
-        if (select) {
-          Sort.sortByOptions(select.value)
-          QueryParamsHandler.updateURL(URLSearchKeys.selector, select.value)
-        }
+        Sort.sortByOptions(select.value)
+        QueryParamsHandler.updateURL(URLSearchKeys.selector, select.value)
       });
     }
   }

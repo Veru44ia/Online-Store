@@ -1,17 +1,17 @@
-import products from '../../../core/data';
-import { URLSearchKeys } from '../../../core/data';
-import { IProduct } from '../../../core/data';
+import products from '../../../core/data/products';
+import { URLSearchKeys } from '../../../core/data/types';
+import { IProduct } from '../../../core/data/types';
 import { RenderCards } from './RenderCards';
 
 export class calculateProductCount {
   static CountOfProductsOBJ: ICount = {};
 
   static setAllProductsCount(key: URLSearchKeys) {
-    let obj: ICount = {}
+    const obj: ICount = {}
 
     products.forEach((item) => {
-      let itemKey = key as keyof typeof item;
-      let objKey = item[itemKey] as string;
+      const itemKey = key as keyof typeof item;
+      const objKey = item[itemKey] as string;
       if (typeof obj[objKey] === "undefined") {
         obj[objKey] = 1
       } else {
@@ -23,11 +23,11 @@ export class calculateProductCount {
   }
 
   static setProductsCountFromPage(key: URLSearchKeys, arr: IProduct[]) {
-    let obj: ICount = {}
+    const obj: ICount = {}
 
     arr.forEach((item) => {
-      let itemKey = key as keyof typeof item;
-      let objKey = item[itemKey] as string;
+      const itemKey = key as keyof typeof item;
+      const objKey = item[itemKey] as string;
       if (typeof obj[objKey] === "undefined") {
         obj[objKey] = 1
       } else {
@@ -35,10 +35,10 @@ export class calculateProductCount {
       }
     })
 
-    products.forEach((item) => {
-      let itemKey = key as keyof typeof item;
-      let objKey = item[itemKey] as string;
-      let count: HTMLElement | null = document.getElementById(`count-of-${objKey}`) as HTMLElement;
+    products.forEach((item: IProduct) => {
+      const itemKey = key as keyof typeof item;
+      const objKey = item[itemKey] as string;
+      const count: HTMLElement | null = document.getElementById(`count-of-${objKey}`) as HTMLElement;
       if (count) count.innerText = `${obj[objKey] ? obj[objKey] : '0'}`
     })
   }

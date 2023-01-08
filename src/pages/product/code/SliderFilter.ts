@@ -1,14 +1,14 @@
-import products from '../../../core/data';
+import products from '../../../core/data/products';
 import { RenderCards } from './RenderCards';
-import { IProduct, rangeContent } from '../../../core/data';
+import { IProduct, rangeContent } from '../../../core/data/types';
 import { QueryParamsHandler } from './QueryParamsHandler';
 
 export class SliderFilter {
-  static areEventListenersSet: boolean = false;
+  static areEventListenersSet = false;
 
   static renderSlider(index: number) {
     QueryParamsHandler.queryFilterData(rangeContent[index].title, index)
-    let rangeContainer = document.getElementById(rangeContent[index].id) as HTMLElement;
+    const rangeContainer = document.getElementById(rangeContent[index].id) as HTMLElement;
 
     const {
       title,
@@ -20,9 +20,8 @@ export class SliderFilter {
       maxValue,
     } = rangeContent[index];
 
-    if (rangeContainer) {
-      rangeContainer.innerHTML = ''
-      rangeContainer.innerHTML = `
+    rangeContainer.innerHTML = ''
+    rangeContainer.innerHTML = `
       <h4 class="slider-block__title">${title}</h4>
       <div class="slider-block__numerical-difference">
         <p id="${type}-min">${minValue} ${symbol}</p>
@@ -35,7 +34,6 @@ export class SliderFilter {
         </div>
       </div>
       `
-    }
 
     SliderFilter.sliderEvent(index)
   }
@@ -79,12 +77,12 @@ export class SliderFilter {
       return (document.querySelector(`.${classSelector}`) as HTMLInputElement).value;
     }
 
-    let priceMin = getElem('slider-block__price-range-min');
-    let priceMax = getElem('slider-block__price-range-max');
-    let stockMin = getElem('slider-block__stock-range-min');
-    let stockMax = getElem('slider-block__stock-range-max');
+    const priceMin = getElem('slider-block__price-range-min');
+    const priceMax = getElem('slider-block__price-range-max');
+    const stockMin = getElem('slider-block__stock-range-min');
+    const stockMax = getElem('slider-block__stock-range-max');
 
-    let resultCardsArr = arr.filter(item => {
+    const resultCardsArr = arr.filter(item => {
       return ((item.price <= Number(priceMax) && item.price >= Number(priceMin))
         && (item.stock <= Number(stockMax) && item.stock >= Number(stockMin)));
     })

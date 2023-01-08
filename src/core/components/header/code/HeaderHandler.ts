@@ -1,10 +1,22 @@
-import { IProduct } from "../../../data";
+import { IProduct } from "../../../data/types";
 
 export class HeaderHandler {
 
+  static getLocalStorageArr() {
+    let productInCart: string;
+    const productInCartNullable = localStorage.getItem("productInCart");
+    if (productInCartNullable !== null) {
+      productInCart = productInCartNullable
+    } else {
+      productInCart = "[]";
+    }
+    const storageProducts: IProduct[] = JSON.parse(productInCart);
+    return storageProducts
+  }
+
   static setPrice() {
     const totalPrice = document.getElementById('cart-total') as HTMLDivElement;
-    let storageProducts: IProduct[] = JSON.parse(localStorage.getItem("productInCart") || "[]");
+    const storageProducts = HeaderHandler.getLocalStorageArr()
     let priceText = 0
     storageProducts.forEach((item) => {
       priceText += item.price
@@ -14,7 +26,7 @@ export class HeaderHandler {
 
   static setCount() {
     const totalCount = document.getElementById('cart-count') as HTMLDivElement;
-    let storageProducts: IProduct[] = JSON.parse(localStorage.getItem("productInCart") || "[]");
+    const storageProducts = HeaderHandler.getLocalStorageArr()
     storageProducts.length > 0
       ? totalCount.innerHTML = `<h6>${storageProducts.length}</h6>`
       : totalCount.innerHTML = `<h6>0</h6>`

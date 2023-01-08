@@ -1,13 +1,12 @@
-import products from '../../../core/data';
-import { IProduct } from '../../../core/data';
+import products from '../../../core/data/products';
+import { IProduct } from '../../../core/data/types';
 import { RenderCards } from './RenderCards';
 import { QueryParamsHandler } from './QueryParamsHandler';
-import { ElementsId } from '../../../core/data';
-import { URLSearchKeys } from '../../../core/data';
-import { calculateProductCount } from './CalculateProductCount';
+import { ElementsId } from '../../../core/data/types';
+import { URLSearchKeys } from '../../../core/data/types';
 
 export class CheckboxFilter {
-  static areEventListenersSet: boolean = false;
+  static areEventListenersSet = false;
   static categoryCheckedArr: string[]
   static brandCheckedArr: string[]
 
@@ -17,67 +16,59 @@ export class CheckboxFilter {
   }
 
   static renderCheckbox(id: ElementsId, key: URLSearchKeys) {
-    let countOfProductsOBJ = calculateProductCount.setAllProductsCount(key)
-
-    let FilterContainer: HTMLElement | null = document.getElementById(id);
-    let Arr: string[] = [];
+    const FilterContainer: HTMLElement | null = document.getElementById(id);
+    const categoryArr: string[] = [];
 
     for (let i = 0; i < products.length; i++) {
-      if (Arr.includes(products[i][key].toString())) {
+      if (categoryArr.includes(products[i][key].toString())) {
         continue
       }
-      Arr.push(products[i][key].toString())
+      categoryArr.push(products[i][key].toString())
     }
-
-
     if (FilterContainer) {
       FilterContainer.innerHTML = ''
-      for (let i = 0; i < Arr.length; i++) {
+      for (let i = 0; i < categoryArr.length; i++) {
         FilterContainer.insertAdjacentHTML('afterbegin', `
       <div class="checked-block__checkbox">
-      <input class="checkbox" id="checkbox-${key}-${i}" type="checkbox" value="${Arr[i]}">
-        <label for="checkbox-${key}-${i}">
-        <div class="checkbox-label">
-          <h6>${Arr[i]}</h6>
-        </div>
+      <input class="checkbox" id="checkbox-${key}-${i}" type="checkbox" value="${categoryArr[i]}">
+        <label class="checkbox-label" for="checkbox-${key}-${i}">
+          <h6>${categoryArr[i]}</h6>
         </label>
-        <h6 class="checkbox__product-count">(<span id="count-of-${Arr[i]}">0</span>/${countOfProductsOBJ[Arr[i]]})</h6>
       </div>
         `)
       }
-
-
-
-      QueryParamsHandler.queryFilterData(key)
-      let collection: NodeListOf<HTMLInputElement> | undefined = FilterContainer?.querySelectorAll('.checkbox');
-
-      collection?.forEach(item => {
-        if (id === 'category-filter') {
-          for (let i = 0; i < CheckboxFilter.categoryCheckedArr.length; i++) {
-            if (item.value === CheckboxFilter.categoryCheckedArr[i]) item.checked = true;
-          }
-        } else {
-          for (let i = 0; i < CheckboxFilter.brandCheckedArr.length; i++) {
-            if (item.value === CheckboxFilter.brandCheckedArr[i]) item.checked = true;
-          }
-        }
-      })
-
-      return FilterContainer
     }
+
+    QueryParamsHandler.queryFilterData(key)
+
+    const collection: NodeListOf<HTMLInputElement> | undefined = FilterContainer?.querySelectorAll('.checkbox');
+
+    collection?.forEach(item => {
+      if (id === 'category-filter') {
+        for (let i = 0; i < CheckboxFilter.categoryCheckedArr.length; i++) {
+          if (item.value === CheckboxFilter.categoryCheckedArr[i]) item.checked = true;
+        }
+      } else {
+        for (let i = 0; i < CheckboxFilter.brandCheckedArr.length; i++) {
+          if (item.value === CheckboxFilter.brandCheckedArr[i]) item.checked = true;
+        }
+      }
+    })
+
+    return FilterContainer
   }
 
   static checkboxEvent(id: ElementsId) {
-    let FilterContainer: HTMLElement | null = document.getElementById(id);
+    const FilterContainer: HTMLElement | null = document.getElementById(id);
 
     if (FilterContainer) {
       FilterContainer.addEventListener('click', (e: Event) => {
-        let targetElem = e.target as HTMLInputElement;
+        const targetElem = e.target as HTMLInputElement;
 
         if (id === ElementsId.categoryCheckbox) {
-          if (targetElem.value) QueryParamsHandler.updateURL(URLSearchKeys.category, targetElem.value)
+          if (targetElem.value.length > 0) QueryParamsHandler.updateURL(URLSearchKeys.category, targetElem.value)
         } else if (id === ElementsId.brandCheckbox) {
-          if (targetElem.value) QueryParamsHandler.updateURL(URLSearchKeys.brand, targetElem.value)
+          if (targetElem.value.length > 0) QueryParamsHandler.updateURL(URLSearchKeys.brand, targetElem.value)
         }
 
         RenderCards.sortCards()

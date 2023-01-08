@@ -1,25 +1,24 @@
-import { rangeContent } from '../../../core/data';
+import { rangeContent } from '../../../core/data/types';
 import { CheckboxFilter } from './CheckboxFilter';
-import { ElementsId } from '../../../core/data';
-import { URLSearchKeys } from '../../../core/data';
 import { PageIDs } from '../../../core/templates/page';
+import { URLSearchKeys } from '../../../core/data/types';
 
 export class QueryParamsHandler {
 
   static updateURL(key: string, value: string, rangeValue?: string) {
-    let urlParams = new URL(window.location.href)
-    let params = new URLSearchParams(urlParams.search)
+    const urlParams = new URL(window.location.href)
+    const params = new URLSearchParams(urlParams.search)
     if (key === URLSearchKeys.category || key === URLSearchKeys.brand) {
       if (params.has(key)) {
         if (params.get(key) === value) params.delete(key)
         let valuesArr: string[] | undefined = params.get(key)?.split('↕')
-        let firstLength = valuesArr?.length;
+        const firstLength = valuesArr?.length;
         valuesArr = valuesArr?.filter(item => item != value)
 
         if (firstLength === valuesArr?.length) valuesArr?.push(value)
-        let result: string | undefined = valuesArr?.join('↕');
+        const result: string | undefined = valuesArr?.join('↕');
 
-        if (result) params.set(key, result)
+        if (result != null) params.set(key, result)
       } else params.append(key, value)
     } else if (key === URLSearchKeys.selector) {
       if (params.has(key)) {
@@ -28,14 +27,14 @@ export class QueryParamsHandler {
           : params.set(key, value)
       } else params.append(key, value)
     } else if (key === URLSearchKeys.price || key === URLSearchKeys.stock) {
-      let result = value + "⟷" + rangeValue;
+      const result = value + "⟷" + rangeValue;
       params.has(key)
         ? params.set(key, result)
         : params.append(key, result)
     } else if (key === URLSearchKeys.remove) {
-      let arr: string[] = []
+      const arr: string[] = []
       for (const key of params.keys()) {
-        if (arr) arr.push(key)
+        arr.push(key)
       }
       arr.forEach(item => {
         params.delete(item)
@@ -45,31 +44,31 @@ export class QueryParamsHandler {
         ? params.set(key, value)
         : params.append(key, value)
     }
-    let path = window.location.pathname + '?' + params.toString();
-    let hash = `#${PageIDs.MainPage}`;
-    let state = path + hash;
+    const path = window.location.pathname + '?' + params.toString();
+    const hash = `#${PageIDs.MainPage}`;
+    const state = path + hash;
 
     history.pushState(null, '', state);
   }
 
   static queryFilterData(filter: string, sliderIndex?: number) {
-    let urlParams = new URL(window.location.href)
-    let params = new URLSearchParams(urlParams.search)
-    let string = params.get(filter);
+    const urlParams = new URL(window.location.href)
+    const params = new URLSearchParams(urlParams.search)
+    const string = params.get(filter);
     if (filter === URLSearchKeys.category) {
-      string
+      (string != null)
         ? CheckboxFilter.categoryCheckedArr = string.split('↕')
         : CheckboxFilter.categoryCheckedArr = [];
     } else if (filter === URLSearchKeys.brand) {
-      string
+      (string != null)
         ? CheckboxFilter.brandCheckedArr = string.split('↕')
         : CheckboxFilter.brandCheckedArr = [];
     } else if (filter === URLSearchKeys.price || filter === URLSearchKeys.stock) {
-      if (string && sliderIndex != undefined) {
-        let arr = string.split('⟷')
+      if ((string != null) && sliderIndex != undefined) {
+        const arr = string.split('⟷')
         rangeContent[sliderIndex].minValue = Number(arr[0])
         rangeContent[sliderIndex].maxValue = Number(arr[1])
-      } else if (!string && sliderIndex != undefined) {
+      } else if ((string == null) && sliderIndex != undefined) {
         rangeContent[sliderIndex].minValue = rangeContent[sliderIndex].min
         rangeContent[sliderIndex].maxValue = rangeContent[sliderIndex].max
       }
