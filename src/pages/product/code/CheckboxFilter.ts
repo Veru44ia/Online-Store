@@ -17,25 +17,25 @@ export class CheckboxFilter {
 
   static renderCheckbox(id: ElementsId, key: URLSearchKeys) {
     const FilterContainer: HTMLElement | null = document.getElementById(id);
-    const Arr: string[] = [];
+    const categoryParamsArr: string[] = [];
 
     for (let i = 0; i < products.length; i++) {
       const productParam = products[i][key];
       if (productParam !== undefined) {
-        if (Arr.includes(productParam.toString())) {
+        if (categoryParamsArr.includes(productParam.toString())) {
           continue
         }
-        Arr.push(productParam.toString())
+        categoryParamsArr.push(productParam.toString())
       }
     }
     if (FilterContainer) {
       FilterContainer.innerHTML = ''
-      for (let i = 0; i < Arr.length; i++) {
+      for (let i = 0; i < categoryParamsArr.length; i++) {
         FilterContainer.insertAdjacentHTML('afterbegin', `
       <div class="checked-block__checkbox">
-      <input class="checkbox" id="checkbox-${key}-${i}" type="checkbox" value="${Arr[i]}">
+      <input class="checkbox" id="checkbox-${key}-${i}" type="checkbox" value="${categoryParamsArr[i]}">
         <label class="checkbox-label" for="checkbox-${key}-${i}">
-          <h6>${Arr[i]}</h6>
+          <h6>${categoryParamsArr[i]}</h6>
         </label>
       </div>
         `)
