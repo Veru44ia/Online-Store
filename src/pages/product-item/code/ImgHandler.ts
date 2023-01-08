@@ -1,10 +1,17 @@
 import ProductItem from "..";
 
+const enum ProductElemClassTegs {
+  IMGContainer = '.product-info__items',
+}
+
 export class ImgHandler {
 
-  static createIMGItems() {
-    const IMGContainer: HTMLElement | null = document.querySelector('.product-info__items');
-    for (let i = ProductItem.obj.images.length - 1; i >= ProductItem.obj.images.length - 4; i--) {
+  static createIMGItems(classTag: ProductElemClassTegs) {
+    const IMGContainer: HTMLElement | null = document.querySelector(classTag);
+    const maxAmountOfProductImages = 4;
+    const firstImageIndex = ProductItem.obj.images.length - 1;
+    const lastImageIndex = ProductItem.obj.images.length - maxAmountOfProductImages;
+    for (let i = firstImageIndex; i >= lastImageIndex; i--) {
       if (ProductItem.obj.images[i]) {
         IMGContainer?.insertAdjacentHTML('afterbegin', `
         <img class="product-info__item" src="${ProductItem.obj.images[i]}">
@@ -26,7 +33,7 @@ export class ImgHandler {
   }
 
   static render() {
-    ImgHandler.createIMGItems()
+    ImgHandler.createIMGItems(ProductElemClassTegs.IMGContainer)
     ImgHandler.changeImg()
   }
 }

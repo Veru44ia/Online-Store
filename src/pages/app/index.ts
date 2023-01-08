@@ -10,6 +10,7 @@ import { ProductPageHandler } from '../product-item/code/ProductPageHandler';
 
 import { PageIDs } from '../../core/templates/page';
 import { HeaderProperties } from '../../core/templates/components';
+import { URLData } from './URLData';
 
 class App {
   private static container: HTMLElement = document.body;
@@ -34,8 +35,7 @@ class App {
       page = new Cart();
       this.createDefaultPage(page)
     } else if (value === PageIDs.Product) {
-      const start = window.location.hash.lastIndexOf('/')
-      const id = window.location.hash.slice(start + 1);
+      const id = URLData.getID();
       page = new ProductItem(id);
       this.createDefaultPage(page);
       const pageManagement = new ProductPageHandler();
@@ -51,7 +51,7 @@ class App {
 
   private enableRoutPage() {
     window.addEventListener('hashchange', () => {
-      const hash = this.getHash();
+      const hash = URLData.getHash();
       for (const item in PageIDs) {
         const key = item as keyof typeof PageIDs;
         if (PageIDs[key] === hash) {
@@ -61,12 +61,6 @@ class App {
     })
   }
 
-  private getHash() {
-    const start = window.location.hash.indexOf('#')
-    const end = window.location.hash.indexOf('page');
-    const hash = window.location.hash.slice(start + 1, end + 4);
-    return hash;
-  }
 
   constructor() {
     this.header = new Header(HeaderProperties.tagName, HeaderProperties.className)
@@ -74,7 +68,7 @@ class App {
 
   run() {
     App.container.appendChild(this.header.render())
-    const hash = this.getHash();
+    const hash = URLData.getHash();
     if (hash === PageIDs.Product) {
       App.renderNewPage(PageIDs.Product);
     } else if (hash === PageIDs.Cart) {
