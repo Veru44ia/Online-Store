@@ -24,7 +24,7 @@ export class ProductHandler {
   }
 
   static toggleProductsInCart(obj: IProduct) {
-    const BTN: HTMLElement | null = document.getElementById('cart-BTN')
+    const cartButton: HTMLElement | null = document.getElementById('cart-BTN')
 
     const addProduct = (id: number, btn: HTMLElement) => {
       btn.innerText = 'Drop from cart'
@@ -50,12 +50,12 @@ export class ProductHandler {
       }
     }
 
-    if (BTN) {
-      BTN.addEventListener('click', () => {
-        if (BTN) {
-          BTN.innerText === 'Add to cart'
-            ? addProduct(obj.id, BTN)
-            : removeProduct(obj.id, BTN)
+    if (cartButton) {
+      cartButton.addEventListener('click', () => {
+        if (cartButton) {
+          cartButton.innerText === 'Add to cart'
+            ? addProduct(obj.id, cartButton)
+            : removeProduct(obj.id, cartButton)
           HeaderHandler.setCount()
           HeaderHandler.setPrice()
         }
@@ -65,8 +65,9 @@ export class ProductHandler {
 
   static buyNow(obj: IProduct) {
     const storageProducts = HeaderHandler.getLocalStorageArr()
-    const BTN: HTMLDivElement | null = document.getElementById('buy-BTN') as HTMLDivElement;
-    BTN?.addEventListener('click', () => {
+    const buyButton: HTMLDivElement | null = document.getElementById('buy-BTN') as HTMLDivElement;
+
+    buyButton?.addEventListener('click', () => {
       if (storageProducts === null) {
         const arr: IProduct[] = [];
         obj.count = 1;

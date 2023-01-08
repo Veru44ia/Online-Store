@@ -61,7 +61,6 @@ class App {
     })
   }
 
-
   constructor() {
     this.header = new Header(HeaderProperties.tagName, HeaderProperties.className)
   }
