@@ -6,7 +6,7 @@ import { RenderCards } from './RenderCards';
 export class CalculateProductCount {
   static CountOfProductsOBJ: ICount = {};
 
-  static setAllProductsCount(key: URLSearchKeys) {
+  static setAllProductsCount(key: URLSearchKeys): ICount {
     const obj: ICount = {}
 
     products.forEach((item) => {

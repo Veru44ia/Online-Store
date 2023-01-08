@@ -4,7 +4,7 @@ import { RenderCards } from './RenderCards';
 import { QueryParamsHandler } from './QueryParamsHandler';
 import { ElementsId } from '../../../core/data/types';
 import { URLSearchKeys } from '../../../core/data/types';
-import { calculateProductCount } from './CalculateProductCount';
+import { CalculateProductCount } from './CalculateProductCount';
 
 export class CheckboxFilter {
   static areEventListenersSet = false;
@@ -17,7 +17,7 @@ export class CheckboxFilter {
   }
 
   static renderCheckbox(id: ElementsId, key: URLSearchKeys) {
-    const countOfProductsOBJ = calculateProductCount.setAllProductsCount(key)
+    const countOfProductsOBJ = CalculateProductCount.setAllProductsCount(key)
     const FilterContainer: HTMLElement | null = document.getElementById(id);
     const Arr: string[] = [];
 
