@@ -1,7 +1,6 @@
 import "./cart.css";
 import products from "../../data/products";
 import { IProduct } from "../../types/types";
-import Modal from "../../core/components/modal/modal";
 
 // mock data (delete later)
 localStorage.setItem("productInCart", JSON.stringify(products.slice(0, 3)));
@@ -12,14 +11,12 @@ myProducts.map(function (item) {
 localStorage.setItem("productInCart", JSON.stringify(myProducts));
 
 class CartProductsList {
-  private modal: Modal;
   totalPrice: number;
   totalProducts: number;
 
   constructor() {
     this.totalPrice = 0;
     this.totalProducts = 0;
-    this.modal = new Modal("modal-container");
   }
 
   getFromLocalStorage() {
@@ -144,7 +141,6 @@ class CartProductsList {
     this.getFromLocalStorage();
     this.calculateTotalProducts();
     this.calculateTotalPrice();
-    this.modal.openModal();
   }
 }
 
