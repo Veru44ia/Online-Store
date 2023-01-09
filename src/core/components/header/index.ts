@@ -28,7 +28,7 @@ class Header extends Component {
     </div>
     <div class="header-container__cart-total">
       <p class="p-bold">Cart total:</p>
-      <p id="cart-total">10,945.00 USD</p>
+      <p id="cart-total">00.00 USD</p>
     </div>
     <div class="header-container__search_cart">
       <div class="header-container__search">
