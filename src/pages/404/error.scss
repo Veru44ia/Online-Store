@@ -1,0 +1,17 @@
+@import url("../../assets/fonts&color.css");
+
+.error-page {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+  h1 {
+    font-size: 500px;
+    font-weight: 700;
+  }
+}
+
+.error-page__sad-symbol {
+  color: var(--ORANGE);
+}

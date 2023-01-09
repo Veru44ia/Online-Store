@@ -11,9 +11,11 @@ export class URLData {
   }
 
   static getHash() {
-    const start = this.getStart('#')
-    const end = window.location.hash.indexOf('page');
-    const hash = window.location.hash.slice(start + 1, end + 4);
+    let hash = '';
+    const start = this.getStart('#');
+    const endForPageWhithID = this.getStart('/');
+    hash = window.location.hash.slice(start + 1);
+    if (start !== -1 && endForPageWhithID !== -1) hash = window.location.hash.slice(start + 1, endForPageWhithID);
     return hash;
   }
 
