@@ -22,6 +22,11 @@ class Modal {
     });
   }
 
+  openModalforProductPage() {
+    const mainContainer = document.body.querySelector(".cart-page-container") as HTMLDivElement;
+    mainContainer.append(this.render());
+  }
+
   closeModal() {
     const closeIcon = this.container.querySelector(".close-modal");
     this.container.addEventListener("click", (event: MouseEvent) => {
@@ -60,7 +65,7 @@ class Modal {
         const paragraph = document.createElement("p");
         paragraph.classList.add("order");
 
-        let time = 5;
+        let time = 2;
         const redirectTime = () => {
           time--;
           paragraph.textContent = `Thank you for your order! Redirect to the store after ${time} sec!`;
