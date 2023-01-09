@@ -1,7 +1,9 @@
 import Page from '../../core/templates/page';
 import { CardHandler } from '../product/code/CardHandler';
 import { RenderCards } from '../product/code/RenderCards';
-import Cart from '../cart';
+import Cart from "../cart/index";
+import CartProductsList from '../cart/cartProductList';
+import { CartPromoCode } from '../cart/cartPromoCode';
 import MainPage from '../product';
 import Header from '../../core/components/header';
 
@@ -31,7 +33,11 @@ class App {
       cardHandler.render()
     } else if (value === PageIDs.Cart) {
       page = new Cart();
-      this.createDefaultPage(page)
+      this.createDefaultPage(page);
+      const cartProductsList = new CartProductsList();
+      cartProductsList.render();
+      const cartPromoCode = new CartPromoCode();
+      cartPromoCode.start()
     } else {
       page = new ErrorPage()
       this.createDefaultPage(page)
