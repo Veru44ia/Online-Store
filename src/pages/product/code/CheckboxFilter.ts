@@ -20,29 +20,29 @@ export class CheckboxFilter {
     const productCountCalculator = new ProductCountCalculator();
     const productCategoryCount = productCountCalculator.getProductCategoryCount(key);
     const filterContainer: HTMLElement | null = document.getElementById(id);
-    const Arr: string[] = [];
+    const categoryParamsArr: string[] = [];
 
     for (let i = 0; i < products.length; i++) {
       const productParam = products[i][key];
       if (productParam !== undefined) {
-        if (Arr.includes(productParam.toString())) {
+        if (categoryParamsArr.includes(productParam.toString())) {
           continue
         }
-        Arr.push(productParam.toString())
+        categoryParamsArr.push(productParam.toString())
       }
     }
     if (filterContainer) {
       filterContainer.innerHTML = ''
-      for (let i = 0; i < Arr.length; i++) {
+      for (let i = 0; i < categoryParamsArr.length; i++) {
         filterContainer.insertAdjacentHTML('afterbegin', `
       <div class="checked-block__checkbox">
-      <input class="checkbox" id="checkbox-${key}-${i}" type="checkbox" value="${Arr[i]}">
+      <input class="checkbox" id="checkbox-${key}-${i}" type="checkbox" value="${categoryParamsArr[i]}">
         <label for="checkbox-${key}-${i}">
         <div class="checkbox-label">
-          <h6>${Arr[i]}</h6>
+          <h6>${categoryParamsArr[i]}</h6>
         </div>
         </label>
-        <h6 class="checkbox__product-count">(<span id="count-of-${Arr[i]}">0</span>/${productCategoryCount[Arr[i]]})</h6>
+        <h6 class="checkbox__product-count">(<span id="count-of-${categoryParamsArr[i]}">0</span>/${productCategoryCount[categoryParamsArr[i]]})</h6>
       </div>
         `)
       }
