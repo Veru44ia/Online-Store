@@ -5,6 +5,9 @@ import Cart from '../cart';
 import MainPage from '../product';
 import Header from '../../core/components/header';
 
+import ProductItem from '../product-item';
+import { ProductPageHandler } from '../product-item/code/ProductPageHandler';
+
 import { PageIDs } from '../../core/templates/page';
 import { HeaderProperties } from '../../core/templates/components';
 import { URLData } from './URLData';
@@ -32,6 +35,12 @@ class App {
     } else if (value === PageIDs.Cart) {
       page = new Cart();
       this.createDefaultPage(page)
+    } else if (value === PageIDs.Product) {
+      const id = URLData.getID();
+      page = new ProductItem(id);
+      this.createDefaultPage(page);
+      const pageManagement = new ProductPageHandler();
+      pageManagement.render();
     } else {
       page = new ErrorPage()
       this.createDefaultPage(page)

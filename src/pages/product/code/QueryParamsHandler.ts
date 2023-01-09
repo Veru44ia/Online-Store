@@ -1,6 +1,7 @@
 import { rangeContent } from '../../../core/data/types';
 import { CheckboxFilter } from './CheckboxFilter';
 import { URLSearchKeys } from '../../../core/data/types';
+import { PageIDs } from '../../../core/templates/page';
 
 export class QueryParamsHandler {
 
@@ -44,7 +45,10 @@ export class QueryParamsHandler {
         : params.append(key, value)
     }
     const path = window.location.pathname + '?' + params.toString();
-    history.pushState(null, '', path);
+    const hash = `#${PageIDs.MainPage}`;
+    const state = path + hash;
+
+    history.pushState(null, '', state);
   }
 
   static queryFilterData(filter: string, sliderIndex?: number) {

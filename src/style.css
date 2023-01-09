@@ -2,6 +2,7 @@
 @import url("../src/core/components/header/header.css");
 @import url("../src/pages/product/product.css");
 @import url("../src/pages/404/error.css");
+@import url("../src/pages/product-item/item.css");
 
 * {
   border: 0;

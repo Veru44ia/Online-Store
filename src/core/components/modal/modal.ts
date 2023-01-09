@@ -50,10 +50,12 @@ class Modal {
       });
       res = res.filter((item) => !item);
       if (res.length === 0) {
-        const cartWpapper = document.querySelector(".cart-container-wrapper") as HTMLDivElement;
+        const cartWpapper = document.querySelector(".cart-page-container") as HTMLDivElement;
         const modalWrapper = this.container.querySelector(".modal-wrapper") as HTMLDivElement;
         cartWpapper.innerHTML = "";
         modalWrapper.innerHTML = "";
+        cartWpapper.innerHTML = "Cart is Empty!";
+        cartWpapper.classList.add("empty-cart");
         const paragraph = document.createElement("p");
         paragraph.classList.add("order");
 
@@ -63,14 +65,14 @@ class Modal {
           paragraph.textContent = `Thank you for your order! Redirect to the store after ${time} sec!`;
           modalWrapper.append(paragraph);
           if (time === 0) {
-            window.location.href = "/#product-page";
+            window.location.href = "/#main-page";
             clearInterval(intervalId);
           }
         };
 
         redirectTime();
         const intervalId = setInterval(redirectTime, 1000);
-        localStorage.removeItem("cart--products");
+        localStorage.removeItem("productInCart");
       }
     });
   }
