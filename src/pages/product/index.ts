@@ -1,4 +1,4 @@
-import Page from '../../core/templates/page';
+import Page from "../../core/templates/page";
 
 class MainPage extends Page {
   content: string;
@@ -55,11 +55,11 @@ class MainPage extends Page {
       </div>
     </div>
   </div>
-    `
+    `;
   }
 
   render() {
-    return super.render()
+    return super.render();
   }
 }
 

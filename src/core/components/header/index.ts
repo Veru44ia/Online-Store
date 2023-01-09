@@ -4,7 +4,6 @@ import { PageIDs } from "../../templates/page";
 export const Buttons = [
   {
     id: PageIDs.MainPage,
-
   },
   {
     id: PageIDs.Cart,
@@ -19,7 +18,7 @@ class Header extends Component {
   position: InsertPosition;
 
   constructor(tagName: string, className: string) {
-    super(tagName, className)
+    super(tagName, className);
     this.content = `
     <div class="header-wrapper">
     <div class="header-container__logo">
@@ -47,13 +46,13 @@ class Header extends Component {
       </div>
     </div>
   </div>
-    `
-    this.position = 'afterbegin'
+    `;
+    this.position = "afterbegin";
   }
 
   render() {
-    return super.render()
+    return super.render();
   }
 }
 
-export default Header
+export default Header;
