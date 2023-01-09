@@ -12,9 +12,6 @@ class ErrorPage extends Page {
     `
   }
 
-  render() {
-    return super.render()
-  }
 }
 
 export default ErrorPage
