@@ -93,7 +93,7 @@ export class ProductHandler {
       history.pushState(null, '', hash);
       HeaderHandler.setCount()
       HeaderHandler.setPrice()
-      this.modal.openModal()
+      ProductHandler.modal.openModalforProductPage()
     })
   }
 
