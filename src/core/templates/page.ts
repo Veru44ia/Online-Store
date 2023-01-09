@@ -11,13 +11,13 @@ abstract class Page {
   protected content: string;
 
   constructor() {
-    this.container = document.createElement('main');
-    this.position = 'afterbegin'
-    this.content = ``
+    this.container = document.createElement("main");
+    this.position = "afterbegin";
+    this.content = ``;
   }
 
   render() {
-    this.container.insertAdjacentHTML(this.position, this.content)
+    this.container.insertAdjacentHTML(this.position, this.content);
     return this.container;
   }
 }

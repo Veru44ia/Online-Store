@@ -1,5 +1,5 @@
 export interface IProduct {
-  [key: string]: string | number | string[]
+  [key: string]: string | number | string[] | undefined
   id: number;
   title: string;
   description: string;
@@ -11,13 +11,19 @@ export interface IProduct {
   category: string;
   thumbnail: string;
   images: string[];
+  count?: number | undefined;
+}
+
+export interface IProd extends IProduct {
+  orderNumber: number;
+  count: number;
 }
 
 export interface IRangeComponents {
   [key: string]: string | number;
   type: string;
   id: string;
-  title: string
+  title: string;
   min: number;
   max: number;
   minValue: number;
@@ -27,45 +33,45 @@ export interface IRangeComponents {
 
 export const rangeContent: IRangeComponents[] = [
   {
-    type: 'price',
-    id: 'price-slider',
-    title: 'Price',
-    min: 10.00,
-    max: 1749.00,
-    minValue: 10.00,
-    maxValue: 1749.00,
-    symbol: ' USD',
+    type: "price",
+    id: "price-slider",
+    title: "Price",
+    min: 10.0,
+    max: 1749.0,
+    minValue: 10.0,
+    maxValue: 1749.0,
+    symbol: " USD",
   },
   {
-    type: 'stock',
-    id: 'stock-slider',
-    title: 'Stock',
+    type: "stock",
+    id: "stock-slider",
+    title: "Stock",
     min: 1,
     max: 150,
     minValue: 1,
     maxValue: 150,
-    symbol: '',
-  }
-]
+    symbol: "",
+  },
+];
 
 export const enum ElementsId {
-  cardsContainer = 'cards-container',
-  switchTwoElemBTN = 'product-grid__2x2',
-  switchThreeElemBTN = 'product-grid__3x3',
-  selectotElem = 'select',
-  categoryCheckbox = 'category-filter',
-  brandCheckbox = 'brand-filter',
+  cardsContainer = "cards-container",
+  switchTwoElemBTN = "product-grid__2x2",
+  switchThreeElemBTN = "product-grid__3x3",
+  selectotElem = "select",
+  categoryCheckbox = "category-filter",
+  brandCheckbox = "brand-filter",
 }
 
 export const enum URLSearchKeys {
-  switch = 'big',
-  selector = 'sort',
-  brand = 'brand',
-  category = 'category',
-  search = 'search',
-  price = 'Price',
-  stock = 'Stock',
-  remove = 'remove',
+  switch = "big",
+  selector = "sort",
+  brand = "brand",
+  category = "category",
+  search = "search",
+  price = "Price",
+  stock = "Stock",
+  remove = "remove",
 }
 
 export const enum SelectorParams {
@@ -73,4 +79,11 @@ export const enum SelectorParams {
   priceMax = 'price-max',
   alphabetAZ = 'alphabetA',
   alphabetZA = 'alphabetZ',
+}
+
+export const enum SliderClasses {
+  priceMin = 'slider-block__price-range-min',
+  priceMax = 'slider-block__price-range-max',
+  stockMin = 'slider-block__stock-range-min',
+  stockMax = 'slider-block__stock-range-max',
 }

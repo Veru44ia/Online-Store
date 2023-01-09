@@ -13,12 +13,18 @@ class Modal {
   }
 
   openModal() {
-    document.addEventListener("click", (event: MouseEvent) => {
+    const totalContainer = document.body.querySelector(".total-container") as HTMLDivElement;
+    totalContainer.addEventListener("click", (event: MouseEvent) => {
       if ((event.target as HTMLElement).closest(".buy-btn")) {
-        const mainContainer = document.body.querySelector("#current-page") as HTMLDivElement;
+        const mainContainer = document.body.querySelector(".cart-page-container") as HTMLDivElement;
         mainContainer.append(this.render());
       }
     });
+  }
+
+  openModalforProductPage() {
+    const mainContainer = document.body.querySelector(".cart-page-container") as HTMLDivElement;
+    mainContainer.append(this.render());
   }
 
   closeModal() {
@@ -50,27 +56,29 @@ class Modal {
       });
       res = res.filter((item) => !item);
       if (res.length === 0) {
-        const cartWpapper = document.querySelector(".cart-container-wrapper") as HTMLDivElement;
+        const cartWpapper = document.querySelector(".cart-page-container") as HTMLDivElement;
         const modalWrapper = this.container.querySelector(".modal-wrapper") as HTMLDivElement;
         cartWpapper.innerHTML = "";
         modalWrapper.innerHTML = "";
+        cartWpapper.innerHTML = "Cart is Empty!";
+        cartWpapper.classList.add("empty-cart");
         const paragraph = document.createElement("p");
         paragraph.classList.add("order");
 
-        let time = 5;
+        let time = 2;
         const redirectTime = () => {
           time--;
           paragraph.textContent = `Thank you for your order! Redirect to the store after ${time} sec!`;
           modalWrapper.append(paragraph);
           if (time === 0) {
-            window.location.href = "/#product-page";
+            window.location.href = "/#main-page";
             clearInterval(intervalId);
           }
         };
 
         redirectTime();
         const intervalId = setInterval(redirectTime, 1000);
-        localStorage.removeItem("cart--products");
+        localStorage.removeItem("productInCart");
       }
     });
   }

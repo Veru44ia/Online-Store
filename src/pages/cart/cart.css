@@ -223,3 +223,10 @@ body {
   text-align: center;
   color: var(--BLACK);
 }
+
+.empty-cart {
+  margin-top: 50px;
+  font-size: 30px;
+  text-align: center;
+  color: var(--BLACK);
+}
