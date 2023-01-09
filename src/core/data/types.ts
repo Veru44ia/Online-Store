@@ -12,7 +12,6 @@ export interface IProduct {
   thumbnail: string;
   images: string[];
   count?: number | undefined;
-  orederNumber?: number | undefined;
 }
 
 export interface IRangeComponents {

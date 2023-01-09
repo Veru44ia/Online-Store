@@ -13,8 +13,6 @@ const products: IProduct[] = [
     category: "smartphones",
     thumbnail: "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
     images: [
-      "https://i.dummyjson.com/data/products/1/1.jpg",
-      "https://i.dummyjson.com/data/products/1/2.jpg",
       "https://i.dummyjson.com/data/products/1/3.jpg",
       "https://i.dummyjson.com/data/products/1/4.jpg",
       "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
@@ -97,7 +95,7 @@ const products: IProduct[] = [
     discountPercentage: 11.02,
     rating: 4.57,
     stock: 83,
-    brand: "APPle",
+    brand: "Apple",
     category: "laptops",
     thumbnail: "https://i.dummyjson.com/data/products/6/thumbnail.png",
     images: [
