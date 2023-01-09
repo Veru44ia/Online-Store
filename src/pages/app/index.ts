@@ -31,7 +31,7 @@ class App {
     } else if (value === PageIDs.Cart) {
       page = new Cart();
       this.createDefaultPage(page);
-      const cartProductsList = new CartProductsList();
+      const cartProductsList = new CartProductsList("cart-container");
       cartProductsList.render();
     }
   }

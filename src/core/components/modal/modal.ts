@@ -13,9 +13,10 @@ class Modal {
   }
 
   openModal() {
-    document.addEventListener("click", (event: MouseEvent) => {
+    const totalContainer = document.body.querySelector(".total-container") as HTMLDivElement;
+    totalContainer.addEventListener("click", (event: MouseEvent) => {
       if ((event.target as HTMLElement).closest(".buy-btn")) {
-        const mainContainer = document.body.querySelector("#current-page") as HTMLDivElement;
+        const mainContainer = document.body.querySelector(".cart-page-container") as HTMLDivElement;
         mainContainer.append(this.render());
       }
     });

@@ -4,39 +4,34 @@ import LocalStorage from "./localStorage";
 import Modal from "../../core/components/modal/modal";
 
 class CartProductsList {
+  container: HTMLElement;
   modal: Modal;
   totalPrice: number;
   totalProducts: number;
 
-  constructor() {
+  constructor(className: string) {
+    this.container = document.createElement("div");
+    this.container.className = className;
     this.totalPrice = 0;
     this.totalProducts = 0;
     this.modal = new Modal("modal-container");
   }
 
   getProductsInCart() {
-    if (LocalStorage.getFromLocalStorage()) {
+    if (LocalStorage.getFromLocalStorage() && LocalStorage.getFromLocalStorage().length > 0) {
       this.renderProductsList(LocalStorage.getFromLocalStorage() as IProd[]);
     } else {
+      const cartContainerWrapper = document.querySelector(".cart-page-container") as HTMLElement;
       const totalContainer = document.querySelector(".total-container") as HTMLDivElement;
-      const cartContainerWrapper = document.querySelector(
-        ".cart-container-wrapper"
-      ) as HTMLDivElement;
       totalContainer.style.display = "none";
-      cartContainerWrapper.textContent = "Cart is Empty!";
-      cartContainerWrapper.classList.add("empty-cart");
+      this.container.textContent = "Cart is Empty!";
+      this.container.classList.add("empty-cart");
+      cartContainerWrapper.prepend(this.container);
     }
   }
 
   renderProductsList(products: IProd[]) {
-    const cartContainerWrapper = document.querySelector(
-      ".cart-container-wrapper"
-    ) as HTMLDivElement;
-    (cartContainerWrapper as HTMLElement).innerHTML = "";
-
-    const cartContainer = document.createElement("div");
-    cartContainer.classList.add("cart-container");
-
+    this.container.innerHTML = "";
     products.forEach(
       (
         {
@@ -49,7 +44,6 @@ class CartProductsList {
           brand,
           category,
           thumbnail,
-          orderNumber,
           count,
         },
         index
@@ -59,7 +53,7 @@ class CartProductsList {
         this.totalProducts = products.length;
         this.totalPrice += price;
         cardsBlock.innerHTML = `
-          <div class="order-number">${orderNumber}</div>
+          <div class="order-number">${index + 1}</div>
           <img src="${thumbnail}" alt="${title}" class="card-img">
           <div class="card-profile">
             <div class="card-top">
@@ -82,24 +76,19 @@ class CartProductsList {
             </div>
           </div>
         `;
-        (cartContainer as HTMLElement).append(cardsBlock);
+        (this.container as HTMLElement).append(cardsBlock);
 
         cardsBlock.addEventListener("click", (event: Event) => {
           if ((event.target as HTMLElement).closest(".controls-wrapper")) {
             const number = cardsBlock.querySelector(".number") as HTMLInputElement;
             const numberValue = (cardsBlock.querySelector(".number") as HTMLInputElement).value;
             number.setAttribute("value", `${numberValue}`);
-            const products: IProd[] = JSON.parse(localStorage.getItem("productInCart") || "[]");
-            products.map((item, index) => {
-              if (index + 1 === orderNumber) item.count = +(number.getAttribute("value") as string);
-            });
-            localStorage.setItem("productInCart", JSON.stringify(products));
             const cardPriceNum = cardsBlock.querySelector(".card-price-num") as HTMLSpanElement;
             if (+numberValue < 1) {
               const productInCart = JSON.parse(localStorage.getItem("productInCart") || "[]");
               productInCart.splice(index, 1);
               localStorage.setItem("productInCart", JSON.stringify(productInCart));
-              this.renderProductsList(LocalStorage.getFromLocalStorage() as IProd[]);
+              this.getProductsInCart();
             }
             cardPriceNum.innerHTML = (+numberValue * products[index].price).toString();
             this.calculateTotalProducts();
@@ -108,7 +97,8 @@ class CartProductsList {
         });
       }
     );
-    cartContainerWrapper.append(cartContainer);
+    const cartContainerWrapper = document.querySelector(".cart-page-container") as HTMLElement;
+    cartContainerWrapper.prepend(this.container);
   }
 
   calculateTotalProducts() {

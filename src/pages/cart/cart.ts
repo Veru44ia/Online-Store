@@ -8,7 +8,6 @@ class Cart extends Page {
     super();
     this.content = `
       <div class="cart-page-container">
-        <div class="cart-container-wrapper"></div>
         <div class="total-container">
           <div class="total-wrapper">
             <p class="total-products">Products: <b class="products-bold"></b></p>
