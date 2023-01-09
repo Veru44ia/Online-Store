@@ -1,5 +1,5 @@
 export interface IProduct {
-  [key: string]: string | number | string[]
+  [key: string]: string | number | string[] | undefined
   id: number;
   title: string;
   description: string;
@@ -11,6 +11,8 @@ export interface IProduct {
   category: string;
   thumbnail: string;
   images: string[];
+  count?: number | undefined;
+  orederNumber?: number | undefined;
 }
 
 export interface IRangeComponents {
@@ -73,4 +75,11 @@ export const enum SelectorParams {
   priceMax = 'price-max',
   alphabetAZ = 'alphabetA',
   alphabetZA = 'alphabetZ',
+}
+
+export const enum SliderClasses {
+  priceMin = 'slider-block__price-range-min',
+  priceMax = 'slider-block__price-range-max',
+  stockMin = 'slider-block__stock-range-min',
+  stockMax = 'slider-block__stock-range-max',
 }

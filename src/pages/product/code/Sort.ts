@@ -56,8 +56,8 @@ export class Sort {
 
   static switchCardSize(isSmall: boolean) {
     const cardsCollection = document.querySelectorAll('.product-card__card');
-    const twoElemBTN = document.getElementById(ElementsId.switchTwoElemBTN) as HTMLElement;
-    const threeElemBTN = document.getElementById(ElementsId.switchThreeElemBTN) as HTMLElement;
+    const twoElemBTN: HTMLElement = document.getElementById(ElementsId.switchTwoElemBTN) as HTMLElement;
+    const threeElemBTN: HTMLElement = document.getElementById(ElementsId.switchThreeElemBTN) as HTMLElement;
     const cardsContainer: HTMLElement | null = document.getElementById(ElementsId.cardsContainer);
 
     if (isSmall) cardsContainer?.classList.add('cards-wrapper__two-elem')
@@ -66,8 +66,8 @@ export class Sort {
       if (isSmall) item.classList.add('product-card__two-elem')
       else item.classList.remove('product-card__two-elem');
     })
-    twoElemBTN.style.opacity = isSmall ? '1' : '0.5';
-    threeElemBTN.style.opacity = isSmall ? '0.5' : '1';
+    if (twoElemBTN) twoElemBTN.style.opacity = isSmall ? '1' : '0.5';
+    if (threeElemBTN) threeElemBTN.style.opacity = isSmall ? '0.5' : '1';
   }
 
   static renderSelector() {
@@ -94,7 +94,7 @@ export class Sort {
   static sortBySelector() {
     const select: HTMLSelectElement | null = document.getElementById(ElementsId.selectotElem) as HTMLSelectElement;
     const selectValue: string | null | undefined = QueryParamsHandler.queryFilterData(URLSearchKeys.selector);
-    if (selectValue != null) select.value = selectValue;
+    if (selectValue != null && select) select.value = selectValue;
 
     if (selectValue === null || (selectValue != null)) Sort.sortByOptions(selectValue)
 
