@@ -15,7 +15,7 @@ class Cart extends Page {
           </div>
           <div class="total-wrap">
             <input type="search" class="total-search" placeholder="Enter promo code">
-            <span class="total-promo">My promo codes</span>
+            <span tooltip="Promo for test: RS, EPM" class="total-promo">My promo codes: 'RS', 'EPM'</span>
           </div>
           <button type="button" class="buy-btn">Buy now</button>
         </div>
