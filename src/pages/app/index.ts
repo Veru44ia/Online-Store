@@ -11,6 +11,7 @@ import { PageIDs } from '../../core/templates/page';
 import { HeaderProperties } from '../../core/templates/components';
 import { URLData } from './URLData';
 import ErrorPage from '../404';
+import { CartPromoCode } from "../cart/cartPromoCode";
 
 
 class App {
@@ -37,6 +38,8 @@ class App {
       this.createDefaultPage(page);
       const cartProductsList = new CartProductsList("cart-container");
       cartProductsList.render();
+      const promoCode = new CartPromoCode();
+      promoCode.start()
     } else if (value === PageIDs.Product) {
       const id = URLData.getID();
       page = new ProductItem(id);

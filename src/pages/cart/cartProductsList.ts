@@ -2,6 +2,7 @@ import "./cart.css";
 import { IProd } from "../../core/data/types";
 import LocalStorage from "./localStorage";
 import Modal from "../../core/components/modal/modal";
+import { HeaderHandler } from "../../core/components/header/code/HeaderHandler";
 
 class CartProductsList {
   container: HTMLElement;
@@ -108,6 +109,7 @@ class CartProductsList {
     const totalProductsValue = document.querySelector(".products-bold") as HTMLElement;
     this.totalProducts = numbers.reduce((a, b) => a + b, 0);
     (totalProductsValue as HTMLElement).innerHTML = `${this.totalProducts}`;
+    HeaderHandler.setCount();
     return this.totalProducts;
   }
 
@@ -117,6 +119,7 @@ class CartProductsList {
     const totalPriceArr = Array.from(cardPriceNums).map((item) => Number(item.innerHTML));
     this.totalPrice = totalPriceArr.reduce((a, b) => a + b, 0);
     (totalPriceValue as HTMLElement).innerHTML = `${this.totalPrice} USD`;
+    HeaderHandler.setPrice();
   }
 
   render() {

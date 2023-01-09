@@ -1,5 +1,3 @@
-import { Buttons } from "../../core/components/header";
-
 export class CartPromoCode {
 
   static totalDiscount = 0;

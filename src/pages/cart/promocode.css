@@ -13,3 +13,7 @@
 .promo-button {
   cursor: pointer;
 }
+
+#new-price {
+  font-size: 36px;
+}
