@@ -7,7 +7,7 @@ class ErrorPage extends Page {
     super();
     this.content = `
     <div class="error-page">
-    <h1>404<span class="error-page__sad-symbol">:(</pan></h1>
+    <h1>404<span class="error-page__sad-symbol"> :(</span></h1>
     </div>
     `
   }
