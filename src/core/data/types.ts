@@ -75,3 +75,10 @@ export const enum SelectorParams {
   alphabetAZ = 'alphabetA',
   alphabetZA = 'alphabetZ',
 }
+
+export const enum SliderClasses {
+  priceMin = 'slider-block__price-range-min',
+  priceMax = 'slider-block__price-range-max',
+  stockMin = 'slider-block__stock-range-min',
+  stockMax = 'slider-block__stock-range-max',
+}

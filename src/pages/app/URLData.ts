@@ -1,4 +1,3 @@
-
 export class URLData {
 
   private static getStart(symbol: string) {
