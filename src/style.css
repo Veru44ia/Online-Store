@@ -3,6 +3,7 @@
 @import url("../src/pages/product/product.css");
 @import url("../src/pages/404/error.css");
 @import url("../src/pages/product-item/item.css");
+@import url("../src/pages/cart/promocode.css");
 
 * {
   border: 0;
