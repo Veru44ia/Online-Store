@@ -1,0 +1,19 @@
+.promocode {
+  display: flex;
+  gap: 10px;
+}
+
+.promo-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.promo-button {
+  cursor: pointer;
+}
+
+#new-price {
+  font-size: 36px;
+}

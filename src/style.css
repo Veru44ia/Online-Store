@@ -1,0 +1,41 @@
+@import url("../src/assets/fonts&color.css");
+@import url("../src/core/components/header/header.css");
+@import url("../src/pages/product/product.css");
+@import url("../src/pages/404/error.css");
+@import url("../src/pages/product-item/item.css");
+@import url("../src/pages/cart/promocode.css");
+
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--BLACK);
+  text-decoration: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.body-container {
+  padding-top: 56px;
+  margin: 0 auto;
+  width: 1444px;
+  color: var(--BLACK);
+  background-color: var(--BASIC);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 98px;
+}
+
+/*# sourceMappingURL=style.css.map */

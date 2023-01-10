@@ -1,0 +1,71 @@
+@import url('../../../assets/fonts&color.css');
+
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-container__cart-total {
+  display: flex;
+  gap: 4px;
+}
+
+.header-container__search_cart {
+  display: flex;
+  gap: 60px;
+}
+
+
+.header-container__cart {
+  position: relative;
+
+  .header-container__cart-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 18px;
+    height: 18px;
+    background-color: var(--BLACK);
+    color: var(--WHITE);
+    font-size: 600;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.header-container__search {
+  display: flex;
+}
+
+.header-container__search-input {
+  border: 1px solid var(--BLACK);
+  background-color: transparent;
+  padding-left: 10px;
+}
+
+.header-container__search-input:focus {
+  color: var(--BLACK);
+  outline: 0;
+  box-shadow: none;
+}
+
+
+
+.header-container__search-input {
+  box-sizing: border-box;
+  width: 178px;
+  height: 32px;
+}
+
+.header-container__search-btn {
+  cursor: default;
+  width: 54px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--BLACK);
+}
