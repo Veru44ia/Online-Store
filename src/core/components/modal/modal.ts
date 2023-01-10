@@ -56,16 +56,18 @@ class Modal {
       });
       res = res.filter((item) => !item);
       if (res.length === 0) {
-        const cartWpapper = document.querySelector(".cart-page-container") as HTMLDivElement;
+        const cartContainer = document.querySelector(".cart-container") as HTMLDivElement;
+        const totalContainer = document.querySelector(".total-container") as HTMLDivElement;
         const modalWrapper = this.container.querySelector(".modal-wrapper") as HTMLDivElement;
-        cartWpapper.innerHTML = "";
+        cartContainer.innerHTML = "";
         modalWrapper.innerHTML = "";
-        cartWpapper.innerHTML = "Cart is Empty!";
-        cartWpapper.classList.add("empty-cart");
+        totalContainer.style.display = "none";
+        cartContainer.innerHTML = "Cart is Empty!";
+        cartContainer.classList.add("empty-cart");
         const paragraph = document.createElement("p");
         paragraph.classList.add("order");
 
-        let time = 2;
+        let time = 5;
         const redirectTime = () => {
           time--;
           paragraph.textContent = `Thank you for your order! Redirect to the store after ${time} sec!`;
